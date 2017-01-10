@@ -4,7 +4,9 @@ source 'http://rubygems.org'
 # Bundle edge Rails instead: gem 'rails', github: 'rails/rails'
 gem 'rails', '4.2.5.1'
 # Bootstrap for styling
-gem 'bootstrap-sass', '3.3.6'
+#gem 'bootstrap-sass', '3.3.6'
+# Materialize for styling
+gem 'materialize-sass'
 # Pagination
 gem 'will_paginate',           '3.1.0'
 gem 'bootstrap-will_paginate', '0.0.10'
@@ -18,6 +20,10 @@ gem 'uglifier', '>= 1.3.0'
 gem 'coffee-rails', '~> 4.1.0'
 # See https://github.com/rails/execjs#readme for more supported runtimes
 # gem 'therubyracer', platforms: :ruby
+# Font Awesome Icons
+gem "font-awesome-rails"
+# Assett helper
+gem "js_assets"
 
 # Use jquery as the JavaScript library
 gem 'jquery-rails'

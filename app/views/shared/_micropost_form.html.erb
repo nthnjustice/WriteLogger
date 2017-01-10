@@ -1,7 +1,48 @@
-<%= form_for(@micropost) do |f| %>
-  <%= render 'shared/error_messages', object: f.object %>
-  <div class="field">
-    <%= f.text_area :content, placeholder: "Compose new micropost..." %>
-  </div>
-  <%= f.submit "Post", class: "btn btn-primary" %>
-<% end %>
+<div class="clock"></div>
+<a class="waves-effect waves-light btn" id="start">Start</a>
+<a class="waves-effect waves-light btn hidden" id="pause">Pause</a>
+<a class="waves-effect waves-light btn hidden" id="resume">Resume</a>
+<a class="waves-effect waves-light btn" id="reset">Reset</a>
+<div id="micropost_form_wrapper" class="hidden">
+	<%= form_for(@micropost, html: { multipart: true }) do |f| %>
+	  <%= render 'shared/error_messages', object: f.object %>
+	  <div class="field">
+	    <%= f.text_area :content, placeholder: "Compose here...", class: "materialize-textarea", id: "entry" %>
+	  </div>
+	  <%= f.submit "Post", class: "btn btn-primary" %>
+	  <span class="picture">
+	    <%= f.file_field :picture, accept: 'image/jpeg,image/gif,image/png' %>
+	  </span>
+	<% end %>
+</div>
+
+<script>
+	var clock = new FlipClock($('.clock'), {
+		autoStart: false
+	});
+
+	$("#start").click(function() {
+		clock.start(function() {});
+		$("#micropost_form_wrapper").toggleClass("hidden");
+		$("#start").toggleClass("hidden");
+		$("#pause").toggleClass("hidden");
+	});
+
+	$("#pause").click(function() {
+		clock.stop(function() {});
+		$("#pause").toggleClass("hidden");
+		$("#resume").toggleClass("hidden");
+		$("#micropost_form_wrapper").toggleClass("hidden");
+	});
+
+	$("#resume").click(function() {
+		clock.start(function() {});
+		$("#pause").toggleClass("hidden");
+		$("#resume").toggleClass("hidden");
+		$("#micropost_form_wrapper").toggleClass("hidden");
+	});
+
+	$("#reset").click(function() {
+		location.reload();
+	});
+</script>
