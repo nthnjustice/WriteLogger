@@ -1,8 +1,22 @@
 <% provide(:title, 'Sign up') %>
-<% provide(:button_text, 'Create account') %>
+
 <div class="container">
-  <div class="row center">
-		<h1>Sign up</h1>
-		<%= render 'form' %>
-	</div>
+  <div class="section">
+    <div class="row">
+      <div class="col l8 offset-l2">
+        <div class="card indigo darken-4">
+          <div class="card-content">
+            <span class="card-title white-text">
+              <h4>Sign Up</h4>
+            </span>
+            <div class="divider"></div>
+            <br>
+            <div class="white">
+              <%= render 'form' %>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
 </div>

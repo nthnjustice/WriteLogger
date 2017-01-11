@@ -1,12 +1,11 @@
 source 'http://rubygems.org'
 
-
 # Bundle edge Rails instead: gem 'rails', github: 'rails/rails'
 gem 'rails', '4.2.5.1'
 # Bootstrap for styling
 #gem 'bootstrap-sass', '3.3.6'
 # Materialize for styling
-gem 'materialize-sass'
+#gem 'materialize-sass'
 # Pagination
 gem 'will_paginate',           '3.1.0'
 gem 'bootstrap-will_paginate', '0.0.10'

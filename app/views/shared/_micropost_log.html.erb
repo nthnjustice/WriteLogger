@@ -1,0 +1,69 @@
+<br>
+<a class="waves-effect waves-light btn" id="log-previous-button">Log Previous Session</a>
+<div id="previous-log-wrapper" class="hidden">
+	<div class="input-field">
+		<p>Paste Passage Below:</p>
+		<div class="input-field">
+			<input id="title2" type="text" class="validate">
+			<label for="title2">Title</label>
+		</div>
+		<textarea id="entry2" class="materialize-textarea"></textarea>
+	</div>
+	<div class="input-field col s4">
+		<input id="manual-hours" type="text" class="validate" value=0>
+		<label for="manual-hours">Hours</label>
+	</div>
+	<div class="input-field col s4">
+		<input id="manual-minutes" type="text" class="validate" value=0>
+		<label for="manual-minutes">Minutes</label>
+	</div>
+	<div class="input-field col s4">
+		<input id="manual-seconds" type="text" class="validate" value=0>
+		<label for="manual-seconds">Seconds</label>
+	</div>
+	<div class="switch">
+    <label>
+      Private
+      <input type="checkbox" checked id="public2">
+      <span class="lever"></span>
+      Public
+    </label>
+	</div>
+	<br>
+	<button class="btn waves-effect waves-light" type="submit" name="action" id="post2">Post
+    <i class="material-icons right">send</i>
+  </button>
+</div>
+<script>
+	$("#log-previous-button").click(function() {
+		$("#previous-log-wrapper").toggleClass("hidden");
+	});
+
+	$("#post2").click(function() {
+		var editor = nicEditors.findEditor("entry2");
+		var seconds = $("#manual-seconds").val();
+		var minutes = $("#manual-minutes").val();
+		var hours = $("#manual-hours").val();
+		var timeString = hours + " hours, " + minutes + " minutes, " + seconds + " seconds";
+		var box = document.getElementById('public2');
+		var isPublic = $("#public2:checkbox:checked").length;
+		if (isPublic == 1) {
+			isPublic = true;
+		}
+		else {
+			isPublic = false;
+		}
+		$.ajax({
+			url: "/microposts",
+			type: "POST",
+			data: {
+				micropost: {
+					content: editor.getContent(),
+					time: timeString,
+					public: isPublic,
+					title: $("#title2").val()
+				}
+			}
+		});
+	});
+</script>

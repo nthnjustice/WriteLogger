@@ -1,38 +1,38 @@
 <%= form_for(@user) do |f| %>
+  <br>
   <div class="row center">
-    <div class="col s12 m8 offset-m2 l6 offset-l3">
+    <div class="col l10 offset-l1">
       <%= render 'shared/error_messages', object: f.object %>
     </div>
   </div>
-
   <div class="row">
-    <div class="input-field col s12 m8 offset-m2 l6 offset-l3">
+    <div class="input-field col l10 offset-l1">
       <%= f.text_field :name, class: 'validate' %>
-      <%= f.label :name %>
+      <label for="name">Name <span class="red-text">*</span></label>
     </div>
   </div>
-
   <div class="row">
-    <div class="input-field col s12 m8 offset-m2 l6 offset-l3">
+    <div class="input-field col l10 offset-l1">
       <%= f.email_field :email, class: 'validate' %>
-      <%= f.label :email %>
+      <label for="email">Email <span class="red-text">*</span></label>
     </div>
   </div>
-
   <div class="row">
-    <div class="input-field col s12 m8 offset-m2 l6 offset-l3">
+    <div class="input-field col l10 offset-l1">
       <%= f.password_field :password, class: 'validate' %>
-      <%= f.label :password %>
+      <label for="password">Password <span class="red-text">*</span></label>
     </div>
   </div>
-
   <div class="row">
-    <div class="input-field col s12 m8 offset-m2 l6 offset-l3">
+    <div class="input-field col l10 offset-l1">
       <%= f.password_field :password_confirmation, class: 'validate' %>
-      <%= f.label :password_confirmation %>
+      <label for="password_confirmation">Password confirmation <span class="red-text">*</span></label>
     </div>
   </div>
-
-  <%= f.submit yield(:button_text), class: "btn waves-effect waves-light" %>
-
+  <div class="row center">
+    <%= button_tag(:class => "waves-effect waves-light btn green darken-2") do %>
+      Sign Up <i class="material-icons right">play_arrow</i>
+    <% end %>
+  </div>
+  <br>
 <% end %>

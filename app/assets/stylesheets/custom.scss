@@ -1,4 +1,8 @@
-@import 'materialize';
+/*** Universal ***/
+
+body {
+	background: #eceff1;
+}
 
 .hidden {
 	display: none;
@@ -16,9 +20,4 @@
 	background: #e8f5e9;
 	border: 2px solid #1b5e20;
 	margin-bottom: -3%;
-}
-
-#entry {
-	height: 500px;
-	width: 500px;
 }

@@ -1,24 +1,48 @@
+<br><br>
 <div class="clock"></div>
-<a class="waves-effect waves-light btn" id="start">Start</a>
-<a class="waves-effect waves-light btn hidden" id="pause">Pause</a>
-<a class="waves-effect waves-light btn hidden" id="resume">Resume</a>
-<a class="waves-effect waves-light btn" id="reset">Reset</a>
+<a class="waves-effect waves-light btn" id="start">Start Session</a>
+<a class="waves-effect waves-light btn hidden" id="pause">Pause Timer</a>
+<a class="waves-effect waves-light btn hidden" id="resume">Resume Timer</a>
+<a class="waves-effect waves-light btn" id="reset">Reset Session</a>
+<br><br>
 <div id="micropost_form_wrapper" class="hidden">
-	<%= form_for(@micropost, html: { multipart: true }) do |f| %>
-	  <%= render 'shared/error_messages', object: f.object %>
-	  <div class="field">
-	    <%= f.text_area :content, placeholder: "Compose here...", class: "materialize-textarea", id: "entry" %>
-	  </div>
-	  <%= f.submit "Post", class: "btn btn-primary" %>
-	  <span class="picture">
-	    <%= f.file_field :picture, accept: 'image/jpeg,image/gif,image/png' %>
-	  </span>
-	<% end %>
+	<div class="input-field">
+		<input id="title1" type="text" class="validate">
+		<label for="title1">Title</label>
+	</div>
+	<textarea id="entry" class="materialize-textarea"></textarea>
+	<div class="container center">
+		<div class="row">
+			<br>
+      <div class="switch">
+		    <label>
+		      Private
+		      <input type="checkbox" checked id="public1">
+		      <span class="lever"></span>
+		      Public
+		    </label>
+  		</div>
+  		<br>
+			<button class="btn waves-effect waves-light" type="submit" name="action" id="post">Post
+		    <i class="material-icons right">send</i>
+		  </button>
+		</div>
+	</div>
 </div>
 
 <script>
+	var finalTime = [];
 	var clock = new FlipClock($('.clock'), {
-		autoStart: false
+		autoStart: false,
+		callbacks: {
+			start: () => {
+				timeStarted = new Date();
+			},
+			stop: () => {
+				timeStopped = new Date();
+				finalTime.push(timeStopped - timeStarted);
+			}
+		}
 	});
 
 	$("#start").click(function() {
@@ -29,7 +53,6 @@
 	});
 
 	$("#pause").click(function() {
-		clock.stop(function() {});
 		$("#pause").toggleClass("hidden");
 		$("#resume").toggleClass("hidden");
 		$("#micropost_form_wrapper").toggleClass("hidden");
@@ -44,5 +67,37 @@
 
 	$("#reset").click(function() {
 		location.reload();
+	});
+
+	$("#post").click(function() {
+		clock.stop(function() {});
+		var editor = nicEditors.findEditor("entry");
+		var totalTime = 0;
+		$.each(finalTime, function(index, value) {
+			totalTime = totalTime + value;
+		});
+		var seconds = Math.round((totalTime/1000)%60)
+		var minutes = Math.round((totalTime/(1000*60))%60)
+		var hours = Math.round((totalTime/(1000*60*60))%24)
+		var timeString = hours + " hours, " + minutes + " minutes, " + seconds + " seconds";
+		var isPublic = $("#public2:checkbox:checked").length;
+		if (isPublic == 1) {
+			isPublic = true;
+		}
+		else {
+			isPublic = false;
+		}
+		$.ajax({
+			url: "/microposts",
+			type: "POST",
+			data: {
+				micropost: {
+					content: editor.getContent(),
+					time: timeString,
+					public: isPublic,
+					title: $("#title1").val()
+				}
+			}
+		});
 	});
 </script>

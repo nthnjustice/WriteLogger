@@ -2,27 +2,17 @@
 <html>
   <head>
     <title><%= full_title(yield(:title)) %></title>
-    <%= render 'layouts/rails_default' %>
-    <%= render 'layouts/shim' %>
+    <%= csrf_meta_tags %>
+    <%= stylesheet_link_tag 'application', media: 'all', 'data-turbolinks-track': 'reload' %>
+    <%= javascript_include_tag 'application', 'data-turbolinks-track': 'reload' %>
+    <!--[if lt IE 9]><script src="//cdnjs.cloudflare.com/ajax/libs/html5shiv/r29/html5.min.js"></script><![endif]-->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.97.8/css/materialize.min.css">
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
   </head>
+
   <body>
     <%= render 'layouts/header' %>
-    <div class="container center">
-      <div class="section">
-        <% flash.each do |message_type, message| %>
-          <h5><%= content_tag(:div, message, class: "alert alert-#{message_type}") %></h5>
-        <% end %>
-      </div>
-    </div>
     <%= yield %>
-
-    <script>
-      $(document).ready(function(){
-        $(".button-collapse").sideNav();
-        $('.dropdown-button').dropdown({});
-        bkLib.onDomLoaded(function() {nicEditors.allTextAreas()});
-      });
-    </script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.97.8/js/materialize.min.js"></script>
   </body>
 </html>
