@@ -3,14 +3,14 @@
   <div class="section">
     <div class="row">
       <div class="col l8 offset-l2">
-        <div class="card indigo darken-4">
+        <div class="card hoverable indigo darken-4">
           <div class="card-content">
             <span class="card-title white-text">
               <h4>Login</h4>
               <div class="row center">
-              <% flash.each do |message_type, message| %>
-                <h5><%= content_tag(:div, message, class: "alert alert-#{message_type}") %></h5>
-              <% end %>
+                <% flash.each do |message_type, message| %>
+                  <h5><%= content_tag(:div, message, class: "alert alert-#{message_type}") %></h5>
+                <% end %>
               </div>
             </span>
             <div class="divider"></div>
@@ -36,7 +36,7 @@
                 </div>
                 <div class="row center">
                   <%= button_tag(:class => "waves-effect waves-light btn green darken-2") do %>
-                    Login <i class="material-icons right">play_arrow</i>
+                    Login <i class="material-icons right">send</i>
                   <% end %>
                 </div>
                 <div class="divider"></div>
@@ -53,3 +53,7 @@
     </div>
   </div>
 </div>
+
+<script>
+  $('label').addClass('active')
+</script>

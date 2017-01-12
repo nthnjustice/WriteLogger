@@ -1,23 +1,15 @@
 <li id="micropost-<%= micropost.id %>">
-  <div class="row">
-    <div class="col s12">
-      <div class="card blue-grey darken-1">
-        <div class="card-content white-text">
-          <span class="card-title"><%= micropost.title %></span>
-          <p>
-            <a class="waves-effect waves-light btn" id="view-button">View</a>
-            Posted <%= time_ago_in_words(micropost.created_at) %> ago.
-            <div id="view-wrapper">
-              <%= raw micropost.content %>
-            </div>
-          </p>
-        </div>
-        <div class="card-action">
-          <% if current_user?(micropost.user) %>
-            <%= link_to "delete", micropost, method: :delete, data: { confirm: "You sure?" } %>
-          <% end %>
-        </div>
-      </div>
-    </div>
-  </div>
+  <p>
+    <strong><%= micropost.author %></strong>
+    posted <%= time_ago_in_words(micropost.created_at) %> ago.
+  </p>
+  <p>"<%= micropost.title %>"</p>
+  <p>(time: <%= micropost.hours %> hours, <%= micropost.minutes %> minutes, and <%= micropost.seconds %> seconds)</p>
+  <p>
+    <% if current_user?(micropost.user) %>
+      <%= link_to "|delete|", micropost, method: :delete, data: { confirm: "You sure?" } %>
+    <% end %>
+  </p>
+  <div class="divider"></div>
+  <br>
 </li>

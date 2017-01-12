@@ -1,6 +1,12 @@
-<% if @feed_items.any? %>
-  <ol class="microposts">
-    <%= render @feed_items %>
-  </ol>
-  <%= will_paginate @feed_items %>
-<% end %>
+<div class="card hoverable">
+	<div class="card-content">
+		<span class="card-title"><h5>Group Activity</h5></span>
+		<div class="divider"></div>
+		<% if @feed_items.any? %>
+  			<ul>
+    			<%= render @feed_items %>
+  			</ul>
+  			<%= will_paginate @feed_items %>
+		<% end %>
+	</div>
+</div>

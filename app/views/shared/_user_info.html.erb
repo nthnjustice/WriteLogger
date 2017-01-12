@@ -1,4 +1,7 @@
-<h1><%= current_user.name %></h1>
-<div class="divider"></div>
-<span><%= link_to "view profile", current_user %></span>
-<span>| (<%= pluralize(current_user.microposts.count, "writing log") %>)</span>
+<div class="card hoverable">
+	<div class="card-content">
+		<span class="card-title"><h4><%= current_user.name %></h4></span>
+		<div class="divider"></div>
+		submitted <%= link_to pluralize(current_user.microposts.count, "writing log"), current_user %>
+	</div>
+</div>

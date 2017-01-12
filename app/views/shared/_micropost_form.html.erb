@@ -1,103 +1,127 @@
-<br><br>
-<div class="clock"></div>
-<a class="waves-effect waves-light btn" id="start">Start Session</a>
-<a class="waves-effect waves-light btn hidden" id="pause">Pause Timer</a>
-<a class="waves-effect waves-light btn hidden" id="resume">Resume Timer</a>
-<a class="waves-effect waves-light btn" id="reset">Reset Session</a>
-<br><br>
-<div id="micropost_form_wrapper" class="hidden">
-	<div class="input-field">
-		<input id="title1" type="text" class="validate">
-		<label for="title1">Title</label>
-	</div>
-	<textarea id="entry" class="materialize-textarea"></textarea>
-	<div class="container center">
-		<div class="row">
-			<br>
-      <div class="switch">
-		    <label>
-		      Private
-		      <input type="checkbox" checked id="public1">
-		      <span class="lever"></span>
-		      Public
-		    </label>
-  		</div>
-  		<br>
-			<button class="btn waves-effect waves-light" type="submit" name="action" id="post">Post
-		    <i class="material-icons right">send</i>
-		  </button>
+<div class="card hoverable">
+	<div class="card-content">
+		<span class="card-title"><h5>Start Live Writing Session</h5></span>
+		<div class="divider"></div>
+		<br>
+		<div id="clock-type-wrapper">
+			<a class="waves-effect waves-light btn" id="stopwatch-button">Stopwatch</a>
+			<a class="waves-effect waves-light btn" id="timer-button">Timer</a>
+		</div>
+		<div id="stopwatch-wrapper" class="hidden">
+			<div class="section">
+				<div id="stopwatch-custom-error" class="row center hidden">
+					<div class="card-panel red lighten-5">
+	    			<span class="red-text text-darken-4">
+	      			The form contains 1 error:
+	      			<ul>
+	        			<li>* Title can't be blank</li>
+	      			</ul>
+	    			</span>
+	  			</div>
+	  		</div>
+				<div class="row">
+					<div class="col l9">
+						<div id="clock1"></div>
+					</div>
+					<div class="col l2">
+						<span id="stopwatch-start-wrapper">
+							<a class="waves-effect waves-light btn" id="stopwatch-start">Start</a>
+						</span>
+						<span id="stopwatch-pause-wrapper" class="hidden">
+							<a class="waves-effect waves-light btn" id="stopwatch-pause">Pause</a>
+						</span>
+						<span id="stopwatch-resume-wrapper" class="hidden">
+							<a class="waves-effect waves-light btn" id="stopwatch-resume">Resume</a>
+						</span>
+					</div>
+				</div>
+				<div id="stopwatch-form-wrapper" class="hidden">
+					<div class="input-field">
+						<input id="stopwatch-form-title" type="text">
+						<label for="stopwatch-form-title">Title <span class="red-text">*</span></label>
+					</div>
+					<div class="row center">
+						<a id="stopwatch-form-post" class="waves-effect waves-light btn green darken-2">
+							Post <i class="material-icons right">send</i>
+						</a>
+					</div>
+				</div>
+			</div>
+		</div>
+		<div id="timer-wrapper" class="hidden">
+			<div class="section">
+				<div id="timer-custom-error" class="row center hidden">
+					<div class="card-panel red lighten-5">
+	    			<span class="red-text text-darken-4">
+	      			The form contains 1 error:
+	      			<ul>
+	        			<li>* Title can't be blank</li>
+	      			</ul>
+	    			</span>
+	  			</div>
+	  		</div>
+	  		<div id="timer-value-wrapper">
+	  			<div class="row">
+	  				<p>Set the timer's value:</p>
+	  			</div>
+	  			<div class="row">
+	  				<div class="col l4">
+	  					<div class="input-field">
+	  						<input id="timer-value-hours" type="number" value=0>
+	  						<label for="timer-value-hours">Hours <span class="red-text">*</span></label>
+	  					</div>
+	  				</div>
+	  				<div class="col l4">
+	  					<div class="input-field">
+	  						<input id="timer-value-minutes" type="number" value=30>
+	  						<label for="time-value-minutes">Minutes <span class="red-text">*</span></label>
+	  					</div>
+	  				</div>
+	  				<div class="col l4">
+	  					<div class="input-field">
+	  						<input id="timer-value-seconds" type="number" value=0>
+	  						<label for="time-value-seconds">Seconds <span class="red-text">*</span></label>
+	  					</div>
+	  				</div>
+	  			</div>
+	  			<div class="row center">
+	  				<a id="timer-value-set" class="waves-effect waves-light btn">Set</a>
+	  			</div>
+	  		</div>
+	  		<div id="timer-clock-wrapper" class="hidden">
+	  			<div class="row">
+						<div class="col l9">
+							<div id="clock2"></div>
+						</div>
+						<div class="col l2">
+							<span id="timer-start-wrapper">
+								<a class="waves-effect waves-light btn" id="timer-start">Start</a>
+							</span>
+							<span id="timer-pause-wrapper" class="hidden">
+								<a class="waves-effect waves-light btn" id="timer-pause">Pause</a>
+							</span>
+							<span id="timer-resume-wrapper" class="hidden">
+								<a class="waves-effect waves-light btn" id="timer-resume">Resume</a>
+							</span>
+						</div>
+					</div>
+					<div id="timer-form-wrapper" class="hidden">
+						<div class="input-field">
+							<input id="timer-form-title" type="text">
+							<label for="timer-form-title">Title <span class="red-text">*</span></label>
+						</div>
+						<div class="row center">
+							<a id="timer-form-post" class="waves-effect waves-light btn green darken-2">
+								Post <i class="material-icons right">send</i>
+							</a>
+						</div>
+					</div>
+	  		</div>
+	  	</div>
 		</div>
 	</div>
 </div>
 
 <script>
-	var finalTime = [];
-	var clock = new FlipClock($('.clock'), {
-		autoStart: false,
-		callbacks: {
-			start: () => {
-				timeStarted = new Date();
-			},
-			stop: () => {
-				timeStopped = new Date();
-				finalTime.push(timeStopped - timeStarted);
-			}
-		}
-	});
-
-	$("#start").click(function() {
-		clock.start(function() {});
-		$("#micropost_form_wrapper").toggleClass("hidden");
-		$("#start").toggleClass("hidden");
-		$("#pause").toggleClass("hidden");
-	});
-
-	$("#pause").click(function() {
-		$("#pause").toggleClass("hidden");
-		$("#resume").toggleClass("hidden");
-		$("#micropost_form_wrapper").toggleClass("hidden");
-	});
-
-	$("#resume").click(function() {
-		clock.start(function() {});
-		$("#pause").toggleClass("hidden");
-		$("#resume").toggleClass("hidden");
-		$("#micropost_form_wrapper").toggleClass("hidden");
-	});
-
-	$("#reset").click(function() {
-		location.reload();
-	});
-
-	$("#post").click(function() {
-		clock.stop(function() {});
-		var editor = nicEditors.findEditor("entry");
-		var totalTime = 0;
-		$.each(finalTime, function(index, value) {
-			totalTime = totalTime + value;
-		});
-		var seconds = Math.round((totalTime/1000)%60)
-		var minutes = Math.round((totalTime/(1000*60))%60)
-		var hours = Math.round((totalTime/(1000*60*60))%24)
-		var timeString = hours + " hours, " + minutes + " minutes, " + seconds + " seconds";
-		var isPublic = $("#public2:checkbox:checked").length;
-		if (isPublic == 1) {
-			isPublic = true;
-		}
-		else {
-			isPublic = false;
-		}
-		$.ajax({
-			url: "/microposts",
-			type: "POST",
-			data: {
-				micropost: {
-					content: editor.getContent(),
-					time: timeString,
-					public: isPublic,
-					title: $("#title1").val()
-				}
-			}
-		});
-	});
+  $('label').addClass('active')
 </script>
