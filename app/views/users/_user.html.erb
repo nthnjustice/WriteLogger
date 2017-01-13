@@ -1,8 +1,17 @@
 <li>
-  <%= gravatar_for user, size: 50 %>
-  <%= link_to user.name, user %>
-  <% if current_user.admin? && !current_user?(user) %>
-    | <%= link_to "delete", user, method: :delete,
-                                  data: { confirm: "You sure?" } %>
+  <h5><%= link_to user.name, user %></h5>
+  <% if user.microposts.any? %>
+  	<p>
+	  	<strong>Latest log:</strong>
+	  	<i>"<%= user.microposts.first.title %>"</i>, posted <%= time_ago_in_words(user.microposts.first.created_at) %> ago.
+	  	(time: <%= user.microposts.first.hours %> hours, <%= user.microposts.first.minutes %> minutes, and <%= user.microposts.first.seconds %> seconds)
+	 </p>
+  <% else %>
+  	<p><i>no writing logs have been submitted</i></p>
   <% end %>
+  <% if current_user.admin? %>
+    <%= link_to "| delete |", user, method: :delete, data: { confirm: "You sure?" } %>
+  <% end %>
+  <br>
+  <div class="divider"></div>
 </li>

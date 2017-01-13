@@ -1,24 +1,36 @@
 <% provide(:title, @user.name) %>
-<div class="container">
-  <div class="section">
-    <div class="row">
-        <h1>
-          <%= gravatar_for @user %>
-          <%= @user.name %>
-          (<%= @user.microposts.count %> logs)
-        </h1>
-        <div class="divider"></div>
-    </div>
-  </div>
-</div>
-<div class="container">
-  <div class="section">
-    <% if @user.microposts.any? %>
-      <ul>
-        <%= render @microposts %>
-      </ul>
-      <%= will_paginate @microposts %>
+<div class="row center">
+  <div class="col l8 offset-l2">
+    <% flash.each do |message_type, message| %>
+      <h5><%= content_tag(:div, message, class: "alert alert-#{message_type}") %></h5>
     <% end %>
   </div>
 </div>
-
+<div class="section">
+  <div class="row">
+    <div class="col l3">
+      <div class="card hoverable">
+        <div class="card-content">
+          <span class="card-title"><h4><%= @user.name %></h4></span>
+          <div class="divider"></div>
+          submitted <%= pluralize(@user.microposts.count, "writing log") %>
+        </div>
+      </div>
+      <div class="card hoverable">
+        <div class="card-content">
+          <span class="card-title"><h5>Log Record</h5></span>
+          <div class="divider"></div>
+          <% if @user.microposts.any? %>
+            <%= will_paginate @microposts %>
+            <ul>
+              <%= render @microposts %>
+            </ul>
+            <%= will_paginate @microposts %>
+          <% else %>
+            <i>no writing logs have been submitted</i>
+          <% end %>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

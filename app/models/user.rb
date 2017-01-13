@@ -42,6 +42,7 @@ class User < ActiveRecord::Base
   # Defines a proto-feed.
   # See "Following users" for the full implementation.
   def feed
-    Micropost.all
+    @feed_items = Micropost.all
+    @feed_items = @feed_items.paginate(:page => 1, :per_page => 5)
   end
 end

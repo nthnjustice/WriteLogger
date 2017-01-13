@@ -3,6 +3,7 @@
 		<span class="card-title"><h5>Group Activity</h5></span>
 		<div class="divider"></div>
 		<% if @feed_items.any? %>
+			<%= will_paginate @feed_items %>
   			<ul>
     			<%= render @feed_items %>
   			</ul>

@@ -1,6 +1,7 @@
 class MicropostsController < ApplicationController
   before_action :logged_in_user, only: [:create, :destroy]
   before_action :correct_user,   only: :destroy
+  require 'will_paginate/array' 
 
   def create
     @micropost = current_user.microposts.build(micropost_params)
@@ -8,7 +9,8 @@ class MicropostsController < ApplicationController
       flash[:success] = "Writing log saved!"
       redirect_to root_url
     else
-      #@feed_items = []
+      @feed_items = Micropost.all
+      @feed_items = @feed_items.paginate(:page => 1, :per_page => 5)
       render 'static_pages/home'
     end
   end
