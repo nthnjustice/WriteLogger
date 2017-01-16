@@ -34,6 +34,8 @@ class UsersController < ApplicationController
   def update
     @user = User.find(params[:id])
     if @user.update_attributes(user_params)
+      @microposts = @user.microposts
+      @microposts.update_all(:author => @user.name)
       flash[:success] = "Profile successfully updated"
       redirect_to @user
     else
