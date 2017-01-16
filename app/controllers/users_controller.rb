@@ -47,6 +47,28 @@ class UsersController < ApplicationController
     redirect_to users_url
   end
 
+  def user_microposts_json
+    @user = User.find(params[:id])
+    @microposts = @user.microposts
+    render json: @microposts
+  end
+
+  def user_weekly_microposts_json
+    @user = User.find(params[:id])
+    @microposts = @user.microposts.where("created_at >= ?", 1.week.ago.utc)
+    render json: @microposts
+  end
+
+  def group_microposts_json
+    @microposts = Micropost.all
+    render json: @microposts
+  end
+
+  def get_all_users_json
+    @users = User.all
+    render json: @users
+  end
+
   private
 
     def user_params

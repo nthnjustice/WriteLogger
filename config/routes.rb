@@ -14,6 +14,11 @@ Rails.application.routes.draw do
   get    '/logout',  to: 'sessions#destroy'
   delete '/logout',  to: 'sessions#destroy'
 
+  get '/user_microposts_json', to: 'users#user_microposts_json'
+  get '/user_weekly_microposts_json', to: 'users#user_weekly_microposts_json'
+  get '/group_microposts_json', to: 'users#group_microposts_json'
+  get '/get_all_users_json', to: 'users#get_all_users_json'
+
   resources :microposts, only: [:create, :destroy]
   # The priority is based upon order of creation: first created -> highest priority.
   # See how all your routes lay out with "rake routes".

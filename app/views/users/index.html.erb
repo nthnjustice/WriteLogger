@@ -1,16 +1,177 @@
 <% provide(:title, 'All Users') %>
-<div class="container">
 <div class="section">
-	<div class="card hoverable">
-		<div class="card-content">
-			<span class="card-title"><h5>Group Members</h5></span>
-			<div class="divider"></div>
-			<%= will_paginate @feed_items %>
-  			<ul>
-    			<%= render @users %>
-  			</ul>
-  			<%= will_paginate @feed_items %>
+	<div class="row">
+		<div class="col l4">
+			<div class="card hoverable">
+				<div class="card-content">
+					<span class="card-title"><h5>Group Members</h5></span>
+					<div class="divider"></div>
+					<%= will_paginate @feed_items %>
+					<ul>
+  					<%= render @users %>
+					</ul>
+					<%= will_paginate @feed_items %>
+				</div>
+			</div>
+		</div>
+		<div class="col l8">
+			<div class="card hoverable">
+				<div class="card-content">
+					<span class="card-title"><h5>Total Group Activity</h5></span>
+					<div class="divider"></div>
+					<br>
+					<div id="total-group-log-time" style="width: 100%; height: 500px"></div>
+				</div>
+			</div>
 		</div>
 	</div>
 </div>
-</div>
+
+<% content_for(:header) do %>
+  <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+<% end %>
+
+<script>
+  $.ajax({
+    type: "GET",
+    url: "/group_microposts_json",
+    dataType: "json",
+    success: function(response){
+      responseData = response;
+      google.charts.load('current', {'packages':['corechart']});
+      google.charts.setOnLoadCallback(drawGroupChart);
+    }        
+  });
+
+  $.ajax({
+    type: "GET",
+    url: "/get_all_users_json",
+    dataType: "json",
+    success: function(response){
+      usersData = response;
+    }        
+  });
+
+  function drawGroupChart() {
+  	var uniqueIDs = [];
+  	$.each(responseData, function(key, post) {
+  		if ($.inArray(post.user_id, uniqueIDs) == -1) {
+  			uniqueIDs.push(post.user_id);
+  		}
+  	});
+
+  	var usersArray = [];
+  	$.each(uniqueIDs, function(key, id) {
+  		var personalArray = [];
+  		$.each(responseData, function(key, post) {
+  			if (id == post.user_id) {
+  				personalArray.push(post);
+  			}
+  		});
+  		usersArray.push({"user_id": id, "posts": personalArray});
+  	});
+
+  	var visData = [];
+  	$.each(usersArray, function(key1, user) {
+  		var uniqueDates = [];
+  		$.each(user.posts, function(key2, post) {
+  			var fullDate = new Date(post.created_at);
+     	  var day = fullDate.getDate();
+     		var month = fullDate.getMonth() + 1;
+      	var year = fullDate.getFullYear();
+      	var date = month + "/" + day + "/" + year;
+      	post.newDate = date;
+      	post.totalTime = Math.round((post.hours * 60) + (post.minutes) + (post.seconds / 60));
+      	if ($.inArray(date, uniqueDates) == -1) {
+      		uniqueDates.push(date);
+      	}
+  		});
+
+  		$.each(uniqueDates, function(key2, date) {
+  			var tempTime = 0;
+  			$.each(user.posts, function(key3, post) {
+  				if (post.newDate == date) {
+  					tempTime = tempTime + post.totalTime;
+  				}
+  			});
+  			visData.push({"user_id": user.user_id, "date": date, "time": tempTime});	
+  		});
+  	});
+
+  	var usersMap = []
+  	$.each(usersData, function(key, user) {
+  		usersMap.push({"id": user.id, "name": user.name})
+  	});
+
+  	var uniqueDates = []
+  	$.each(visData, function(key, post) {
+  		if ($.inArray(post.date, uniqueDates) == -1) {
+  			uniqueDates.push(post.date);
+  		}
+  	});
+  	uniqueDates.sort();
+
+  	var topRow = ['Date'];
+  	$.each(usersMap, function(key, user) {
+  		topRow.push(user.name);
+  	});
+  	topRow.push('Average');
+
+  	$.each(visData, function(key1, post) {
+  		$.each(usersMap, function(key2, user) {
+  			if(user.id == post.user_id) {
+  				post.author = user.name;
+  			}
+  		});
+  	});
+
+  	var visDataFinal = [topRow];
+  	$.each(uniqueDates, function(key1, date) {
+  		var tableRow = [date];
+  		$.each(usersMap, function(key2, user) {
+  			var entry = false
+  			$.each(visData, function(key3, post) {
+  				if (post.date == date && post.user_id == user.id) {
+  					tableRow.push(post.time);
+  					entry = true
+  				}
+  			});
+  			if (entry == false) {
+  				tableRow.push(0);
+  			}
+  		});
+  		var sum = 0;
+  		var counter = 0;
+  		for (i = 1; i < tableRow.length; i++) {
+  			sum = sum + tableRow[i];
+  			counter = counter + 1;
+  		}
+  		tableRow.push(sum/counter);
+  		visDataFinal.push(tableRow);
+  	});
+
+  	var data = google.visualization.arrayToDataTable(visDataFinal)
+  	var options = {
+  		legend: {position: 'right'},
+  		vAxis: {
+  			title: "Minutes",
+  			viewWindow: {
+  				min: 0
+  			}
+  		},
+  		hAxis: {
+  			title: "Date"
+  		},
+      seriesType: 'bars',
+      pointSize: 10
+  	}
+
+  	var averageIndex = visDataFinal.length - 2;
+  	myObj = {}
+  	myObj[averageIndex] = {type:'line'};
+  	options.series = myObj;
+
+  	var chart = new google.visualization.ComboChart(document.getElementById('total-group-log-time'));
+  	chart.draw(data, options);
+  }
+</script>
