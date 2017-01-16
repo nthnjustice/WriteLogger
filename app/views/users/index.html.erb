@@ -39,18 +39,21 @@
     success: function(response){
       responseData = response;
       google.charts.load('current', {'packages':['corechart']});
-      google.charts.setOnLoadCallback(drawGroupChart);
+      google.charts.setOnLoadCallback(loadUsers);
     }        
   });
 
-  $.ajax({
-    type: "GET",
-    url: "/get_all_users_json",
-    dataType: "json",
-    success: function(response){
-      usersData = response;
-    }        
-  });
+  function loadUsers() {
+    $.ajax({
+      type: "GET",
+      url: "/get_all_users_json",
+      dataType: "json",
+      success: function(response){
+        usersData = response;
+        drawGroupChart();
+      }        
+    });
+  }
 
   function drawGroupChart() {
   	var uniqueIDs = [];
@@ -77,11 +80,15 @@
   		$.each(user.posts, function(key2, post) {
   			var fullDate = new Date(post.created_at);
      	  var day = fullDate.getDate();
+        day = day.toString();
+        if (day.length == 1) {
+          day = "0" + day;
+        }
      		var month = fullDate.getMonth() + 1;
       	var year = fullDate.getFullYear();
       	var date = month + "/" + day + "/" + year;
-      	post.newDate = date;
-      	post.totalTime = Math.round((post.hours * 60) + (post.minutes) + (post.seconds / 60));
+        post.newDate = date;
+      	post.totalTime = Math.round((post.hours * 60) + (post.minutes));
       	if ($.inArray(date, uniqueDates) == -1) {
       		uniqueDates.push(date);
       	}
@@ -166,7 +173,7 @@
       pointSize: 10
   	}
 
-  	var averageIndex = visDataFinal.length - 2;
+  	var averageIndex = uniqueIDs.length;
   	myObj = {}
   	myObj[averageIndex] = {type:'line'};
   	options.series = myObj;

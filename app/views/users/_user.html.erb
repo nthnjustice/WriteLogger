@@ -4,7 +4,7 @@
   	<p>
 	  	<strong>Latest log:</strong>
 	  	<i>"<%= user.microposts.first.title %>"</i>, posted <%= time_ago_in_words(user.microposts.first.created_at) %> ago.
-	  	(time: <%= user.microposts.first.hours %> hours, <%= user.microposts.first.minutes %> minutes, and <%= user.microposts.first.seconds %> seconds)
+	  	<p>(time: <%= user.microposts.first.hours %> hours and <%= user.microposts.first.minutes %> minutes)</p>
 	 </p>
   <% else %>
   	<p><i>no writing logs have been submitted</i></p>

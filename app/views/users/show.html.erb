@@ -38,18 +38,18 @@
     <div class="col l8">
       <div class="card hoverable">
         <div class="card-content">
-          <span class="card-title"><h5>Total Log Time</h5></span>
+          <span class="card-title"><h5 id="weekly-log-time-header">Weekly Log Time</h5></span>
           <div class="divider"></div>
           <br>
-          <div id="total-log-time" style="width: 100%; height: 350px"></div>
+          <div id="weekly-log-time" style="width: 100%; height: 350px"></div>
         </div>
       </div>
       <div class="card hoverable">
         <div class="card-content">
-          <span class="card-title"><h5>Weekly Log Time</h5></span>
+          <span class="card-title"><h5>Total Log Time</h5></span>
           <div class="divider"></div>
           <br>
-          <div id="weekly-log-time" style="width: 100%; height: 350px"></div>
+          <div id="total-log-time" style="width: 100%; height: 350px"></div>
         </div>
       </div>
     </div>
@@ -63,27 +63,143 @@
 <script>
   $.ajax({
     type: "GET",
-    url: "/user_microposts_json",
+    url: "/user_weekly_microposts_json",
     dataType: "json",
     data: {
       id: <%= @user.id %>
     },
     success: function(response){
-      responseData1 = response;
+      responseData2 = response;
       google.charts.load('current', {'packages':['corechart']});
-      google.charts.setOnLoadCallback(drawTotalTimeChart);
+      google.charts.setOnLoadCallback(drawWeeklyTimeChart);
     }        
   });
+
+  function drawWeeklyTimeChart() {
+    var todayDate = new Date();
+    var startDay = todayDate.getDate();
+    startDay = startDay.toString();
+    if (startDay.length == 1) {
+      startDay = "0" + startDay;
+    }
+    var startMonth = todayDate.getMonth() + 1;
+    var startYear = todayDate.getFullYear();
+    var startDate = startMonth + "/" + startDay + "/" + startYear;
+    var sevenAgo = new Date(todayDate.getTime() - (7 * 24 * 60 * 60 * 1000));
+    var endDay = sevenAgo.getDate();
+    endDay = endDay.toString();
+    if (endDay.length == 1) {
+      endDay = "0" + endDay;
+    }
+    var endMonth = sevenAgo.getMonth() + 1;
+    var endYear = sevenAgo.getFullYear();
+    var endDate = endMonth + "/" + endDay + "/" + endYear;
+
+    $("#weekly-log-time-header").append(" (" + endDate + " - " + startDate + ")");
+
+    var weekday = new Array(7);
+    weekday[0] =  "Sunday";
+    weekday[1] = "Monday";
+    weekday[2] = "Tuesday";
+    weekday[3] = "Wednesday";
+    weekday[4] = "Thursday";
+    weekday[5] = "Friday";
+    weekday[6] = "Saturday";
+
+    var today = new Date();
+    var today = weekday[today.getDay()];
+
+    var adjustedWeekday = [today];
+    var index = weekday.indexOf(today);
+    for (i = index; i > -1; i--) {
+      if (weekday[i] != today) {
+        adjustedWeekday.unshift(weekday[i]);
+      }
+    }
+
+    for (j = 6; j > -1; j--) {
+      if ($.inArray(weekday[j], adjustedWeekday) == -1) {
+        adjustedWeekday.unshift(weekday[j]);
+      }
+    }
+
+    var visData2 = [];
+    $.each(responseData2.reverse(), function(key, value) {
+      var fullDate = new Date(value.created_at);
+      var date = weekday[fullDate.getDay()]
+      var time = Math.round((value.hours * 60) + (value.minutes));
+      visData2.push([date, time]);
+    });
+
+    var uniqueDays = [];
+    $.each(visData2, function(key, value) {
+      if ($.inArray(value[0], uniqueDays) == -1) {
+        uniqueDays.push(value[0]);
+      }
+    });
+
+    var visDataFinal2 = [['Day', 'Time', {role: 'style'}]]
+    $.each(adjustedWeekday, function(key, value) {
+      var tempTime = 0;
+      $.each(visData2, function(key2, value2) {
+        if (value == value2[0]) {
+          tempTime = tempTime + value2[1];
+        }
+      });
+      visDataFinal2.push([value, Number(tempTime), '']);
+    });
+
+    visDataFinal2[7][2] = 'opacity: 0.5; stroke-color: blue; stroke-width: 4';
+
+    var data2 = google.visualization.arrayToDataTable(visDataFinal2);
+
+    var options2 = {
+      hAxis: {title: 'Day'},
+      vAxis: {
+        title: 'Minutes',
+        viewWindow: {
+          min: 0
+        }
+      },
+      seriesType: 'bars',
+      legend: { position: 'right' },
+    };
+
+    var chart2 = new google.visualization.ColumnChart(document.getElementById('weekly-log-time'));
+    chart2.draw(data2, options2);
+
+    fetchTotalTimeChart();
+  }
+
+  function fetchTotalTimeChart() {
+    $.ajax({
+      type: "GET",
+      url: "/user_microposts_json",
+      dataType: "json",
+      data: {
+        id: <%= @user.id %>
+      },
+      success: function(response){
+        responseData1 = response;
+        google.charts.load('current', {'packages':['corechart']});
+        google.charts.setOnLoadCallback(drawTotalTimeChart);
+      }        
+    });
+  }
 
   function drawTotalTimeChart() {
     var visData1 = [];
     $.each(responseData1.reverse(), function(key, value) {
       var fullDate = new Date(value.created_at);
       var day = fullDate.getDate();
+      day = day.toString();
+      if (day.length == 1) {
+        day = "0" + day;
+      }
       var month = fullDate.getMonth() + 1;
       var year = fullDate.getFullYear();
       var date = month + "/" + day + "/" + year;
-      var time = Math.round((value.hours * 60) + (value.minutes) + (value.seconds / 60));
+      var time = Math.round((value.hours * 60) + (value.minutes));
       visData1.push([date, time]);
     });
 
@@ -126,71 +242,4 @@
     chart1.draw(data1, options1);
   }
 
-  $.ajax({
-    type: "GET",
-    url: "/user_weekly_microposts_json",
-    dataType: "json",
-    data: {
-      id: <%= @user.id %>
-    },
-    success: function(response){
-      responseData2 = response;
-      google.charts.load('current', {'packages':['corechart']});
-      google.charts.setOnLoadCallback(drawWeeklyTimeChart);
-    }        
-  });
-
-  function drawWeeklyTimeChart() {
-    var weekday = new Array(7);
-    weekday[0] =  "Sunday";
-    weekday[1] = "Monday";
-    weekday[2] = "Tuesday";
-    weekday[3] = "Wednesday";
-    weekday[4] = "Thursday";
-    weekday[5] = "Friday";
-    weekday[6] = "Saturday";
-
-    var visData2 = [];
-    $.each(responseData2.reverse(), function(key, value) {
-      var fullDate = new Date(value.created_at);
-      var date = weekday[fullDate.getDay()]
-      var time = Math.round((value.hours * 60) + (value.minutes) + (value.seconds / 60));
-      visData2.push([date, time]);
-    });
-
-    var uniqueDays = [];
-    $.each(visData2, function(key, value) {
-      if ($.inArray(value[0], uniqueDays) == -1) {
-        uniqueDays.push(value[0]);
-      }
-    });
-
-    var visDataFinal2 = [['Day', 'Time']]
-    $.each(uniqueDays, function(key, value) {
-      var tempTime = 0;
-      $.each(visData2, function(key2, value2) {
-        if (value == value2[0]) {
-          tempTime = tempTime + value2[1];
-        }
-      });
-      visDataFinal2.push([value, Number(tempTime)]);
-    });
-
-    var data2 = google.visualization.arrayToDataTable(visDataFinal2);
-
-    var options2 = {
-      hAxis: {title: 'Day'},
-      vAxis: {
-        title: 'Minutes',
-        viewWindow: {
-          min: 0
-        }
-      },
-      seriesType: 'bars',
-      legend: { position: 'right' },
-    };
-
-    var chart2 = new google.visualization.ColumnChart(document.getElementById('weekly-log-time'));
-    chart2.draw(data2, options2);
-  }
 </script>
