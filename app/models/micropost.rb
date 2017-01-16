@@ -5,6 +5,5 @@ class Micropost < ActiveRecord::Base
   validates :title, presence: true
   validates :hours, presence: true
   validates :minutes, presence: true
-  validates :seconds, presence: true
   validates :author, presence: true
 end

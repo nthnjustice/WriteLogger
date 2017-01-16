@@ -35,7 +35,6 @@ Micropost.create!(
 	title: "First",
 	hours: 0,
 	minutes: 30,
-	seconds: 0,
 	created_at: (rand*10).days.ago
 )
 
@@ -45,7 +44,6 @@ Micropost.create!(
 	title: "Second",
 	hours: 0,
 	minutes: 45,
-	seconds: 0,
 	created_at: (rand*10).days.ago
 )
 
@@ -55,7 +53,6 @@ Micropost.create!(
 	title: "Third",
 	hours: 1,
 	minutes: 0,
-	seconds: 0,
 	created_at: (rand*10).days.ago
 )
 
@@ -64,26 +61,68 @@ Micropost.create!(
 	author: "Nathan Justice",
 	title: "Fourth",
 	hours: 1,
-	minutes: 0,
-	seconds: 0
+	minutes: 5,
 )
 
 Micropost.create!(
 	user_id: 1,
 	author: "Nathan Justice",
 	title: "Fifth",
+	hours: 0,
+	minutes: 37,
+)
+
+Micropost.create!(
+	user_id: 1,
+	author: "Nathan Justice",
+	title: "Sixth",
 	hours: 1,
+	minutes: 5,
+	created_at: (rand*10).days.ago
+)
+
+Micropost.create!(
+	user_id: 1,
+	author: "Nathan Justice",
+	title: "Seventh",
+	hours: 0,
+	minutes: 54,
+	created_at: (rand*10).days.ago
+)
+
+Micropost.create!(
+	user_id: 1,
+	author: "Nathan Justice",
+	title: "Eighth",
+	hours: 0,
+	minutes: 70,
+	created_at: (rand*10).days.ago
+)
+
+Micropost.create!(
+	user_id: 1,
+	author: "Nathan Justice",
+	title: "Ninth",
+	hours: 0,
 	minutes: 0,
-	seconds: 0
+	created_at: (rand*10).days.ago
+)
+
+Micropost.create!(
+	user_id: 1,
+	author: "Nathan Justice",
+	title: "Tenth",
+	hours: 0,
+	minutes: 5,
+	created_at: (rand*10).days.ago
 )
 
 Micropost.create!(
 	user_id: 2,
 	author: "Bob Ross",
 	title: "First",
-	hours: 0,
+	hours: 3,
 	minutes: 30,
-	seconds: 0,
 	created_at: (rand*10).days.ago
 )
 
@@ -93,7 +132,42 @@ Micropost.create!(
 	title: "Second",
 	hours: 0,
 	minutes: 45,
-	seconds: 0,
+	created_at: (rand*10).days.ago
+)
+
+Micropost.create!(
+	user_id: 2,
+	author: "Bob Ross",
+	title: "Third",
+	hours: 0,
+	minutes: 45,
+	created_at: (rand*10).days.ago
+)
+
+Micropost.create!(
+	user_id: 2,
+	author: "Bob Ross",
+	title: "Fourth",
+	hours: 0,
+	minutes: 20,
+	created_at: (rand*10).days.ago
+)
+
+Micropost.create!(
+	user_id: 2,
+	author: "Bob Ross",
+	title: "Fifth",
+	hours: 0,
+	minutes: 8,
+	created_at: (rand*10).days.ago
+)
+
+Micropost.create!(
+	user_id: 2,
+	author: "Bob Ross",
+	title: "Sixth",
+	hours: 0,
+	minutes: 54,
 	created_at: (rand*10).days.ago
 )
 
@@ -101,8 +175,25 @@ Micropost.create!(
 	user_id: 3,
 	author: "Darth Vader",
 	title: "First",
+	hours: 1,
+	minutes: 15,
+	created_at: (rand*10).days.ago
+)
+
+Micropost.create!(
+	user_id: 3,
+	author: "Darth Vader",
+	title: "Second",
 	hours: 0,
 	minutes: 15,
-	seconds: 0,
+	created_at: (rand*10).days.ago
+)
+
+Micropost.create!(
+	user_id: 3,
+	author: "Darth Vader",
+	title: "Third",
+	hours: 0,
+	minutes: 15,
 	created_at: (rand*10).days.ago
 )

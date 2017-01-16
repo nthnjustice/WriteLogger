@@ -5,6 +5,9 @@ class MicropostsController < ApplicationController
 
   def create
     @micropost = current_user.microposts.build(micropost_params)
+    @micropost.total = (@micropost.hours * 60) + @micropost.minutes
+    @micropost.hours = @micropost.total / 60
+    @micropost.minutes = (@micropost.total % 60)
     if @micropost.save
       flash[:success] = "Writing log saved!"
       redirect_to root_url
@@ -24,7 +27,7 @@ class MicropostsController < ApplicationController
   private
 
     def micropost_params
-      params.require(:micropost).permit(:content, :title, :hours, :minutes, :seconds, :author)
+      params.require(:micropost).permit(:content, :title, :hours, :minutes, :author, :total)
     end
 
     def correct_user

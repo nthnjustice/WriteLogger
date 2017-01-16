@@ -4,7 +4,7 @@
     posted <%= time_ago_in_words(micropost.created_at) %> ago.
   </p>
   <p>"<%= micropost.title %>"</p>
-  <p>(time: <%= micropost.hours %> hours, <%= micropost.minutes %> minutes, and <%= micropost.seconds %> seconds)</p>
+  <p>(time: <%= micropost.hours %> hours and <%= micropost.minutes %> minutes)</p>
   <p>
     <% if current_user?(micropost.user) %>
       <%= link_to "|delete|", micropost, method: :delete, data: { confirm: "You sure?" } %>

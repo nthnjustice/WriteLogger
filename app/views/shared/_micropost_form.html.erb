@@ -19,19 +19,30 @@
 	    			</span>
 	  			</div>
 	  		</div>
-				<div class="row">
-					<div class="col l9">
+				<div class="row center">
+					<div class="col l12">
 						<div id="clock1"></div>
 					</div>
-					<div class="col l2">
+				</div>
+				<div class="row">
+					<div class="col l12">
 						<span id="stopwatch-start-wrapper">
-							<a class="waves-effect waves-light btn" id="stopwatch-start">Start</a>
+							<a class="waves-effect waves-light btn" id="stopwatch-start">
+								<i class="material-icons right">play_arrow</i>
+								Start
+							</a>
 						</span>
 						<span id="stopwatch-pause-wrapper" class="hidden">
-							<a class="waves-effect waves-light btn" id="stopwatch-pause">Pause</a>
+							<a class="waves-effect waves-light btn" id="stopwatch-pause">
+								<i class="material-icons right">pause</i>
+								Pause
+							</a>
 						</span>
 						<span id="stopwatch-resume-wrapper" class="hidden">
-							<a class="waves-effect waves-light btn" id="stopwatch-resume">Resume</a>
+							<a class="waves-effect waves-light btn" id="stopwatch-resume">
+								<i class="material-icons right">play_arrow</i>
+								Resume
+							</a>
 						</span>
 					</div>
 				</div>
@@ -89,19 +100,34 @@
 	  			</div>
 	  		</div>
 	  		<div id="timer-clock-wrapper" class="hidden">
-	  			<div class="row">
-						<div class="col l9">
+	  			<div class="row center">
+						<div class="col 12">
 							<div id="clock2"></div>
 						</div>
-						<div class="col l2">
+					</div>
+					<div class="row">
+						<div class="col l12">
 							<span id="timer-start-wrapper">
-								<a class="waves-effect waves-light btn" id="timer-start">Start</a>
+								<a class="waves-effect waves-light grey lighten-1 btn" id="timer-back">
+									<i class="material-icons left">arrow_back</i>
+									Back
+								</a>
+								<a class="waves-effect waves-light btn" id="timer-start">
+									<i class="material-icons right">play_arrow</i>
+									Start
+								</a>
 							</span>
 							<span id="timer-pause-wrapper" class="hidden">
-								<a class="waves-effect waves-light btn" id="timer-pause">Pause</a>
+								<a class="waves-effect waves-light btn" id="timer-pause">
+									<i class="material-icons right">pause</i>
+									Pause
+								</a>
 							</span>
 							<span id="timer-resume-wrapper" class="hidden">
-								<a class="waves-effect waves-light btn" id="timer-resume">Resume</a>
+								<a class="waves-effect waves-light btn" id="timer-resume">
+									<i class="material-icons right">play_arrow</i>
+									Resume
+								</a>
 							</span>
 						</div>
 					</div>
@@ -181,7 +207,6 @@
 	    totalTime1 = totalTime1 + value;
 	  });
 
-	  seconds1 = Math.round((totalTime1/1000)%60)
 	  minutes1 = Math.round((totalTime1/(1000*60))%60)
 	  hours1 = Math.round((totalTime1/(1000*60*60))%24)
 
@@ -193,8 +218,7 @@
 	        title: $("#stopwatch-form-title").val(),
 	        author: "<%= current_user.name %>",
 	        hours: hours1,
-	        minutes: minutes1,
-	        seconds: seconds1
+	        minutes: minutes1
 	      }
 	    }
 	  });
@@ -204,6 +228,14 @@
 	  $("#clock-type-wrapper").toggleClass("hidden");
 	  $("#timer-wrapper").toggleClass("hidden");
 	});
+
+	audioElement = document.createElement('audio');
+  audioElement.setAttribute('src', 'http://www.soundjay.com/misc/sounds/bell-ringing-01.mp3');
+
+	function flash() {
+		$('body').toggleClass('laser');
+    audioElement.play();
+	}
 
 	$("#timer-value-set").click(function() {
 	  $("#timer-value-wrapper").toggleClass("hidden");
@@ -217,15 +249,33 @@
 	  timerTotal2 = timerMinutes * 60;
 	  timerFinal = timerSeconds + timerTotal1 + timerTotal2;
 
+	  finalTime2 = [];
+
 	  clock2 = $("#clock2").FlipClock(timerFinal, {
 	    countdown: true,
 	    clockFace: 'HourCounter',
-	    autoStart: false
+	    autoStart: false,
+	    callbacks: {
+		    start: () => {
+		      timeStarted2 = new Date();
+		      setTimeout(flash, timerFinal * 1000);
+		    },
+		    stop: () => {
+		      timeStopped2 = new Date();
+		      finalTime2.push(timeStopped2 - timeStarted2);
+		    }
+			}
 	  });
 	});
 
+	$("#timer-back").click(function() {
+		$("#timer-value-wrapper").toggleClass("hidden");
+	  $("#timer-clock-wrapper").toggleClass("hidden");
+	});
+	
 	$("#timer-start").click(function() {
 	  clock2.start(function() {});
+	  $("#timer-back").toggleClass("hidden");
 	  $("#timer-form-wrapper").toggleClass("hidden");
 	  $("#timer-start-wrapper").toggleClass("hidden");
 	  $("#timer-pause-wrapper").toggleClass("hidden");
@@ -247,6 +297,7 @@
 
 	$("#timer-form-post").click(function() {
 	  clock2.stop(function() {});
+	  audioElement.pause();
 
 	  if($("#timer-form-title").val() === "") {
 	    $("#timer-custom-error").toggleClass("hidden");
@@ -255,6 +306,17 @@
 	    $("#timer-resume-wrapper").toggleClass("hidden");
 	  }
 
+	  totalTime2 = 0;
+	  $.each(finalTime2, function(index, value) {
+	    totalTime2 = totalTime2 + value;
+	  });
+
+	  minutes2 = Math.round((totalTime2/(1000*60))%60)
+	  hours2 = Math.round((totalTime2/(1000*60*60))%24)
+
+	  console.log(minutes2);
+	  console.log(hours2);
+
 	  $.ajax({
 	    url: "/microposts",
 	    type: "POST",
@@ -262,9 +324,8 @@
 	      micropost: {
 	        title: $("#timer-form-title").val(),
 	        author: "<%= current_user.name %>",
-	        hours: timerHours,
-	        minutes: timerMinutes,
-	        seconds: timerSeconds
+	        hours: hours2,
+	        minutes: minutes2
 	      }
 	    }
 	  });

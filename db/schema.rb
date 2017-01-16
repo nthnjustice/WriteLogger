@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170112181115) do
+ActiveRecord::Schema.define(version: 20170116174056) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -23,8 +23,8 @@ ActiveRecord::Schema.define(version: 20170112181115) do
     t.string   "title",      null: false
     t.integer  "hours",      null: false
     t.integer  "minutes",    null: false
-    t.integer  "seconds",    null: false
     t.string   "author"
+    t.integer  "total"
   end
 
   add_index "microposts", ["user_id", "created_at"], name: "index_microposts_on_user_id_and_created_at", using: :btree

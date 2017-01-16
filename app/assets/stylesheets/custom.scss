@@ -19,3 +19,28 @@ body {
 	border: 2px solid #1b5e20;
 	margin-bottom: -3%;
 }
+
+@keyframes blink {
+  50% {
+    background: #cc5;
+    background-size: 75px 150px;
+  }
+}
+@-webkit-keyframes blink {
+  50% {
+    background: #cc5;
+    background-size: 75px 150px;
+  }
+}
+@-moz-keyframes blink {
+  50% {
+    background: #cc5;
+    background-size: 75px 150px;
+  }
+}
+
+.laser {
+  animation: blink 2s infinite;
+  -webkit-animation: blink 2s infinite;
+  -moz-animation: blink 2s infinite;
+}
