@@ -32,16 +32,29 @@
 <% end %>
 
 <script>
-  $.ajax({
-    type: "GET",
-    url: "/group_microposts_json",
-    dataType: "json",
-    success: function(response){
-      responseData = response;
-      google.charts.load('current', {'packages':['corechart']});
-      google.charts.setOnLoadCallback(loadUsers);
-    }        
-  });
+  function checkAssets() {
+    if (typeof google !== "undefined") {
+      fetchData();
+    }
+    else {
+      setTimeout(checkAssets, 250);
+    }
+  }
+
+  checkAssets();
+
+  function fetchData() {
+    $.ajax({
+      type: "GET",
+      url: "/group_microposts_json",
+      dataType: "json",
+      success: function(response){
+        responseData = response;
+        google.charts.load('current', {'packages':['corechart']});
+        google.charts.setOnLoadCallback(loadUsers);
+      }        
+    });
+  }
 
   function loadUsers() {
     $.ajax({

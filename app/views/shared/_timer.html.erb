@@ -1,0 +1,187 @@
+<div id="timer-wrapper">
+	<div class="section">
+		<div id="timer-custom-error" class="row center hidden">
+			<div class="card-panel red lighten-5">
+  			<span class="red-text text-darken-4">
+    			The form contains 1 error:
+    			<ul>
+      			<li>* Title can't be blank</li>
+    			</ul>
+  			</span>
+			</div>
+		</div>
+  	<div id="timer-value-wrapper">
+			<div class="row">
+				<p>Set the timer's value:</p>
+			</div>
+			<div class="row">
+				<div class="col l4">
+					<div class="input-field">
+						<input id="timer-value-hours" type="number" value=0>
+						<label for="timer-value-hours">Hours <span class="red-text">*</span></label>
+					</div>
+				</div>
+				<div class="col l4">
+					<div class="input-field">
+						<input id="timer-value-minutes" type="number" value=30>
+						<label for="time-value-minutes">Minutes <span class="red-text">*</span></label>
+					</div>
+				</div>
+				<div class="col l4">
+					<div class="input-field">
+						<input id="timer-value-seconds" type="number" value=0>
+						<label for="time-value-seconds">Seconds <span class="red-text">*</span></label>
+					</div>
+				</div>
+			</div>
+			<div class="row center">
+  			<a id="timer-value-set" class="waves-effect waves-light btn">Set</a>
+  		</div>
+  	</div>
+		<div id="timer-clock-wrapper" class="hidden">
+			<div class="row center">
+				<div class="col 12">
+					<div id="timer"></div>
+				</div>
+			</div>
+			<div class="row">
+				<div class="col l11 offset-l1">
+					<span id="timer-start-wrapper">
+						<a class="waves-effect waves-light grey lighten-1 btn" id="timer-back">
+							<i class="material-icons left">arrow_back</i>
+							Back
+						</a>
+						<a class="waves-effect waves-light btn" id="timer-start">
+							<i class="material-icons right">play_arrow</i>
+							Start
+						</a>
+					</span>
+					<span id="timer-pause-wrapper" class="hidden">
+						<a class="waves-effect waves-light btn" id="timer-pause">
+							<i class="material-icons right">pause</i>
+							Pause
+						</a>
+					</span>
+					<span id="timer-resume-wrapper" class="hidden">
+						<a class="waves-effect waves-light btn" id="timer-resume">
+							<i class="material-icons right">play_arrow</i>
+							Resume
+						</a>
+					</span>
+				</div>
+			</div>
+			<div id="timer-form-wrapper" class="hidden">
+				<div class="row">
+					<div class="col l10 offset-l1">
+						<div class="input-field">
+							<input id="timer-form-title" type="text" class="validate">
+							<label for="timer-form-title">Title <span class="red-text">*</span></label>
+						</div>
+					</div>
+				</div>
+				<div class="row center">
+					<a id="timer-form-post" class="waves-effect waves-light btn green darken-2 disabled">
+						Post <i class="material-icons right">send</i>
+					</a>
+				</div>
+			</div>
+  	</div>
+  </div>
+</div>
+
+<script>
+	var audioElement = document.createElement('audio');
+	audioElement.setAttribute('src', 'http://www.soundjay.com/misc/sounds/bell-ringing-01.mp3');
+
+	function flash() {
+		$('body').toggleClass('laser');
+	  audioElement.play();
+	  $("#timer-form-post").toggleClass("disabled");
+	}
+
+	$("#timer-value-set").click(function() {
+	  $("#timer-value-wrapper").toggleClass("hidden");
+	  $("#timer-clock-wrapper").toggleClass("hidden");
+
+	  timerSetHours = Number($("#timer-value-hours").val());
+	  timerSetMinutes = Number($("#timer-value-minutes").val());
+	  timerSetSeconds = Number($("#timer-value-seconds").val());
+
+	  timerSetFinal = timerSetSeconds + (timerSetHours * 60 * 60) + (timerSetMinutes * 60);
+
+	  timer = $("#timer").FlipClock(timerSetFinal, {
+	    countdown: true,
+	    clockFace: 'HourCounter',
+	    autoStart: false,
+	    callbacks: {
+		    start: () => {
+		      timerTimeStarted = new Date();
+		      timeout = setTimeout(flash, (timerSetFinal * 1000) + 1000);
+		    },
+		    stop: () => {
+		      timerTimeStopped = new Date();
+		      timerFinalTime = timerTimeStopped - timerTimeStarted;
+		    }
+			}
+	  });
+	});
+
+	$("#timer-back").click(function() {
+		$("#timer-value-wrapper").toggleClass("hidden");
+	  $("#timer-clock-wrapper").toggleClass("hidden");
+	});
+
+	$("#timer-start").click(function() {
+	  timer.start(function() {});
+	  $("#timer-back").toggleClass("hidden");
+	  $("#timer-form-wrapper").toggleClass("hidden");
+	  $("#timer-start-wrapper").toggleClass("hidden");
+	  $("#timer-pause-wrapper").toggleClass("hidden");
+	});
+
+	$("#timer-pause").click(function() {
+	  timer.stop(function() {});
+	  $("#timer-form-wrapper").toggleClass("hidden");
+	  $("#timer-pause-wrapper").toggleClass("hidden");
+	  $("#timer-resume-wrapper").toggleClass("hidden");
+	});
+
+	$("#timer-resume").click(function() {
+	  timer.start(function() {});
+	  $("#timer-form-wrapper").toggleClass("hidden");
+	  $("#timer-resume-wrapper").toggleClass("hidden");
+	  $("#timer-pause-wrapper").toggleClass("hidden");
+	});
+
+	var timerErrorShowing = false;
+
+	$("#timer-form-post").click(function() {
+	  timer.stop(function() {});
+	  audioElement.pause();
+
+	  if (timerErrorShowing == false) {
+		  if($("#timer-form-title").val() === "") {
+		    $("#timer-custom-error").toggleClass("hidden");
+		    $("#timer-pause-wrapper").toggleClass("hidden");
+		    timerErrorShowing = true
+		  }
+		 }
+
+	  timerHours = Math.floor(timerFinalTime/(1000*60*60));
+	  tempTimerFinalTime = timerFinalTime - (timerHours*(1000*60*60));
+	  timerMinutes = Math.floor(tempTimerFinalTime/(1000*60));
+
+	  $.ajax({
+	    url: "/microposts",
+	    type: "POST",
+	    data: {
+	      micropost: {
+	        title: $("#timer-form-title").val(),
+	        author: "<%= current_user.name %>",
+	        hours: timerHours,
+	        minutes: timerMinutes
+	      }
+	    }
+	  });
+	});
+</script>

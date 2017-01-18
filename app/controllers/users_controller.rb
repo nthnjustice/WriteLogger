@@ -57,7 +57,7 @@ class UsersController < ApplicationController
 
   def user_weekly_microposts_json
     @user = User.find(params[:id])
-    @microposts = @user.microposts.where("created_at >= ?", 1.week.ago.utc)
+    @microposts = @user.microposts.where("created_at >= ?", Time.now-6.days)
     render json: @microposts
   end
 
@@ -74,8 +74,7 @@ class UsersController < ApplicationController
   private
 
     def user_params
-      params.require(:user).permit(:name, :email, :password,
-                                   :password_confirmation)
+      params.require(:user).permit(:name, :email, :password, :password_confirmation)
     end
 
     # Before filters

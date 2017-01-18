@@ -24,7 +24,6 @@
           <span class="card-title"><h5>Log Record</h5></span>
           <div class="divider"></div>
           <% if @user.microposts.any? %>
-            <%= will_paginate @microposts %>
             <ul>
               <%= render @microposts %>
             </ul>
@@ -38,7 +37,7 @@
     <div class="col l8">
       <div class="card hoverable">
         <div class="card-content">
-          <span class="card-title"><h5 id="weekly-log-time-header">Weekly Log Time</h5></span>
+          <span class="card-title"><h5 id="weekly-log-time-header"></h5></span>
           <div class="divider"></div>
           <br>
           <div id="weekly-log-time" style="width: 100%; height: 350px"></div>
@@ -61,19 +60,32 @@
 <% end %>
 
 <script>
-  $.ajax({
-    type: "GET",
-    url: "/user_weekly_microposts_json",
-    dataType: "json",
-    data: {
-      id: <%= @user.id %>
-    },
-    success: function(response){
-      responseData2 = response;
-      google.charts.load('current', {'packages':['corechart']});
-      google.charts.setOnLoadCallback(drawWeeklyTimeChart);
-    }        
-  });
+  function checkAssets() {
+    if (typeof google !== "undefined") {
+      fetchWeeklyTimeData();
+    }
+    else {
+      setTimeout(checkAssets, 250);
+    }
+  }
+
+  checkAssets();
+
+  function fetchWeeklyTimeData() {
+    $.ajax({
+      type: "GET",
+      url: "/user_weekly_microposts_json",
+      dataType: "json",
+      data: {
+        id: <%= @user.id %>
+      },
+      success: function(response){
+        responseData2 = response;
+        google.charts.load('current', {'packages':['corechart']});
+        google.charts.setOnLoadCallback(drawWeeklyTimeChart);
+      }        
+    });
+  }
 
   function drawWeeklyTimeChart() {
     var todayDate = new Date();
@@ -85,7 +97,7 @@
     var startMonth = todayDate.getMonth() + 1;
     var startYear = todayDate.getFullYear();
     var startDate = startMonth + "/" + startDay + "/" + startYear;
-    var sevenAgo = new Date(todayDate.getTime() - (7 * 24 * 60 * 60 * 1000));
+    var sevenAgo = new Date(todayDate.getTime() - (6 * 24 * 60 * 60 * 1000));
     var endDay = sevenAgo.getDate();
     endDay = endDay.toString();
     if (endDay.length == 1) {
@@ -95,7 +107,7 @@
     var endYear = sevenAgo.getFullYear();
     var endDate = endMonth + "/" + endDay + "/" + endYear;
 
-    $("#weekly-log-time-header").append(" (" + endDate + " - " + startDate + ")");
+    $("#weekly-log-time-header").text("Weekly Log Time (" + endDate + " - " + startDate + ")");
 
     var weekday = new Array(7);
     weekday[0] =  "Sunday";

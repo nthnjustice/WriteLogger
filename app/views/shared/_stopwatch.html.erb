@@ -1,0 +1,130 @@
+<div id="stopwatch-wrapper">
+	<div class="section">
+		<div id="stopwatch-custom-error" class="row center hidden">
+			<div class="card-panel red lighten-5">
+				<span class="red-text text-darken-4">
+  					The form contains 1 error:
+  					<ul>
+    					<li>* Title can't be blank</li>
+  					</ul>
+				</span>
+			</div>
+		</div>
+		<div class="row center">
+			<div class="col l11 offset-l1">
+				<div id="stopwatch"></div>
+			</div>
+		</div>
+		<div class="row">
+			<div class="col l11 offset-l1">
+				<span id="stopwatch-start-wrapper">
+					<a class="waves-effect waves-light btn" id="stopwatch-start">
+						<i class="material-icons right">play_arrow</i>
+						Start
+					</a>
+				</span>
+				<span id="stopwatch-pause-wrapper" class="hidden">
+					<a class="waves-effect waves-light btn" id="stopwatch-pause">
+						<i class="material-icons right">pause</i>
+						Pause
+					</a>
+				</span>
+				<span id="stopwatch-resume-wrapper" class="hidden">
+					<a class="waves-effect waves-light btn" id="stopwatch-resume">
+						<i class="material-icons right">play_arrow</i>
+						Resume
+					</a>
+				</span>
+			</div>
+		</div>
+		<div id="stopwatch-form-wrapper" class="hidden">
+			<div class="row">
+				<div class="col l10 offset-l1">
+					<div class="input-field">
+						<input id="stopwatch-form-title" type="text" class="validate">
+						<label for="stopwatch-form-title">Title <span class="red-text">*</span></label>
+					</div>
+				</div>
+			</div>
+			<div class="row center">
+				<a id="stopwatch-form-post" class="waves-effect waves-light btn green darken-2">
+					Post <i class="material-icons right">send</i>
+				</a>
+			</div>
+		</div>
+	</div>
+</div>
+
+<script>
+	stopwatchFinalTime = [];
+
+	stopwatch = new FlipClock($('#stopwatch'), {
+	  autoStart: false,
+	  callbacks: {
+	    start: () => {
+	      stopwatchTimeStarted = new Date();
+	    },
+	    stop: () => {
+	      stopwatchTimeStopped = new Date();
+	      stopwatchFinalTime.push(stopwatchTimeStopped - stopwatchTimeStarted);
+	    }
+	  }
+	});
+
+	$("#stopwatch-start").click(function() {
+	  stopwatch.start(function() {});
+	  $("#stopwatch-form-wrapper").toggleClass("hidden");
+	  $("#stopwatch-start-wrapper").toggleClass("hidden");
+	  $("#stopwatch-pause-wrapper").toggleClass("hidden");
+	});
+
+	$("#stopwatch-pause").click(function() {
+	  stopwatch.stop(function() {});
+	  $("#stopwatch-form-wrapper").toggleClass("hidden");
+	  $("#stopwatch-pause-wrapper").toggleClass("hidden");
+	  $("#stopwatch-resume-wrapper").toggleClass("hidden");
+	});
+
+	$("#stopwatch-resume").click(function() {
+	  stopwatch.start(function() {});
+	  $("#stopwatch-form-wrapper").toggleClass("hidden");
+	  $("#stopwatch-resume-wrapper").toggleClass("hidden");
+	  $("#stopwatch-pause-wrapper").toggleClass("hidden");
+	});
+
+	var stopwatchErrorShowing = false;
+
+	$("#stopwatch-form-post").click(function() {
+	  stopwatch.stop(function() {});
+
+	  if (stopwatchErrorShowing == false) {
+		  if($("#stopwatch-form-title").val() === "") {
+		    $("#stopwatch-custom-error").toggleClass("hidden");
+		    $("#stopwatch-pause-wrapper").toggleClass("hidden");
+		    stopwatchErrorShowing = true;
+		  }
+		}
+
+	  stopwatchTotalTime = 0;
+	  $.each(stopwatchFinalTime, function(index, value) {
+	    stopwatchTotalTime = stopwatchTotalTime + value;
+	  });
+
+	  stopwatchHours = Math.floor(stopwatchTotalTime/(1000*60*60));
+	  tempStopwatchTotalTime = stopwatchTotalTime - (stopwatchHours*(1000*60*60));
+	  stopwatchMinutes = Math.floor(tempStopwatchTotalTime/(1000*60));
+
+	  $.ajax({
+	    url: "/microposts",
+	    type: "POST",
+	    data: {
+	      micropost: {
+	        title: $("#stopwatch-form-title").val(),
+	        author: "<%= current_user.name %>",
+	        hours: stopwatchHours,
+	        minutes: stopwatchMinutes
+	      }
+	    }
+	  });
+	});
+</script>
