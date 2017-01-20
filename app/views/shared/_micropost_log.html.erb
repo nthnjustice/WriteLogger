@@ -2,13 +2,15 @@
 	<div class="card-content cyan darken-1 white-text">
 		<span class="card-title"><h5>Log Writing Session</h5></span>
 		<div class="divider"></div>
-		<div id="custom-error" class="row center hidden">
+		<div id="custom-error-log" class="row center hidden">
 			<div class="card-panel red lighten-5">
 				<span class="red-text text-darken-4">
-  					The form contains 1 error:
-  					<ul>
-    					<li>* Title can't be blank</li>
-  					</ul>
+					The form contains errors, check that:
+					<ul>
+						<li>* Title is not blank</li>
+						<li>* Hours is not blank</li>
+						<li>* Minutes is not blank</li>
+					</ul>
 				</span>
 			</div>
 		</div>
@@ -43,9 +45,14 @@
 </div>
 
 <script>
+	var errorShowing = false
+	
   $("#submit-log").click(function() {
-  	if($("#title").val() === "") {
-  		$("#custom-error").toggleClass("hidden");
+  	if($("#title").val() === "" || $("#hours").val() === "" || $("#minutes").val() === "") {
+  		if (errorShowing == false) {
+  			$("#custom-error-log").toggleClass("hidden");
+  			errorShowing = true;
+  		}
   		return(0);
   	}
 
@@ -56,8 +63,8 @@
 	      micropost: {
 	        title: $("#title").val(),
 	        author: "<%= current_user.name %>",
-	        hours: hours,
-	        minutes: minutes
+	        hours: $("#hours").val(),
+	        minutes: $("#minutes").val()
 	      }
 	    }
 	  });

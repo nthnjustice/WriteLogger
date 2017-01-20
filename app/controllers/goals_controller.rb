@@ -15,6 +15,7 @@ class GoalsController < ApplicationController
       @feed_goals = @feed_goals.paginate(page: params[:page], :per_page => 5)
       @feed_goals_inactive = current_user.goals.where("active = ?", false)
       @feed_goals_inactive = @feed_goals_inactive.paginate(page: params[:page], :per_page => 5)
+      flash[:success] = "Error saving goal"
       render 'static_pages/home'
     end
   end
