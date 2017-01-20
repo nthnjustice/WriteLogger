@@ -1,0 +1,68 @@
+<div class="card hoverable">
+	<div class="card-content">
+		<span class="card-title"><h5>Writing Goals</h5></span>
+		<div class="divider"></div>
+		<br>
+		<ul class="collapsible popout" data-collapsible="accordion">
+			<li>
+				<div class="collapsible-header">Set New Goal</div>
+				<div class="collapsible-body">
+					<div class="container">
+						<%= form_for(@goal, html: {multipart: true}) do |f| %>
+							<div class="row center">
+								<%= render 'shared/error_messages', object: f.object %>
+							</div>
+							<div class="input-field">
+								<%= f.text_field :description, class: "validate" %>
+								<label for="description">Description <span class="red-text">*</span></label>
+							</div>
+							<div class="input-field">
+								<%= f.date_field :deadline, class: "datepicker" %>
+								<label for="deadline">Deadline <span class="red-text">*</span></label>
+							</div>
+							<div class="row center">
+								<%= button_tag(:class => "waves-effect waves-light btn green darken-2") do %>
+				      		Save <i class="material-icons right">send</i>
+				    		<% end %>
+				    	</div>
+						<% end %>
+					</div>
+				</div>
+			</li>
+			<li>
+				<div class="collapsible-header active">Active Goals</div>
+				<div class="collapsible-body">
+					<% if @feed_goals.any? %>
+			  			<ul>
+			    			<%= render @feed_goals %>
+			  			</ul>
+			  			<%= will_paginate @feed_goals %>
+			  		<% else %>
+			  			<div class="container">
+			  				<div class="section">
+			        		<i>no new goals have been submitted</i>
+			        	</div>
+			        </div>
+					<% end %>
+				</div>
+			</li>
+			<li>
+				<div class="collapsible-header">Achieved Goals</div>
+				<div class="collapsible-body">
+					<% if @feed_goals_inactive.any? %>
+			  			<ul>
+			    			<%= render @feed_goals_inactive %>
+			  			</ul>
+			  			<%= will_paginate @feed_goals_inactive %>
+			  		<% else %>
+			  			<div class="container">
+			  				<div class="section">
+			        		<i>no goals have been achieved... yet</i>
+			        	</div>
+			        </div>
+					<% end %>
+				</div>
+			</li>
+		</ul>
+	</div>
+</div>

@@ -1,0 +1,43 @@
+<div class="card hoverable">
+	<div class="card-content">
+		<span class="card-title"><h5>Writing Goals</h5></span>
+		<div class="divider"></div>
+		<br>
+		<ul class="collapsible popout" data-collapsible="accordion">
+			<li>
+				<div class="collapsible-header active">Active Goals</div>
+				<div class="collapsible-body">
+					<% if @goals_active.any? %>
+			  			<ul>
+			    			<%= render @goals_active %>
+			  			</ul>
+			  			<%= will_paginate @goals_active %>
+			  		<% else %>
+			  			<div class="container">
+			  				<div class="section">
+			        		<i>no new goals have been submitted</i>
+			        	</div>
+			        </div>
+					<% end %>
+				</div>
+			</li>
+			<li>
+				<div class="collapsible-header">Achieved Goals</div>
+				<div class="collapsible-body">
+					<% if @goals_inactive.any? %>
+			  			<ul>
+			    			<%= render @goals_inactive %>
+			  			</ul>
+			  			<%= will_paginate @goals_inactive %>
+			  		<% else %>
+			  			<div class="container">
+			  				<div class="section">
+			        		<i>no goals have been achieved... yet</i>
+			        	</div>
+			        </div>
+					<% end %>
+				</div>
+			</li>
+		</ul>
+	</div>
+</div>

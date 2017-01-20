@@ -1,32 +1,35 @@
 <% provide(:title, "Log in") %>
+<br>
 <div class="container">
   <div class="section">
     <div class="row">
       <div class="col l8 offset-l2">
-        <div class="card hoverable indigo darken-4">
+        <div class="card hoverable cyan darken-4">
           <div class="card-content">
-            <span class="card-title white-text">
+            <div class="card-title white-text">
               <h4>Login</h4>
-              <div class="row center">
-                <% flash.each do |message_type, message| %>
-                  <h5><%= content_tag(:div, message, class: "alert alert-#{message_type}") %></h5>
-                <% end %>
-              </div>
-            </span>
-            <div class="divider"></div>
-            <br>
+            </div>
             <div class="white">
+              <div class="row center">
+                <div class="col l10 offset-l1">
+                  <% flash.each do |message_type, message| %>
+                    <h5><%= content_tag(:div, message, class: "alert alert-#{message_type}") %></h5>
+                  <% end %>
+                </div>
+              </div>
               <%= form_for(:session, url: login_path) do |f| %>
                 <br>
                 <div class="row">
                   <div class="input-field col l10 offset-l1">
-                    <%= f.email_field :email, class: "validate" %>
-                    <%= f.label :email, class: "my-label" %>
+                    <i class="material-icons prefix">email</i>
+                    <%= f.email_field :email %>
+                    <%= f.label :email %>
                   </div>
                 </div>
                 <div class="row">
-                  <div class="input-field col l10 offset-l1">
-                    <%= f.password_field :password, class: 'validate' %>
+                  <div class="input-field col l10 offset-l1 active">
+                    <i class="material-icons prefix">lock_outline</i>
+                    <%= f.password_field :password, :autocomplete => :off %>
                     <%= f.label :password %>
                   </div>
                 </div>
@@ -35,7 +38,7 @@
                   <%= f.label :remember_me %>
                 </div>
                 <div class="row center">
-                  <%= button_tag(:class => "waves-effect waves-light btn green darken-2") do %>
+                  <%= button_tag(:class => "waves-effect waves-light btn green darken-3") do %>
                     Login <i class="material-icons right">send</i>
                   <% end %>
                 </div>
@@ -53,7 +56,3 @@
     </div>
   </div>
 </div>
-
-<script>
-  $('label').addClass('active')
-</script>

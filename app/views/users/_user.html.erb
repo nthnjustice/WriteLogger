@@ -9,9 +9,6 @@
   <% else %>
   	<p><i>no writing logs have been submitted</i></p>
   <% end %>
-  <% if current_user.admin? %>
-    <%= link_to "| delete |", user, method: :delete, data: { confirm: "You sure?" } %>
-  <% end %>
   <br>
   <div class="divider"></div>
 </li>

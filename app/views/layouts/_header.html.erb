@@ -1,33 +1,35 @@
-<nav>
-  <div class="nav-wrapper purple darken-1">
-    <%= link_to image_tag('log.png'), root_path, class: "brand-logo center" %>
-    <%= link_to "WriteLogger", root_path, class: "brand-logo center" %>
-    <% if logged_in? %>
-      <a href="#" data-activates="mobile-demo" class="button-collapse"><i class="material-icons">menu</i></a>
-    <% end %>
-    <ul class="right hide-on-med-and-down">
+<div class="navbar-fixed">
+  <nav>
+    <div class="nav-wrapper teal darken-1">
+      <%= link_to image_tag('log.png'), root_path, class: "brand-logo center" %>
+      <%= link_to "WriteLogger", root_path, class: "brand-logo center" %>
       <% if logged_in? %>
-        <li><%= link_to "Home", root_path %></li>
-        <li><%= link_to "Group", users_path %></li>
-        <li><%= link_to "Profile", current_user %></li>
-        <li><%= link_to "Settings", edit_user_path(current_user) %></li>
-        <li><%= link_to "Log out", logout_path, method: "delete" %></li>
+        <a href="#" data-activates="mobile-demo" class="button-collapse"><i class="material-icons">menu</i></a>
       <% end %>
-    </ul>
-    <ul class="side-nav" id="mobile-demo">
-      <% if logged_in? %>
-        <li><%= link_to "Home", root_path %></li>
-        <li><%= link_to "Group", users_path %></li>
-        <li class="dropdown">
-          <a class='dropdown-button' href='#' data-activates='dropdown2'>Account <i class="fa fa-caret-down"></i></a>
-          <ul id="dropdown2" class="dropdown-content">
-            <li><%= link_to "Profile", current_user %></li>
-            <li><%= link_to "Settings", edit_user_path(current_user) %></li>
-            <li class="divider"></li>
-            <li><%= link_to "Log out", logout_path, method: "delete" %></li>
-          </ul>
-        </li>
-      <% end %>
-    </ul>
-  </div>
-</nav>
+      <ul class="right hide-on-med-and-down">
+        <% if logged_in? %>
+          <li><%= link_to "Home", root_path %></li>
+          <li><%= link_to "Group", users_path %></li>
+          <li><%= link_to "Profile", current_user %></li>
+          <li><%= link_to "Settings", edit_user_path(current_user) %></li>
+          <li><%= link_to "Log out", logout_path, method: "delete" %></li>
+        <% end %>
+      </ul>
+      <ul class="side-nav" id="mobile-demo">
+        <% if logged_in? %>
+          <li><%= link_to "Home", root_path %></li>
+          <li><%= link_to "Group", users_path %></li>
+          <li class="dropdown">
+            <a class='dropdown-button' href='#' data-activates='dropdown2'>Account <i class="fa fa-caret-down"></i></a>
+            <ul id="dropdown2" class="dropdown-content">
+              <li><%= link_to "Profile", current_user %></li>
+              <li><%= link_to "Settings", edit_user_path(current_user) %></li>
+              <li class="divider"></li>
+              <li><%= link_to "Log out", logout_path, method: "delete" %></li>
+            </ul>
+          </li>
+        <% end %>
+      </ul>
+    </div>
+  </nav>
+</div>

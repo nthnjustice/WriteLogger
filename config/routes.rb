@@ -19,7 +19,13 @@ Rails.application.routes.draw do
   get '/group_microposts_json', to: 'users#group_microposts_json'
   get '/get_all_users_json', to: 'users#get_all_users_json'
 
-  resources :microposts, only: [:create, :destroy]
+  delete '/microposts', to: 'microposts#destroy'
+
+  patch '/goals', to: 'goals#deactivate_goal'
+  delete '/goals', to: 'goals#destroy'
+
+  resources :goals, only: [:create]
+  resources :microposts, only: [:create]
 
   # The priority is based upon order of creation: first created -> highest priority.
   # See how all your routes lay out with "rake routes".

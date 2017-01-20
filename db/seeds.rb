@@ -197,3 +197,16 @@ Micropost.create!(
 	minutes: 15,
 	created_at: (rand*10).days.ago
 )
+
+Goal.create!(
+	user_id: 1,
+	description: "Seeded Test",
+	deadline: "2017-01-18"
+)
+
+Goal.create!(
+	user_id: 1,
+	description: "Seeded Test2",
+	deadline: "2017-01-18",
+	active: false
+)

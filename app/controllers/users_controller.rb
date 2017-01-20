@@ -11,6 +11,10 @@ class UsersController < ApplicationController
   def show
     @user = User.find(params[:id])
     @microposts = @user.microposts.paginate(:page => params[:page], :per_page => 5)
+    @goals_active = @user.goals.where("active = ?", true)
+    @goals_active = @goals_active.paginate(:page => params[:page], :per_page => 5)
+    @goals_inactive = @user.goals.where("active = ?", false)
+    @goals_inactive = @goals_inactive.paginate(:page => params[:page], :per_page => 5)
   end
 
   def new

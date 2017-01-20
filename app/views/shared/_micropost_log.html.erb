@@ -2,41 +2,63 @@
 	<div class="card-content">
 		<span class="card-title"><h5>Log Writing Session</h5></span>
 		<div class="divider"></div>
+		<div id="custom-error" class="row center hidden">
+			<div class="card-panel red lighten-5">
+				<span class="red-text text-darken-4">
+  					The form contains 1 error:
+  					<ul>
+    					<li>* Title can't be blank</li>
+  					</ul>
+				</span>
+			</div>
+		</div>
 		<br>
-		<%= form_for(@micropost, html: {multipart: true}) do |f| %>
-			<div class="row center">
-				<%= render 'shared/error_messages', object: f.object %>
-			</div>
-			<div class="input-field">
-				<%= f.text_field :title, class: "validate" %>
-				<label for="title">Title <span class="red-text">*</span></label>
-			</div>
-			<div class="row">
-				<div class="col l6">
-					<div class="input-field">
-						<%= f.number_field :hours, :value => 0, class: "validate" %>
-						<label for="hours">Hours <span class="red-text">*</span></label>
-					</div>
-				</div>
-				<div class="col l6">
-					<div class="input-field">
-						<%= f.number_field :minutes, :value => 0, class: "validate" %>
-						<label for="minutes">Minutes <span class="red-text">*</span></label>
-					</div>
-				</div>
-				<div class="hidden">
-					<%= f.text_field :author, :value => current_user.name %>
+		<div class="input-field">
+			<input id="title" type="text" class="validate">
+			<label for="title">Title <span class="red-text">*</span></label>
+		</div>
+		<div class="row">
+			<div class="col l6">
+				<div class="input-field">
+					<input id="hours" type="number" value=0>
+					<label for="hours">Hours <span class="red-text">*</span></label>
 				</div>
 			</div>
-			<div class="row center">
-				<%= button_tag(:class => "waves-effect waves-light btn green darken-2") do %>
-      		Post <i class="material-icons right">send</i>
-    		<% end %>
-    	</div>
-		<% end %>
+			<div class="col l6">
+				<div class="input-field">
+					<input id="minutes" type="number" value=0>
+					<label for="minutes">Minutes <span class="red-text">*</span></label>
+				</div>
+			</div>
+		</div>
+		<div class="row center">
+			<a id="submit-log" class="waves-effect waves-light btn green darken-2">
+				Post <i class="material-icons right">send</i>
+			</a>
+  	</div>
 	</div>
 </div>
 
 <script>
   $('label').addClass('active')
+
+  $("#submit-log").click(function() {
+  	if($("#title").val() === "") {
+  		$("#custom-error").toggleClass("hidden");
+  		return(0);
+  	}
+
+  	$.ajax({
+	    url: "/microposts",
+	    type: "POST",
+	    data: {
+	      micropost: {
+	        title: $("#title").val(),
+	        author: "<%= current_user.name %>",
+	        hours: hours,
+	        minutes: minutes
+	      }
+	    }
+	  });
+  });
 </script>

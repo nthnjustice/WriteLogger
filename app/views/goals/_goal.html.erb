@@ -1,0 +1,64 @@
+<li>
+	<br>
+	<% if current_user?(goal.user) %>
+		<% if goal.active %>
+			<div class="row">
+				<div class="col l8">
+					<span class="truncate"><strong><%= goal.description %></strong></span>
+					(Deadline: <%= goal.deadline %>)
+				</div>
+				<div class="col l3">
+					<a id="achieved-<%= goal.id %>" href="#" class="green-text text-darken-4">Mark Achieved</a>
+				</div>
+				<div class="col l1">
+				  <a class="dropdown-button red-text" href="#" data-activates='goal-delete-dropdown-<%= goal.id %>'>X</a>
+				  <ul id="goal-delete-dropdown-<%= goal.id %>" class="dropdown-content">
+				  	<li><a id="delete-<%= goal.id %>" href="#" class="red-text">delete</a></li>
+				  </ul>
+				</div>
+		  </div>
+		<% else %>
+			<div class="row">
+				<div class="col l11">
+					<span class="truncate"><strong><%= goal.description %></strong></span>
+					(Deadline: <%= goal.deadline %>)
+				</div>
+				<div class="col l1">
+					<a class="dropdown-button red-text" href="#" data-activates='goal-delete-dropdown-<%= goal.id %>'>X</a>
+				  <ul id="goal-delete-dropdown-<%= goal.id %>" class="dropdown-content">
+				  	<li><a id="delete-<%= goal.id %>" href="#" class="red-text">delete</a></li>
+				  </ul>
+				</div>
+		<% end %>
+	<% else %>
+		<div class="row">
+			<div class="col l12">
+				<span class="truncate"><strong><%= goal.description %></strong></span>
+				(Deadline: <%= goal.deadline %>)
+			</div>
+		</div>
+	<% end %>
+  <div class="divider"></div>
+</li>
+
+<script>
+	$("#achieved-<%= goal.id %>").click(function() {
+		$.ajax({
+	    url: "/goals",
+	    type: "PATCH",
+	    data: {
+	      id: <%= goal.id %>
+	    }
+	  });
+	});
+
+	$("#delete-<%= goal.id %>").click(function() {
+		$.ajax({
+	    url: "/goals",
+	    type: "DELETE",
+	    data: {
+	      id: <%= goal.id %>
+	    }
+	  });
+	});
+</script>

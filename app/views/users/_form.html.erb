@@ -7,30 +7,30 @@
   </div>
   <div class="row">
     <div class="input-field col l10 offset-l1">
-      <%= f.text_field :name, class: 'validate' %>
+      <%= f.text_field :name %>
       <label for="name">Name <span class="red-text">*</span></label>
     </div>
   </div>
   <div class="row">
     <div class="input-field col l10 offset-l1">
-      <%= f.email_field :email, class: 'validate' %>
+      <%= f.email_field :email %>
       <label for="email">Email <span class="red-text">*</span></label>
     </div>
   </div>
   <div class="row">
     <div class="input-field col l10 offset-l1">
-      <%= f.password_field :password, class: 'validate' %>
+      <%= f.password_field :password %>
       <label for="password">Password <span class="red-text">*</span></label>
     </div>
   </div>
   <div class="row">
     <div class="input-field col l10 offset-l1">
-      <%= f.password_field :password_confirmation, class: 'validate' %>
+      <%= f.password_field :password_confirmation %>
       <label for="password_confirmation">Password confirmation <span class="red-text">*</span></label>
     </div>
   </div>
   <div class="row center">
-    <%= button_tag(:class => "waves-effect waves-light btn green darken-2") do %>
+    <%= button_tag(:class => "waves-effect waves-light btn green darken-3") do %>
       Sign Up <i class="material-icons right">send</i>
     <% end %>
   </div>
