@@ -1,33 +1,26 @@
 <% provide(:title, @user.name) %>
-<div class="row center">
-  <div class="col l8 offset-l2">
-    <% flash.each do |message_type, message| %>
-      <h5><%= content_tag(:div, message, class: "alert alert-#{message_type}") %></h5>
-    <% end %>
-  </div>
-</div>
 <div class="section">
   <div class="row">
     <div class="col l4">
       <div class="card hoverable">
-        <div class="card-content">
-          <span class="card-title"><h4><%= @user.name %></h4></span>
-          <% if current_user?(@user) %>
-            <%= link_to "|Update Account|", edit_user_path(current_user) %>
-          <% end %>
+        <div id="user-info-card-profile" class="card-content">
+          <span class="card-title white-text"><h4><%= @user.name %></h4></span>
           <div class="divider"></div>
-          submitted <%= pluralize(@user.microposts.count, "writing log") %>
+          <% if current_user?(@user) %>
+            <%= link_to "Update Profile", edit_user_path(current_user), class: "indigo-text text-darken-4" %>
+          <% end %>
         </div>
       </div>
       <div class="card hoverable">
-        <div class="card-content">
+        <div class="card-content blue darken-1 white-text">
           <span class="card-title"><h5>Log Record</h5></span>
+          (submitted <%= pluralize(@user.microposts.count, "writing log") %>)
           <div class="divider"></div>
           <% if @user.microposts.any? %>
             <ul>
               <%= render @microposts %>
             </ul>
-            <%= will_paginate @microposts %>
+            <div class="white"><%= will_paginate @microposts %></div>
           <% else %>
             <i>no writing logs have been submitted</i>
           <% end %>
@@ -37,16 +30,16 @@
     <div class="col l8">
       <%= render 'shared/user_goal_card' %>
       <div class="card hoverable">
-        <div class="card-content">
-          <span class="card-title"><h5 id="weekly-log-time-header"></h5></span>
+        <div class="card-content green darken-3">
+          <span class="card-title white-text"><h5 id="weekly-log-time-header"></h5></span>
           <div class="divider"></div>
           <br>
           <div id="weekly-log-time" style="width: 100%; height: 350px"></div>
         </div>
       </div>
       <div class="card hoverable">
-        <div class="card-content">
-          <span class="card-title"><h5>Total Log Time</h5></span>
+        <div class="card-content cyan darken-3">
+          <span class="card-title white-text"><h5>Total Log Time</h5></span>
           <div class="divider"></div>
           <br>
           <div id="total-log-time" style="width: 100%; height: 350px"></div>

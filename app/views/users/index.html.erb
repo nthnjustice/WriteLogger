@@ -1,4 +1,4 @@
-<% provide(:title, 'All Users') %>
+<% provide(:title, 'Group') %>
 <div class="section">
 	<div class="row">
 		<div class="col l4">
@@ -9,6 +9,7 @@
 					<ul>
   					<%= render @users %>
 					</ul>
+          <div class="white"><%= will_paginate @users %></div>
 				</div>
 			</div>
 		</div>

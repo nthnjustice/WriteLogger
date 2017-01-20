@@ -1,12 +1,12 @@
 <div class="card hoverable">
-	<div class="card-content">
-		<span class="card-title"><h5>Writing Goals</h5></span>
+	<div class="card-content teal darken-2">
+		<span class="card-title white-text"><h5>Writing Goals</h5></span>
 		<div class="divider"></div>
 		<br>
 		<ul class="collapsible popout" data-collapsible="accordion">
 			<li>
-				<div class="collapsible-header active">Active Goals</div>
-				<div class="collapsible-body">
+				<div class="collapsible-header teal accent-2 active">Active Goals</div>
+				<div class="collapsible-body white">
 					<% if @goals_active.any? %>
 			  			<ul>
 			    			<%= render @goals_active %>
@@ -22,8 +22,8 @@
 				</div>
 			</li>
 			<li>
-				<div class="collapsible-header">Achieved Goals</div>
-				<div class="collapsible-body">
+				<div class="collapsible-header teal accent-3">Achieved Goals</div>
+				<div class="collapsible-body white">
 					<% if @goals_inactive.any? %>
 			  			<ul>
 			    			<%= render @goals_inactive %>
