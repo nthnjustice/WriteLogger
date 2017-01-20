@@ -3,21 +3,19 @@
 	<div class="row">
 		<div class="col l4">
 			<div class="card hoverable">
-				<div class="card-content">
-					<span class="card-title"><h5>Group Members</h5></span>
+				<div class="card-content light-blue darken-1">
+					<span class="card-title white-text"><h5>Group Members</h5></span>
 					<div class="divider"></div>
-					<%= will_paginate @feed_items %>
 					<ul>
   					<%= render @users %>
 					</ul>
-					<%= will_paginate @feed_items %>
 				</div>
 			</div>
 		</div>
 		<div class="col l8">
 			<div class="card hoverable">
-				<div class="card-content">
-					<span class="card-title"><h5>Total Group Activity</h5></span>
+				<div class="card-content cyan darken-3">
+					<span class="card-title white-text"><h5>Group Activity</h5></span>
 					<div class="divider"></div>
 					<br>
 					<div id="total-group-log-time" style="width: 100%; height: 500px"></div>
@@ -70,9 +68,9 @@
 
   function drawGroupChart() {
   	var uniqueIDs = [];
-  	$.each(responseData, function(key, post) {
-  		if ($.inArray(post.user_id, uniqueIDs) == -1) {
-  			uniqueIDs.push(post.user_id);
+  	$.each(usersData, function(key, user) {
+  		if ($.inArray(user.id, uniqueIDs) == -1) {
+  			uniqueIDs.push(user.id);
   		}
   	});
 
@@ -187,6 +185,7 @@
   	}
 
   	var averageIndex = uniqueIDs.length;
+    console.log(uniqueIDs);
   	myObj = {}
   	myObj[averageIndex] = {type:'line'};
   	options.series = myObj;

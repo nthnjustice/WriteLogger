@@ -30,14 +30,11 @@ body {
   background-position: 60% 11%;
 }
 
-#micropost-log-form {
-  margin-left: -5%;
-  margin-right: -5%;
-}
-
-.micropost {
-  margin-left: -5%;
-  margin-right: -5%;
+.white-underline {
+  border-bottom: 1px solid white;
+  -webkit-box-shadow: 0 1px 0 0 #03a9f4;
+  -moz-box-shadow: 0 1px 0 0 #03a9f4;
+  box-shadow: 0 1px 0 0 #03a9f4;
 }
 
 @keyframes blink {

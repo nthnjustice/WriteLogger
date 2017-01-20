@@ -1,18 +1,8 @@
-<li id="micropost-<%= micropost.id %>" class="white micropost">
-  <div class="row">
-    <div class="col l11">
-      <strong><%= micropost.author %></strong>
-      posted <%= time_ago_in_words(micropost.created_at) %> ago.
-    </div>
-    <div class="col l1">
-      <% if current_user?(micropost.user) %>
-        <a class="dropdown-button red-text" href="#" data-activates='micropost-delete-dropdown-<%= micropost.id %>'>X</a>
-        <ul id="micropost-delete-dropdown-<%= micropost.id %>" class="dropdown-content">
-          <li><a id="delete-<%= micropost.id %>" href="#" class="red-text">delete</a></li>
-        </ul>
-      <% end %>
-    </div>
-  </div>
+<li id="micropost-<%= micropost.id %>">
+  <p>
+    <strong><%= micropost.author %></strong>
+    posted <%= time_ago_in_words(micropost.created_at) %> ago.
+  </p>
   <p class="truncate">"<%= micropost.title %>"</p>
   <p>(time: <%= micropost.hours %> hours and <%= micropost.minutes %> minutes)</p>
   <div class="divider"></div>
