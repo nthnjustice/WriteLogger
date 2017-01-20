@@ -1,4 +1,4 @@
-<li id="micropost-<%= micropost.id %>">
+<li id="micropost-<%= micropost.id %>" class="white micropost">
   <div class="row">
     <div class="col l11">
       <strong><%= micropost.author %></strong>
@@ -16,8 +16,8 @@
   <p class="truncate">"<%= micropost.title %>"</p>
   <p>(time: <%= micropost.hours %> hours and <%= micropost.minutes %> minutes)</p>
   <div class="divider"></div>
-  <br>
 </li>
+<br>
 
 <script>
   $("#delete-<%= micropost.id %>").click(function() {

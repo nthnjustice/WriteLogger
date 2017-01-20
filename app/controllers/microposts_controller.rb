@@ -9,7 +9,7 @@ class MicropostsController < ApplicationController
     @micropost.hours = @micropost.total / 60
     @micropost.minutes = (@micropost.total % 60)
     if @micropost.save
-      flash[:success] = "Writing log saved!"
+      flash[:success] = "Writing log saved"
       redirect_to root_url
     else
       @feed_items = Micropost.all

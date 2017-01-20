@@ -6,7 +6,7 @@ class GoalsController < ApplicationController
   def create
     @goal = current_user.goals.build(goal_params)
     if @goal.save
-      flash[:success] = "Goal saved!"
+      flash[:success] = "Goal saved"
       redirect_to root_url
     else
     	@feed_items = Micropost.all
@@ -22,7 +22,7 @@ class GoalsController < ApplicationController
   def deactivate_goal
   	@goal = current_user.goals.find_by_id(params[:id])
   	if @goal.update_attribute :active, false
-  		flash[:success] = "Props for achieving your goal!"
+  		flash[:success] = "Goal marked achieved"
   		redirect_to root_url
   	end
   end

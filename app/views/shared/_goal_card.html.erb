@@ -1,12 +1,12 @@
 <div class="card hoverable">
-	<div class="card-content">
-		<span class="card-title"><h5>Writing Goals</h5></span>
+	<div class="card-content teal darken-2">
+		<span class="card-title white-text"><h5>Writing Goals</h5></span>
 		<div class="divider"></div>
 		<br>
 		<ul class="collapsible popout" data-collapsible="accordion">
 			<li>
-				<div class="collapsible-header">Set New Goal</div>
-				<div class="collapsible-body">
+				<div class="collapsible-header teal accent-1"><strong>Set New Goal</strong></div>
+				<div class="collapsible-body white">
 					<div class="container">
 						<%= form_for(@goal, html: {multipart: true}) do |f| %>
 							<div class="row center">
@@ -21,7 +21,7 @@
 								<label for="deadline">Deadline <span class="red-text">*</span></label>
 							</div>
 							<div class="row center">
-								<%= button_tag(:class => "waves-effect waves-light btn green darken-2") do %>
+								<%= button_tag(:class => "waves-effect waves-light btn green darken-3") do %>
 				      		Save <i class="material-icons right">send</i>
 				    		<% end %>
 				    	</div>
@@ -30,8 +30,8 @@
 				</div>
 			</li>
 			<li>
-				<div class="collapsible-header active">Active Goals</div>
-				<div class="collapsible-body">
+				<div class="collapsible-header teal accent-2 active"><strong>Active Goals</strong></div>
+				<div class="collapsible-body white">
 					<% if @feed_goals.any? %>
 			  			<ul>
 			    			<%= render @feed_goals %>
@@ -47,8 +47,8 @@
 				</div>
 			</li>
 			<li>
-				<div class="collapsible-header">Achieved Goals</div>
-				<div class="collapsible-body">
+				<div class="collapsible-header teal accent-3"><strong>Achieved Goals</strong></div>
+				<div class="collapsible-body white">
 					<% if @feed_goals_inactive.any? %>
 			  			<ul>
 			    			<%= render @feed_goals_inactive %>
@@ -57,7 +57,7 @@
 			  		<% else %>
 			  			<div class="container">
 			  				<div class="section">
-			        		<i>no goals have been achieved... yet</i>
+			        		<i>no goals have been achieved</i>
 			        	</div>
 			        </div>
 					<% end %>

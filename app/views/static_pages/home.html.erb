@@ -1,10 +1,4 @@
 <% if logged_in? %>
-<div class="row center">
-  <div class="col l8 offset-l2">
-    <% flash.each do |message_type, message| %>
-      <h5><%= content_tag(:div, message, class: "alert alert-#{message_type}") %></h5>
-    <% end %>
-  </div>
 </div>
   <div class="section">
     <div class="row">
@@ -24,3 +18,7 @@
 <% else %>
   <%= render :template => 'sessions/new' %>
 <% end %>
+
+<script>
+  $('label').addClass('active');
+</script>

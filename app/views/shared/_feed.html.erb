@@ -1,12 +1,12 @@
 <div class="card hoverable">
-	<div class="card-content">
-		<span class="card-title"><h5>Group Activity</h5></span>
+	<div class="card-content blue darken-1">
+		<span class="card-title white-text"><h5>Group Activity</h5></span>
 		<div class="divider"></div>
 		<% if @feed_items.any? %>
   			<ul>
     			<%= render @feed_items %>
   			</ul>
-  			<%= will_paginate @feed_items %>
+  			<div class="white"><%= will_paginate @feed_items %></div>
   		<% else %>
             <i>no writing logs have been submitted</i>
 		<% end %>

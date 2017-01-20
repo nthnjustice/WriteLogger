@@ -18,11 +18,26 @@ body {
 	margin-bottom: -5%;
 }
 
-.alert-success {
-	padding: 0.8em; 	
-	background: #e8f5e9;
-	border: 2px solid #1b5e20;
-	margin-bottom: -3%;
+#toast-container {
+  top: auto !important;
+  right: auto !important;
+  bottom: 10%;
+  left: 40vw;  
+}
+
+#user-info-card {
+  background-image: url("material2.jpg");
+  background-position: 60% 11%;
+}
+
+#micropost-log-form {
+  margin-left: -5%;
+  margin-right: -5%;
+}
+
+.micropost {
+  margin-left: -5%;
+  margin-right: -5%;
 }
 
 @keyframes blink {

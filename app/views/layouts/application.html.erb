@@ -25,6 +25,9 @@
           selectMonths: true, 
           selectYears: 15 
         });
+         <% flash.each do |_key, msg| %>
+          Materialize.toast("<%= msg %>", 3000, 'rounded');
+         <% end %>
       });
     </script>
   </body>
