@@ -49,6 +49,11 @@
       dataType: "json",
       success: function(response){
         responseData = response;
+        if (responseData.length < 1) {
+          $("#total-group-log-time").html("<div class='section red-text'><i>Insufficient data for visualization</i></div>");
+          return(0);
+        }
+        console.log(responseData);
         google.charts.load('current', {'packages':['corechart']});
         google.charts.setOnLoadCallback(loadUsers);
       }        
@@ -186,7 +191,6 @@
   	}
 
   	var averageIndex = uniqueIDs.length;
-    console.log(uniqueIDs);
   	myObj = {}
   	myObj[averageIndex] = {type:'line'};
   	options.series = myObj;

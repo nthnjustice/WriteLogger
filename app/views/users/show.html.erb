@@ -75,6 +75,12 @@
       },
       success: function(response){
         responseData2 = response;
+        if (responseData2.length < 1) {
+          $("#weekly-log-time").html("<div class='section red-text'><i>Insufficient data for visualization</i></div>");
+          $("#weekly-log-time-header").text("Weekly Log Time");
+          fetchTotalTimeChart();
+          return(0);
+        }
         google.charts.load('current', {'packages':['corechart']});
         google.charts.setOnLoadCallback(drawWeeklyTimeChart);
       }        
@@ -187,6 +193,11 @@
       },
       success: function(response){
         responseData1 = response;
+        console.log(responseData1)
+        if (responseData1.length < 1) {
+          $("#total-log-time").html("<div class='section red-text'><i>Insufficient data for visualization</i></div>");
+          return(0);
+        }
         google.charts.load('current', {'packages':['corechart']});
         google.charts.setOnLoadCallback(drawTotalTimeChart);
       }        
