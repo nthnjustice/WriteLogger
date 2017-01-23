@@ -4,7 +4,7 @@ nav .nav-wrapper img {
 }
 
 body {
-	background: #eceff1;
+	background: #e3e3e3;
 }
 
 .hidden {
@@ -18,32 +18,20 @@ body {
 	margin-bottom: -5%;
 }
 
-#toast-container {
-  top: auto !important;
-  right: auto !important;
-  bottom: 10%;
-  left: 40vw;  
+#log-errors {
+  margin-bottom: -10%;
 }
 
-#user-info-card {
-  background-image: url("material2.jpg");
-  background-position: 60% 11%;
+#goal-errors {
+  margin-bottom: -7%;
 }
 
-#user-info-card-profile {
-  background-image: url("material2.jpg");
-  background-position: 64% 11%;
+.collapsible .collapsible-header {
+  background: #b0bec5;
 }
 
-#custom-error-log {
-  margin-bottom: -12%;
-}
-
-.white-underline {
-  border-bottom: 1px solid white;
-  -webkit-box-shadow: 0 1px 0 0 #03a9f4;
-  -moz-box-shadow: 0 1px 0 0 #03a9f4;
-  box-shadow: 0 1px 0 0 #03a9f4;
+.collapsible .active:first-child {
+  background: #1de9b6;
 }
 
 @keyframes blink {

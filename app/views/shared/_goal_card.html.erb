@@ -1,69 +1,114 @@
 <div class="card hoverable">
-	<div class="card-content teal darken-2">
-		<span class="card-title white-text"><h5>Writing Goals</h5></span>
+	<div class="card-content">
+		<span class="card-title"><h5>Writing Goals</h5></span>
 		<div class="divider"></div>
 		<br>
-		<ul class="collapsible popout" data-collapsible="accordion">
+		<ul class="collapsible" data-collapsible="accordion">
 			<li>
-				<div class="collapsible-header teal accent-1"><strong>Set New Goal</strong></div>
-				<div class="collapsible-body white">
-					<div class="container">
-						<%= form_for(@goal, html: {multipart: true}) do |f| %>
-							<div class="row center">
-								<br>
-								<%= render 'shared/error_messages', object: f.object %>
-							</div>
-							<div class="input-field">
-								<%= f.text_field :description, class: "validate" %>
-								<label for="description">Description <span class="red-text">*</span></label>
-							</div>
-							<div class="input-field">
-								<%= f.date_field :deadline, class: "datepicker" %>
-								<label for="deadline">Deadline <span class="red-text">*</span></label>
-							</div>
-							<div class="row center">
-								<%= button_tag(:class => "waves-effect waves-light btn green darken-3") do %>
-				      		Save <i class="material-icons right">send</i>
-				    		<% end %>
-				    	</div>
-						<% end %>
-					</div>
-				</div>
-			</li>
-			<li>
-				<div class="collapsible-header teal accent-2 active"><strong>Active Goals</strong></div>
+				<div class="collapsible-header active">
+					<strong><i class="material-icons">access_time</i>Active Goals</strong
+				></div>
 				<div class="collapsible-body white">
 					<% if @feed_goals.any? %>
-			  			<ul>
-			    			<%= render @feed_goals %>
-			  			</ul>
-			  			<%= will_paginate @feed_goals %>
-			  		<% else %>
-			  			<div class="container">
-			  				<div class="section">
-			        		<i>no new goals have been submitted</i>
-			        	</div>
+			  		<ul>
+			    		<%= render @feed_goals %>
+			  		</ul>
+			  		<%= will_paginate @feed_goals %>
+			  	<% else %>
+			  		<div class="container">
+			  			<div class="section">
+			        	<i>no new goals have been submitted</i>
 			        </div>
+			       </div>
 					<% end %>
 				</div>
 			</li>
 			<li>
-				<div class="collapsible-header teal accent-3"><strong>Achieved Goals</strong></div>
+				<div class="collapsible-header">
+					<strong><i class="material-icons">add_circle_outline</i>Set New Goal</strong>
+				</div>
+				<div class="collapsible-body white">
+					<div id="goal-errors" class="row center hidden">
+						<div class="card-panel red lighten-5">
+							<span class="red-text text-darken-4">
+								The form contains errors, check that:
+								<ul>
+									<li>* Description is not blank</li>
+									<li>* Deadline is not blank</li>
+								</ul>
+							</span>
+						</div>
+						<br>
+					</div>
+					<br>
+					<div class="row">
+						<div class="col l10 offset-l1">
+							<div class="input-field">
+								<input id="goal-description" type="text">
+								<label for="goal-description">Description <span class="red-text">*</span></label>
+							</div>
+						</div>
+					</div>
+					<div class="row">
+						<div class="col l10 offset-l1">
+							<div class="input-field">
+								<input id="goal-deadline" type="date" class="datepicker">
+								<label for="goal-deadline">Deadline <span class="red-text">*</span></label>
+							</div>
+						</div>
+					</div>
+					<div class="row center">
+						<a id="submit-goal" class="waves-effect waves-light btn green darken-1">
+							Save <i class="material-icons right">send</i>
+						</a>
+		    	</div>
+				</div>
+			</li>
+			<li>
+				<div class="collapsible-header">
+					<strong><i class="material-icons">done_all</i>Achieved Goals</strong>
+				</div>
 				<div class="collapsible-body white">
 					<% if @feed_goals_inactive.any? %>
-			  			<ul>
-			    			<%= render @feed_goals_inactive %>
-			  			</ul>
-			  			<%= will_paginate @feed_goals_inactive %>
-			  		<% else %>
-			  			<div class="container">
-			  				<div class="section">
-			        		<i>no goals have been achieved</i>
-			        	</div>
+			  		<ul>
+			    		<%= render @feed_goals_inactive %>
+			  		</ul>
+			  		<%= will_paginate @feed_goals_inactive %>
+			  	<% else %>
+			  		<div class="container">
+			  			<div class="section">
+			        	<i>no goals have been achieved</i>
 			        </div>
+			       </div>
 					<% end %>
 				</div>
 			</li>
 		</ul>
 	</div>
 </div>
+
+<script>
+	var goalErrors = false
+	
+  $("#submit-goal").click(function() {
+  	if(($("#goal-description").val() === "") || ($("#goal-deadline").val() === "")) {
+  		if (goalErrors == false) {
+  			$("#goal-errors").toggleClass("hidden");
+  			goalErrors = true;
+  		}
+  		return(0);
+  	}
+
+  	$.ajax({
+	    url: "/goals",
+	    type: "POST",
+	    data: {
+	      goal: {
+	        user_id: "<%= current_user.id %>",
+	        description: $("#goal-description").val(),
+	        deadline: $("#goal-deadline").val()
+	      }
+	    }
+	  });
+  });
+</script>

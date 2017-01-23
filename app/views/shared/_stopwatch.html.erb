@@ -23,6 +23,12 @@
 						Start
 					</a>
 				</span>
+				<span id="stopwatch-reset-wrapper" class="hidden">
+						<a class="waves-effect waves-light grey lighten-1 btn" id="stopwatch-reset">
+							<i class="material-icons left">loop</i>
+							Reset
+						</a>
+					</span>
 				<span id="stopwatch-pause-wrapper" class="hidden">
 					<a class="waves-effect waves-light btn" id="stopwatch-pause">
 						<i class="material-icons right">pause</i>
@@ -71,8 +77,13 @@
 	  }
 	});
 
+	$("#stopwatch-reset").click(function() {
+		location.reload();
+	});
+
 	$("#stopwatch-start").click(function() {
 	  stopwatch.start(function() {});
+	  $("#stopwatch-reset-wrapper").toggleClass("hidden");
 	  $("#stopwatch-form-wrapper").toggleClass("hidden");
 	  $("#stopwatch-start-wrapper").toggleClass("hidden");
 	  $("#stopwatch-pause-wrapper").toggleClass("hidden");

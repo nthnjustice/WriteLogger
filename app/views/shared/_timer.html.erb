@@ -1,33 +1,30 @@
 <div id="timer-wrapper" class="white">
 	<div class="section">
-		<div id="timer-custom-error" class="row center hidden">
-			<div class="card-panel red lighten-5">
-  			<span class="red-text text-darken-4">
-    			The form contains 1 error:
-    			<ul>
-      			<li>* Title can't be blank</li>
-    			</ul>
-  			</span>
-			</div>
-		</div>
   	<div id="timer-value-wrapper">
-			<div class="row">
-				<p>Set the timer's value:</p>
+  		<div id="timer-set-error" class="row center hidden">
+  			<div class="card-panel red lighten-5">
+  				<span class="red-text text-darken-4">
+  					Error: the timer must have a valid time
+  				</span>
+  			</div>
+  		</div>
+			<div class="row center">
+				<h5>Set the timer's value:</h5>
 			</div>
 			<div class="row">
-				<div class="col l4">
+				<div class="col l2 offset-l3">
 					<div class="input-field">
 						<input id="timer-value-hours" type="number" value=0>
 						<label for="timer-value-hours">Hours <span class="red-text">*</span></label>
 					</div>
 				</div>
-				<div class="col l4">
+				<div class="col l2">
 					<div class="input-field">
 						<input id="timer-value-minutes" type="number" value=30>
 						<label for="time-value-minutes">Minutes <span class="red-text">*</span></label>
 					</div>
 				</div>
-				<div class="col l4">
+				<div class="col l2">
 					<div class="input-field">
 						<input id="timer-value-seconds" type="number" value=0>
 						<label for="time-value-seconds">Seconds <span class="red-text">*</span></label>
@@ -39,6 +36,16 @@
   		</div>
   	</div>
 		<div id="timer-clock-wrapper" class="hidden">
+			<div id="timer-custom-error" class="row center hidden">
+				<div class="card-panel red lighten-5">
+					<span class="red-text text-darken-4">
+  					The form contains 1 error:
+  					<ul>
+    					<li>* Title can't be blank</li>
+  					</ul>
+					</span>
+				</div>
+			</div>
 			<div class="row center">
 				<div class="col 12">
 					<div id="timer"></div>
@@ -54,6 +61,12 @@
 						<a class="waves-effect waves-light btn" id="timer-start">
 							<i class="material-icons right">play_arrow</i>
 							Start
+						</a>
+					</span>
+					<span id="timer-reset-wrapper" class="hidden">
+						<a class="waves-effect waves-light grey lighten-1 btn" id="timer-reset">
+							<i class="material-icons left">loop</i>
+							Reset
 						</a>
 					</span>
 					<span id="timer-pause-wrapper" class="hidden">
@@ -80,7 +93,7 @@
 					</div>
 				</div>
 				<div class="row center">
-					<a id="timer-form-post" class="waves-effect waves-light btn green darken-3 disabled">
+					<a id="timer-form-post" class="waves-effect waves-light btn green darken-1 disabled">
 						Post <i class="material-icons right">send</i>
 					</a>
 				</div>
@@ -90,16 +103,57 @@
 </div>
 
 <script>
-	var audioElement = document.createElement('audio');
-	audioElement.setAttribute('src', 'http://www.soundjay.com/misc/sounds/bell-ringing-01.mp3');
+	if (typeof timeout !== "undefined") {
+		clearTimeout(timeout);
+	}
+
+	var timerSetError = false;
 
 	function flash() {
 		$('body').toggleClass('laser');
+		audioElement = document.createElement('audio');
+		audioElement.setAttribute('src', 'http://www.soundjay.com/misc/sounds/bell-ringing-01.mp3');
 	  audioElement.play();
 	  $("#timer-form-post").toggleClass("disabled");
 	}
 
+	function validateTimer() {
+		if (($("#timer-value-hours").val() === "") || ($("#timer-value-minutes").val() === "") || ($("#timer-value-seconds").val() === "")) {
+			if (timerSetError == false) {
+  			$("#timer-set-error").toggleClass("hidden");
+  			timerSetError = true;
+  		}
+  		return(false);
+		}
+		else if(($("#timer-value-hours").val() == 0) && ($("#timer-value-minutes").val() == 0) && ($("#timer-value-seconds").val() == 0)) {
+			if (timerSetError == false) {
+  			$("#timer-set-error").toggleClass("hidden");
+  			timerSetError = true;
+  		}
+  		return(false);
+		}
+		else if(($("#timer-value-hours").val() < 0) || ($("#timer-value-minutes").val() < 0) || ($("#timer-value-seconds").val() < 0)) {
+			if (timerSetError == false) {
+  			$("#timer-set-error").toggleClass("hidden");
+  			timerSetError = true;
+  		}
+  		return(false);
+		}
+		else {
+			return(true);
+		}
+	}
+
 	$("#timer-value-set").click(function() {
+		if (validateTimer() == false) {
+			$('label').addClass('active');
+			return(0);
+		}
+		else {
+			timerSetError = false
+			$("#timer-set-error").toggleClass("hidden");
+		}
+
 	  $("#timer-value-wrapper").toggleClass("hidden");
 	  $("#timer-clock-wrapper").toggleClass("hidden");
 
@@ -131,9 +185,14 @@
 	  $("#timer-clock-wrapper").toggleClass("hidden");
 	});
 
+	$("#timer-reset").click(function() {
+		location.reload();
+	});
+
 	$("#timer-start").click(function() {
 	  timer.start(function() {});
 	  $("#timer-back").toggleClass("hidden");
+	  $("#timer-reset-wrapper").toggleClass("hidden");
 	  $("#timer-form-wrapper").toggleClass("hidden");
 	  $("#timer-start-wrapper").toggleClass("hidden");
 	  $("#timer-pause-wrapper").toggleClass("hidden");

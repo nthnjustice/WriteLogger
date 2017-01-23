@@ -1,6 +1,6 @@
 <div id="user-info-card" class="card hoverable">
 	<div class="card-content">
-		<span class="card-title white-text"><h4><%= current_user.name %></h4></span>
+		<span class="card-title"><h4><%= current_user.name %></h4></span>
 		<div class="divider"></div>
 		<strong>submitted <%= link_to pluralize(current_user.microposts.count, "writing log"), current_user %></strong>
 	</div>
