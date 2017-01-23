@@ -9,7 +9,11 @@
     <div class="col l1">
       <a class="dropdown-button red-text" href="#" data-activates='micropost-delete-dropdown-<%= micropost.id %>'>X</a>
       <ul id="micropost-delete-dropdown-<%= micropost.id %>" class="dropdown-content">
-        <li><a id="delete-<%= micropost.id %>" href="#" class="red-text">delete</a></li>
+        <li>
+          <a id="delete-<%= micropost.id %>" href="#" class="red-text">
+            delete<i class="material-icons">remove_circle_outline</i>
+          </a>  
+        </li>
       </ul>
     </div>
   </div>
