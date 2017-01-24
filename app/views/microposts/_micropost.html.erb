@@ -6,7 +6,7 @@
         posted <%= time_ago_in_words(micropost.created_at) %> ago.
       </p>
     </div>
-    <% if current_user?(micropost.user) || current_user.admin = true %>
+    <% if current_user?(micropost.user) || current_user.admin == true %>
       <div class="col l1">
         <a class="dropdown-button red-text" href="#" data-activates='micropost-delete-dropdown-<%= micropost.id %>'>X</a>
         <ul id="micropost-delete-dropdown-<%= micropost.id %>" class="dropdown-content">
@@ -26,12 +26,15 @@
 <br>
 
 <script>
+  
   $("#delete-<%= micropost.id %>").click(function() {
+    console.log("<%= micropost.user_id %>")
     $.ajax({
       url: "/microposts",
       type: "DELETE",
       data: {
-        id: <%= micropost.id %>
+        id: <%= micropost.id %>,
+        user_id: <%= micropost.user_id %>
       }
     });
   });

@@ -1,6 +1,5 @@
 class MicropostsController < ApplicationController
   before_action :logged_in_user, only: [:create, :destroy]
-  before_action :correct_user, only: :destroy
   require 'will_paginate/array' 
 
   def create
@@ -23,7 +22,8 @@ class MicropostsController < ApplicationController
   end
 
   def destroy
-    @micropost = current_user.microposts.find_by_id(params[:id])
+    @user = User.find_by_id(params[:user_id])
+    @micropost = @user.microposts.find_by_id(params[:id])
     @micropost.destroy
     flash[:success] = "Writing log deleted"
     redirect_to request.referrer || root_url
