@@ -151,7 +151,6 @@
 		}
 		else {
 			timerSetError = false
-			$("#timer-set-error").toggleClass("hidden");
 		}
 
 	  $("#timer-value-wrapper").toggleClass("hidden");
@@ -181,6 +180,9 @@
 	});
 
 	$("#timer-back").click(function() {
+		if ($("#timer-set-error").hasClass("hidden") == false) {
+			$("#timer-set-error").toggleClass("hidden");
+		}
 		$("#timer-value-wrapper").toggleClass("hidden");
 	  $("#timer-clock-wrapper").toggleClass("hidden");
 	});
