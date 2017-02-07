@@ -128,7 +128,7 @@ function pauseStopwatch(){
     clearInterval(stopwatchInterval);
 
     var tempLogTime = new Date();
-    stopwatchLogTimeArray.push(tempLogTime - StopwatchLogTime)
+    stopwatchLogTimeArray.push(tempLogTime - stopwatchLogTime)
 
     if(Number(localStorage.stopwatchBeginingTimestamp)){
 
