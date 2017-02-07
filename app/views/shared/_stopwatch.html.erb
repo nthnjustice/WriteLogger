@@ -1,141 +1,202 @@
-<div id="stopwatch-wrapper" class="white">
+<div class="container">
 	<div class="section">
-		<div id="stopwatch-custom-error" class="row center hidden">
-			<div class="card-panel red lighten-5">
-				<span class="red-text text-darken-4">
+		<div class="row center">
+			<a id="stopwatch-btn-start" class="waves-effect waves-teal btn-flat light-blue-text text-darken-3">Start</a>
+			<a id="stopwatch-btn-pause" class="waves-effect waves-teal btn-flat light-blue-text text-darken-3">Pause</a>
+			<a id="stopwatch-btn-reset" class="waves-effect waves-teal btn-flat light-blue-text text-darken-3">Reset</a>
+		</div>
+	</div>
+</div>
+<div class="container stopwatch">
+	<div class="clock inactive z-depth-1">
+		<span>0:00:00</span>
+	</div>
+</div>
+<div class="container">
+	<div class="row">
+		<div class="col l12">
+			<div id="stopwatch-custom-error" class="row center hidden">
+				<div class="card-panel red lighten-5">
+					<span class="red-text text-darken-4">
   					The form contains 1 error:
   					<ul>
     					<li>* Title can't be blank</li>
   					</ul>
-				</span>
-			</div>
-		</div>
-		<div class="row center">
-			<div class="col l12">
-				<div id="stopwatch"></div>
-			</div>
-		</div>
-		<div class="row">
-			<div class="col l11 offset-l1">
-				<span id="stopwatch-start-wrapper">
-					<a class="waves-effect waves-light btn" id="stopwatch-start">
-						<i class="material-icons right">play_arrow</i>
-						Start
-					</a>
-				</span>
-				<span id="stopwatch-reset-wrapper" class="hidden">
-						<a class="waves-effect waves-light grey lighten-1 btn" id="stopwatch-reset">
-							<i class="material-icons left">loop</i>
-							Reset
-						</a>
 					</span>
-				<span id="stopwatch-pause-wrapper" class="hidden">
-					<a class="waves-effect waves-light btn" id="stopwatch-pause">
-						<i class="material-icons right">pause</i>
-						Pause
-					</a>
-				</span>
-				<span id="stopwatch-resume-wrapper" class="hidden">
-					<a class="waves-effect waves-light btn" id="stopwatch-resume">
-						<i class="material-icons right">play_arrow</i>
-						Resume
-					</a>
-				</span>
-			</div>
-		</div>
-		<div id="stopwatch-form-wrapper" class="hidden">
-			<div class="row">
-				<div class="col l10 offset-l1">
-					<div class="input-field">
-						<input id="stopwatch-form-title" type="text" class="validate">
-						<label for="stopwatch-form-title">Title <span class="red-text">*</span></label>
-					</div>
 				</div>
 			</div>
-			<div class="row center">
-				<a id="stopwatch-form-post" class="waves-effect waves-light btn green darken-3">
-					Post <i class="material-icons right">send</i>
-				</a>
+			<div class="input-field">
+				<input id="stopwatch-form-title" type="text" class="validate">
+				<label for="stopwatch-form-title">Title <span class="red-text">*</span></label>
 			</div>
 		</div>
+	</div>
+	<div class="row center">
+		<a id="stopwatch-form-post" class="waves-effect waves-light btn green darken-1">
+			Post <i class="material-icons right">send</i>
+		</a>
 	</div>
 </div>
 
 <script>
-	stopwatchFinalTime = [];
+	// Stopwatch
+var stopwatchInterval = 0;      // The interval for our loop.
 
-	stopwatch = new FlipClock($('#stopwatch'), {
-	  autoStart: false,
-	  callbacks: {
-	    start: () => {
-	      stopwatchTimeStarted = new Date();
-	    },
-	    stop: () => {
-	      stopwatchTimeStopped = new Date();
-	      stopwatchFinalTime.push(stopwatchTimeStopped - stopwatchTimeStarted);
-	    }
-	  }
-	});
+var stopwatchClock = $(".container.stopwatch").find(".clock"),
+    stopwatchDigits = stopwatchClock.find('span');
 
-	$("#stopwatch-reset").click(function() {
-		location.reload();
-	});
+// Checks if the previous session was ended while the stopwatch was running.
+// If so start it again with according time.
+if(Number(localStorage.stopwatchBeginingTimestamp) && Number(localStorage.stopwatchRunningTime)){
 
-	$("#stopwatch-start").click(function() {
-	  stopwatch.start(function() {});
-	  $("#stopwatch-reset-wrapper").toggleClass("hidden");
-	  $("#stopwatch-form-wrapper").toggleClass("hidden");
-	  $("#stopwatch-start-wrapper").toggleClass("hidden");
-	  $("#stopwatch-pause-wrapper").toggleClass("hidden");
-	});
+    var runningTime = Number(localStorage.stopwatchRunningTime) + new Date().getTime() - Number(localStorage.stopwatchBeginingTimestamp);
 
-	$("#stopwatch-pause").click(function() {
-	  stopwatch.stop(function() {});
-	  $("#stopwatch-form-wrapper").toggleClass("hidden");
-	  $("#stopwatch-pause-wrapper").toggleClass("hidden");
-	  $("#stopwatch-resume-wrapper").toggleClass("hidden");
-	});
+    localStorage.stopwatchRunningTime = runningTime;
 
-	$("#stopwatch-resume").click(function() {
-	  stopwatch.start(function() {});
-	  $("#stopwatch-form-wrapper").toggleClass("hidden");
-	  $("#stopwatch-resume-wrapper").toggleClass("hidden");
-	  $("#stopwatch-pause-wrapper").toggleClass("hidden");
-	});
+    startStopwatch();
+}
 
-	var stopwatchErrorShowing = false;
+// If there is any running time form previous session, write it on the clock.
+// If there isn't initialise to 0.
+if(localStorage.stopwatchRunningTime){
+    stopwatchDigits.text(returnFormattedToMilliseconds(Number(localStorage.stopwatchRunningTime)));
+}
+else{
+    localStorage.stopwatchRunningTime = 0;
+}
 
-	$("#stopwatch-form-post").click(function() {
-	  stopwatch.stop(function() {});
+$('#stopwatch-btn-start').on('click',function(){
+    if(stopwatchClock.hasClass('inactive')){
+        startStopwatch()
+    }
+});
 
-	  if (stopwatchErrorShowing == false) {
-		  if($("#stopwatch-form-title").val() === "") {
-		    $("#stopwatch-custom-error").toggleClass("hidden");
-		    $("#stopwatch-pause-wrapper").toggleClass("hidden");
-		    stopwatchErrorShowing = true;
-		  }
+$('#stopwatch-btn-pause').on('click',function(){
+    pauseStopwatch();
+});
+
+$('#stopwatch-btn-reset').on('click',function(){
+    resetStopwatch();
+});
+
+// Pressing the clock will pause/unpause the stopwatch.
+stopwatchClock.on('click',function(){
+
+    if(stopwatchClock.hasClass('inactive')){
+        startStopwatch()
+    }
+    else{
+        pauseStopwatch();
+    }
+});
+
+stopwatchLogTimeArray = [];
+
+function startStopwatch(){
+    // Prevent multiple intervals going on at the same time.
+    clearInterval(stopwatchInterval);
+
+    stopwatchLogTime = new Date();
+
+    var startTimestamp = new Date().getTime(),
+        runningTime = 0;
+
+    localStorage.stopwatchBeginingTimestamp = startTimestamp;
+
+    // The app remembers for how long the previous session was running.
+    if(Number(localStorage.stopwatchRunningTime)){
+        runningTime = Number(localStorage.stopwatchRunningTime);
+    }
+    else{
+        localStorage.stopwatchRunningTime = 1;
+    }
+
+    // Every 100ms recalculate the running time, the formula is:
+    // time = now - when you last started the clock + the previous running time
+
+    stopwatchInterval = setInterval(function () {
+        var stopwatchTime = (new Date().getTime() - startTimestamp + runningTime);
+
+        stopwatchDigits.text(returnFormattedToMilliseconds(stopwatchTime));
+    }, 100);
+
+    stopwatchClock.removeClass('inactive');
+}
+
+function pauseStopwatch(){
+    // Stop the interval.
+    clearInterval(stopwatchInterval);
+
+    var tempLogTime = new Date();
+    stopwatchLogTimeArray.push(tempLogTime - StopwatchLogTime)
+
+    if(Number(localStorage.stopwatchBeginingTimestamp)){
+
+        // On pause recalculate the running time.
+        // new running time = previous running time + now - the last time we started the clock.
+        var runningTime = Number(localStorage.stopwatchRunningTime) + new Date().getTime() - Number(localStorage.stopwatchBeginingTimestamp);
+
+        localStorage.stopwatchBeginingTimestamp = 0;
+        localStorage.stopwatchRunningTime = runningTime;
+
+        stopwatchClock.addClass('inactive');
+    }
+}
+
+// Reset everything.
+function resetStopwatch(){
+    clearInterval(stopwatchInterval);
+
+    stopwatchDigits.text(returnFormattedToMilliseconds(0));
+    localStorage.stopwatchBeginingTimestamp = 0;
+    localStorage.stopwatchRunningTime = 0;
+
+    stopwatchClock.addClass('inactive');
+}
+
+
+function returnFormattedToMilliseconds(time){
+    
+      var  seconds = Math.floor((time/1000) % 60),
+        minutes = Math.floor((time/(1000*60)) % 60),
+        hours = Math.floor((time/(1000*60*60)) % 24);
+
+    seconds = seconds < 10 ? '0' + seconds : seconds;
+    minutes = minutes < 10 ? '0' + minutes : minutes;
+
+
+    return hours + ":" + minutes + ":" + seconds;
+}
+
+$("#stopwatch-form-post").click(function() {
+		if ($("#stopwatch-form-title").val() === "") {
+			$("#stopwatch-custom-error").toggleClass("hidden");
+			return(0);
 		}
+		var tempLogTime = new Date();
+		stopwatchLogTimeArray.push(tempLogTime - stopwatchLogTime);
+		var totalLogTime = 0;
+		$.each(stopwatchLogTimeArray, function(key, value) {
+			totalLogTime = totalLogTime + value;
+		});
+		console.log(stopwatchLogTimeArray);
+		var seconds = Math.floor(totalLogTime / 1000);
+		var minutes = Math.floor(seconds / 60);
+		var hours = Math.floor(minutes / 60);
 
-	  stopwatchTotalTime = 0;
-	  $.each(stopwatchFinalTime, function(index, value) {
-	    stopwatchTotalTime = stopwatchTotalTime + value;
-	  });
-
-	  stopwatchHours = Math.floor(stopwatchTotalTime/(1000*60*60));
-	  tempStopwatchTotalTime = stopwatchTotalTime - (stopwatchHours*(1000*60*60));
-	  stopwatchMinutes = Math.floor(tempStopwatchTotalTime/(1000*60));
-
-	  $.ajax({
+		$.ajax({
 	    url: "/microposts",
 	    type: "POST",
 	    data: {
 	      micropost: {
 	        title: $("#stopwatch-form-title").val(),
 	        author: "<%= current_user.name %>",
-	        hours: stopwatchHours,
-	        minutes: stopwatchMinutes
+	        hours: hours,
+	        minutes: minutes
 	      }
 	    }
+	  }).done(function() {
+	  	resetStopwatch();
 	  });
 	});
 </script>

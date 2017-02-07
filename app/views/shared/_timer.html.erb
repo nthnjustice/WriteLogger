@@ -1,246 +1,229 @@
-<div id="timer-wrapper" class="white">
+<div class="container timer">
 	<div class="section">
-  	<div id="timer-value-wrapper">
-  		<div id="timer-set-error" class="row center hidden">
-  			<div class="card-panel red lighten-5">
-  				<span class="red-text text-darken-4">
-  					Error: the timer must have a valid time
-  				</span>
-  			</div>
-  		</div>
-			<div class="row center">
-				<h5>Set the timer's value:</h5>
+		<div class="row center">
+			<div class="col l3 offset-l2">
+				<div class="input-field light-blue-text text-darken-3">
+					<input id="timer-input-min" type="number">
+					<label for="timer-input-min">Minutes</label>
+				</div>
 			</div>
+			<div class="col l1">
+				<br>
+				<a class="timer-btn start waves-effect"><i class="material-icons small">play_arrow</i></a>
+			</div>
+			<div class="col l1">
+				<br>
+				<a class="timer-btn pause waves-effect"><i class="material-icons small">pause</i></a>
+			</div>
+			<div class="col l1">
+				<br>
+				<a class="timer-btn reset waves-effect"><i class="material-icons small">loop</i></a>
+			</div>
+			<div class="col l2 offset-l1">
+				<div id="sounds-checkbox" class="checkbox">
+					<input type="checkbox" id="timer-sounds" />
+					<label for="timer-sounds">Sounds</label>
+				</div>
+			</div>
+		</div>
+	</div>
+	<div id="timer-clock" class="clock inactive z-depth-1 waves-effect">0:00</div>
+</div>
+
+<div id="times-up-modal" class="modal">
+	<div class="modal-content">
+		<div class="row">
+			<div class="col l6 offset-l4">
+				<h3>Time's Up!</h3>
+			</div>
+			<div class="col l1 offset-l1">
+				<a href="#!" class="dismiss-alarm-sounds modal-action modal-close waves-effect waves-red btn-flat red accent-2 ">
+					X
+				</a>
+			</div>
+		</div>
+		<div class="section">
 			<div class="row">
-				<div class="col l2 offset-l3">
-					<div class="input-field">
-						<input id="timer-value-hours" type="number" value=0>
-						<label for="timer-value-hours">Hours <span class="red-text">*</span></label>
-					</div>
-				</div>
-				<div class="col l2">
-					<div class="input-field">
-						<input id="timer-value-minutes" type="number" value=30>
-						<label for="time-value-minutes">Minutes <span class="red-text">*</span></label>
-					</div>
-				</div>
-				<div class="col l2">
-					<div class="input-field">
-						<input id="timer-value-seconds" type="number" value=0>
-						<label for="time-value-seconds">Seconds <span class="red-text">*</span></label>
-					</div>
-				</div>
-			</div>
-			<div class="row center">
-  			<a id="timer-value-set" class="waves-effect waves-light btn">Set</a>
-  		</div>
-  	</div>
-		<div id="timer-clock-wrapper" class="hidden">
-			<div id="timer-custom-error" class="row center hidden">
-				<div class="card-panel red lighten-5">
-					<span class="red-text text-darken-4">
-  					The form contains 1 error:
-  					<ul>
-    					<li>* Title can't be blank</li>
-  					</ul>
-					</span>
-				</div>
-			</div>
-			<div class="row center">
-				<div class="col 12">
-					<div id="timer"></div>
-				</div>
-			</div>
-			<div class="row">
-				<div class="col l11 offset-l1">
-					<span id="timer-start-wrapper">
-						<a class="waves-effect waves-light grey lighten-1 btn" id="timer-back">
-							<i class="material-icons left">arrow_back</i>
-							Back
-						</a>
-						<a class="waves-effect waves-light btn" id="timer-start">
-							<i class="material-icons right">play_arrow</i>
-							Start
-						</a>
-					</span>
-					<span id="timer-reset-wrapper" class="hidden">
-						<a class="waves-effect waves-light grey lighten-1 btn" id="timer-reset">
-							<i class="material-icons left">loop</i>
-							Reset
-						</a>
-					</span>
-					<span id="timer-pause-wrapper" class="hidden">
-						<a class="waves-effect waves-light btn" id="timer-pause">
-							<i class="material-icons right">pause</i>
-							Pause
-						</a>
-					</span>
-					<span id="timer-resume-wrapper" class="hidden">
-						<a class="waves-effect waves-light btn" id="timer-resume">
-							<i class="material-icons right">play_arrow</i>
-							Resume
-						</a>
-					</span>
-				</div>
-			</div>
-			<div id="timer-form-wrapper" class="hidden">
-				<div class="row">
-					<div class="col l10 offset-l1">
-						<div class="input-field">
-							<input id="timer-form-title" type="text" class="validate">
-							<label for="timer-form-title">Title <span class="red-text">*</span></label>
+				<div class="col l12">
+					<h4 class="grey-text">Submit your log:</h4>
+					<div id="timer-custom-error" class="row center hidden">
+						<div class="card-panel red lighten-5">
+							<span class="red-text text-darken-4">
+		  					The form contains 1 error:
+		  					<ul>
+		    					<li>* Title can't be blank</li>
+		  					</ul>
+							</span>
 						</div>
 					</div>
-				</div>
-				<div class="row center">
-					<a id="timer-form-post" class="waves-effect waves-light btn green darken-1 disabled">
-						Post <i class="material-icons right">send</i>
-					</a>
+					<div class="input-field">
+						<input id="timer-form-title" type="text" class="validate">
+						<label for="timer-form-title">Title <span class="red-text">*</span></label>
+					</div>
 				</div>
 			</div>
-  	</div>
-  </div>
+			<div class="row center">
+				<a id="timer-form-post" class="waves-effect waves-light btn green darken-1">
+					Post <i class="material-icons right">send</i>
+				</a>
+			</div>
+		</div>
+	</div>
 </div>
 
 <script>
-	if (typeof timeout !== "undefined") {
-		clearTimeout(timeout);
-	}
-
-	var timerSetError = false;
-
-	function flash() {
-		$('body').toggleClass('laser');
-		audioElement = document.createElement('audio');
-		audioElement.setAttribute('src', 'http://www.soundjay.com/misc/sounds/bell-ringing-01.mp3');
-	  audioElement.play();
-	  $("#timer-form-post").toggleClass("disabled");
-	}
-
-	function validateTimer() {
-		if (($("#timer-value-hours").val() === "") || ($("#timer-value-minutes").val() === "") || ($("#timer-value-seconds").val() === "")) {
-			if (timerSetError == false) {
-  			$("#timer-set-error").toggleClass("hidden");
-  			timerSetError = true;
-  		}
-  		return(false);
-		}
-		else if(($("#timer-value-hours").val() == 0) && ($("#timer-value-minutes").val() == 0) && ($("#timer-value-seconds").val() == 0)) {
-			if (timerSetError == false) {
-  			$("#timer-set-error").toggleClass("hidden");
-  			timerSetError = true;
-  		}
-  		return(false);
-		}
-		else if(($("#timer-value-hours").val() < 0) || ($("#timer-value-minutes").val() < 0) || ($("#timer-value-seconds").val() < 0)) {
-			if (timerSetError == false) {
-  			$("#timer-set-error").toggleClass("hidden");
-  			timerSetError = true;
-  		}
-  		return(false);
-		}
-		else {
-			return(true);
-		}
-	}
-
-	$("#timer-value-set").click(function() {
-		if (validateTimer() == false) {
-			$('label').addClass('active');
-			return(0);
-		}
-		else {
-			timerSetError = false
-		}
-
-	  $("#timer-value-wrapper").toggleClass("hidden");
-	  $("#timer-clock-wrapper").toggleClass("hidden");
-
-	  timerSetHours = Number($("#timer-value-hours").val());
-	  timerSetMinutes = Number($("#timer-value-minutes").val());
-	  timerSetSeconds = Number($("#timer-value-seconds").val());
-
-	  timerSetFinal = timerSetSeconds + (timerSetHours * 60 * 60) + (timerSetMinutes * 60);
-
-	  timer = $("#timer").FlipClock(timerSetFinal, {
-	    countdown: true,
-	    clockFace: 'HourCounter',
-	    autoStart: false,
-	    callbacks: {
-		    start: () => {
-		      timerTimeStarted = new Date();
-		      timeout = setTimeout(flash, (timerSetFinal * 1000) + 1000);
-		    },
-		    stop: () => {
-		      timerTimeStopped = new Date();
-		      timerFinalTime = timerTimeStopped - timerTimeStarted;
-		    }
+	$(document).ready(function() {
+		$(".modal").modal({
+			complete: function() {
+				alarmSound.pause();
+				alarmSound.currentTime = 0;
 			}
-	  });
+		});
 	});
 
-	$("#timer-back").click(function() {
-		if ($("#timer-set-error").hasClass("hidden") == false) {
-			$("#timer-set-error").toggleClass("hidden");
-		}
-		$("#timer-value-wrapper").toggleClass("hidden");
-	  $("#timer-clock-wrapper").toggleClass("hidden");
+	// Alarm sound
+	var alarmSound = new Audio('<%= asset_path "06_Urban_Beat.mp3" %>');
+	alarmSound.volume = 0.3;
+
+	var timerTime = 0; // Time set on the interval.
+	var timerInterval = 0; // The interval for loop.
+
+	var timerClock = $(".container.timer").find("#timer-clock");
+	var timerInput = $('#timer-input-min');
+	var timerSoundsButton = $('#timer-sounds');
+
+	// If there is a valid set time from last session, set it again.
+	if(Number(localStorage.lastTimerTime)){
+	  timerTime = Number(localStorage.lastTimerTime) * 60;
+
+	  timerClock.text(returnFormattedToSeconds(timerTime));
+	  timerInput.val(localStorage.lastTimerTime);
+	}
+
+	if(localStorage.timerSounds == 'true'){
+	  timerSoundsButton.prop('checked', true);
+	}
+
+	// When entering new time, the app will trim it and turn it into seconds (*60).
+	timerInput.on('change', function () {
+	  var newTime = timerInput.val().trim();
+
+	  if(newTime && newTime >= 0) {
+	    timerTime = newTime * 60;
+	    localStorage.lastTimerTime = newTime;
+	    timerClock.text(returnFormattedToSeconds(timerTime));
+	  }
 	});
 
-	$("#timer-reset").click(function() {
-		location.reload();
+	$('.timer-btn.start').on('click',function(){
+	  if(timerTime > 0) {
+	    startTimer();
+	  }
 	});
 
-	$("#timer-start").click(function() {
-	  timer.start(function() {});
-	  $("#timer-back").toggleClass("hidden");
-	  $("#timer-reset-wrapper").toggleClass("hidden");
-	  $("#timer-form-wrapper").toggleClass("hidden");
-	  $("#timer-start-wrapper").toggleClass("hidden");
-	  $("#timer-pause-wrapper").toggleClass("hidden");
+	$('.timer-btn.pause').on('click', function () {
+	  pauseTimer();
 	});
 
-	$("#timer-pause").click(function() {
-	  timer.stop(function() {});
-	  $("#timer-form-wrapper").toggleClass("hidden");
-	  $("#timer-pause-wrapper").toggleClass("hidden");
-	  $("#timer-resume-wrapper").toggleClass("hidden");
+	$('.timer-btn.reset').on('click', function () {
+	  resetTimer();
 	});
 
-	$("#timer-resume").click(function() {
-	  timer.start(function() {});
-	  $("#timer-form-wrapper").toggleClass("hidden");
-	  $("#timer-resume-wrapper").toggleClass("hidden");
-	  $("#timer-pause-wrapper").toggleClass("hidden");
+	// Timer sounds button
+	timerSoundsButton.on('change', function () {
+	  localStorage.timerSounds = this.checked;
 	});
 
-	var timerErrorShowing = false;
+	// Clicking on the clock.
+	timerClock.on('click',function(e){
+	  if(timerClock.hasClass('inactive')){
+	    if(timerTime > 0) {
+	      startTimer();
+	    }
+	  }
+	  else{
+	    pauseTimer();
+	  }
+	});
+
+	logTimeArray = [];
+
+	function startTimer() {
+    // Prevent multiple intervals going on at the same time.
+    clearInterval(timerInterval);
+
+    logTime = new Date();
+    console.log("Log Time: " + logTime);
+
+    // Every 1000ms (1 second) decrease the set time until it reaches 0.
+    timerInterval = setInterval(function () {
+    timerTime--;
+    timerClock.text(returnFormattedToSeconds(timerTime));
+
+      if (timerTime <= 0) {
+        if(localStorage.timerSounds == 'true'){
+            alarmSound.play();
+        }
+        timerClock.text(returnFormattedToSeconds(0));
+        $('#times-up-modal').modal('open');
+        pauseTimer();
+      }
+    }, 1000);
+
+    timerInput.prop('disabled', true);
+    timerClock.removeClass('inactive');
+	}
+
+	function pauseTimer(){
+    clearInterval(timerInterval);
+    timerInput.prop('disabled', false);
+    timerClock.addClass('inactive');
+    var tempLogTime = new Date();
+    logTimeArray.push(tempLogTime - logTime);
+    console.log(logTimeArray);
+	}
+
+	// Reset the clock with the previous valid time.
+	// Useful for setting the same alarm over and over.
+	function resetTimer(){
+    pauseTimer();
+    if(Number(localStorage.lastTimerTime)){
+        timerTime = Number(localStorage.lastTimerTime) * 60;
+        timerClock.text(returnFormattedToSeconds(timerTime));
+    }
+	}
+
+	function returnFormattedToSeconds(time){
+	  var minutes = Math.floor(time / 60);
+	  var seconds = Math.round(time - minutes * 60);
+	  seconds = seconds < 10 ? '0' + seconds : seconds;
+	  return minutes + ":" + seconds;
+	}
 
 	$("#timer-form-post").click(function() {
-	  timer.stop(function() {});
-	  audioElement.pause();
+		if ($("#timer-form-title").val() === "") {
+			$("#timer-custom-error").toggleClass("hidden");
+			return(0);
+		}
+		var tempLogTime = new Date();
+		logTimeArray.push(tempLogTime - logTime);
+		var totalLogTime = 0;
+		$.each(logTimeArray, function(key, value) {
+			totalLogTime = totalLogTime + value;
+		});
+		var seconds = Math.floor(totalLogTime / 1000);
+		var minutes = Math.floor(seconds / 60);
+		var hours = Math.floor(minutes / 60);
 
-	  if (timerErrorShowing == false) {
-		  if($("#timer-form-title").val() === "") {
-		    $("#timer-custom-error").toggleClass("hidden");
-		    $("#timer-pause-wrapper").toggleClass("hidden");
-		    timerErrorShowing = true
-		  }
-		 }
-
-	  timerHours = Math.floor(timerFinalTime/(1000*60*60));
-	  tempTimerFinalTime = timerFinalTime - (timerHours*(1000*60*60));
-	  timerMinutes = Math.floor(tempTimerFinalTime/(1000*60));
-
-	  $.ajax({
+		$.ajax({
 	    url: "/microposts",
 	    type: "POST",
 	    data: {
 	      micropost: {
 	        title: $("#timer-form-title").val(),
 	        author: "<%= current_user.name %>",
-	        hours: timerHours,
-	        minutes: timerMinutes
+	        hours: hours,
+	        minutes: minutes
 	      }
 	    }
 	  });
