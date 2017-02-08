@@ -53,9 +53,12 @@
   		return(0);
   	}
 
-  	var totalTime = ((Number($("#log-hours").val()) * 60) + Number($("#log-minutes").val()));
-  	var hours = Math.floor(totalTime / 60);
-  	var minutes = totalTime % (hours * 60);
+  	var hours = Number($("#log-hours").val());
+  	var minutes = Number($("#log-minutes").val());
+  	if (minutes >= 60) {
+  		hours = Math.floor(hours + (minutes / 60));
+  		minutes = minutes % 60;
+  	}
 
   	$.ajax({
 	    url: "/microposts",

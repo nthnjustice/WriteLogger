@@ -6,8 +6,7 @@ class MicropostsController < ApplicationController
     @micropost = current_user.microposts.build(micropost_params)
     @micropost.total = (@micropost.hours * 60) + @micropost.minutes
     if @micropost.save
-      #flash[:success] = "Writing log saved"
-      flash[:success] = @micropost.created_at
+      flash[:success] = "Writing log saved"
       redirect_to root_url
     else
       @feed_items = Micropost.all
