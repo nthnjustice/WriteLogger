@@ -5,54 +5,82 @@
 		<div id="log-errors" class="row center hidden">
 			<div class="card-panel red lighten-5">
 				<span class="red-text text-darken-4">
-					The form contains errors, check that:
-					<ul>
-						<li>* Title is not blank</li>
-						<li>* Hours is not blank</li>
-						<li>* Minutes is not blank</li>
-					</ul>
+					The form contains errors:
+					<ul id="log-error-list"></ul>
 				</span>
 			</div>
-			<br>
 		</div>
-		<div class="input-field">
-			<input id="log-title" type="text">
-			<label for="log-title">Title <span class="red-text">*</span></label>
-		</div>
-		<div class="row">
-			<div class="col l6">
-				<div class="input-field">
-					<input id="log-hours" type="number" value=0>
-					<label for="log-hours">Hours <span class="red-text">*</span></label>
+		<div class="section">
+			<div class="input-field">
+				<input id="log-title" type="text">
+				<label for="log-title">Title <span class="red-text">*</span></label>
+			</div>
+			<div class="row">
+				<div class="col l6">
+					<div class="input-field">
+						<input id="log-hours" type="number" value=0>
+						<label for="log-hours">Hours <span class="red-text">*</span></label>
+					</div>
+				</div>
+				<div class="col l6">
+					<div class="input-field">
+						<input id="log-minutes" type="number" value=0>
+						<label for="log-minutes">Minutes <span class="red-text">*</span></label>
+					</div>
 				</div>
 			</div>
-			<div class="col l6">
-				<div class="input-field">
-					<input id="log-minutes" type="number" value=0>
-					<label for="log-minutes">Minutes <span class="red-text">*</span></label>
-				</div>
-			</div>
-		</div>
-		<div class="row center">
-			<a id="submit-log" class="waves-effect waves-light btn green darken-1">
-				Post <i class="material-icons right">send</i>
-			</a>
-  	</div>
+			<div class="row center">
+				<a id="submit-log" class="waves-effect waves-light btn green darken-1">
+					Post <i class="material-icons right">send</i>
+				</a>
+	  	</div>
+	  </div>
   </div>
 </div>
 
 <script>
-	var logErrors = false
+
+	// function to validate form input
+	function deliverLogErrors() {
+		var errors = "";
+
+		if ($("#log-title").val() === "") {
+			errors = errors + "<li>* Title can't be blank</li>";
+		}
+		if ($("#log-hours").val() === "") {
+			errors = errors + "<li>* Hours can't be blank</li>";
+		}
+		if ($("#log-minutes").val() === "") {
+			errors = errors + "<li>* Minutes can't be blank</li>";
+		}
+		if (Number($("#log-hours").val()) < 0) {
+			errors = errors + "<li>* Hours can't be negative</li>";
+		}
+		if (Number($("#log-minutes").val()) < 0) {
+			errors = errors + "<li>* Minutes can't be negative</li>";
+		}
+		if (Number($("#log-hours").val()) == 0 && Number($("#log-minutes").val()) == 0) {
+			errors = errors + "<li>* Total time is invalid</li>";
+		}
+
+		if (errors != "") {
+			$("#log-error-list").html(errors);
+			$("#log-errors").removeClass("hidden");
+			return(true);
+		}
+		else {
+			$("#log-errors").addClass("hidden");
+			return(false);
+		}
+	}
 	
   $("#submit-log").click(function() {
-  	if(($("#log-title").val() === "") || ($("#hours").val() === "") || ($("#minutes").val() === "")) {
-  		if (logErrors == false) {
-  			$("#log-errors").toggleClass("hidden");
-  			logErrors = true;
-  		}
+  	// check that input is valid, break if not
+  	if(deliverLogErrors() === true) {
   		return(0);
   	}
 
+  	// calculate total time in hours and minutes
   	var hours = Number($("#log-hours").val());
   	var minutes = Number($("#log-minutes").val());
   	if (minutes >= 60) {
@@ -60,6 +88,7 @@
   		minutes = minutes % 60;
   	}
 
+  	// POST form
   	$.ajax({
 	    url: "/microposts",
 	    type: "POST",
