@@ -90,7 +90,6 @@
 	// alarm sound
 	var alarmSound = new Audio('<%= asset_path "06_Urban_Beat.mp3" %>');
 	alarmSound.volume = 0.3;
-	alarmSound.pause();
 
 	// time set on the interval
 	var timerTime = 0;
@@ -284,6 +283,8 @@
 	        minutes: minutes
 	      }
 	    }
+	  }).done(function() {
+	  	alarmSound.pause();
 	  });
 	});
 </script>
