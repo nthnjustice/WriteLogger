@@ -21,15 +21,15 @@
       $(document).ready(function(){
         $(".button-collapse").sideNav();
         $('.dropdown-button').dropdown({});
-         $('.datepicker').pickadate({
+        $('.datepicker').pickadate({
           selectMonths: true, 
           selectYears: 15 
         });
-         <% flash.each do |_key, msg| %>
+        <% flash.each do |_key, msg| %>
           if ("<%= msg %>" != "Invalid email/password combination") {
             Materialize.toast("<%= msg %>", 3000, 'rounded');
           }
-         <% end %>
+        <% end %>
       });
     </script>
   </body>

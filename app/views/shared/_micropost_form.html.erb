@@ -2,20 +2,21 @@
 	<div class="card-content">
 		<span class="card-title"><h5>Live Writing Session</h5></span>
 		<div class="divider"></div>
-		<br>
-		<ul class="collapsible" data-collapsible="accordion">
-			<li>
-				<div class="collapsible-header">
-					<strong><i class="material-icons">alarm</i>Timer</strong>
-				</div>
-				<div class="collapsible-body white"><%= render 'shared/timer' %></div>
-			</li>
-			<li>
-				<div class="collapsible-header">
-					<strong><i class="material-icons">watch</i>Stopwatch</strong>
-				</div>
-				<div class="collapsible-body white"><%= render 'shared/stopwatch' %></div>
-			</li>
-		</ul>	
+		<div class="section">
+			<ul class="collapsible" data-collapsible="accordion">
+				<li>
+					<div class="collapsible-header active">
+						<strong><i class="material-icons">alarm</i>Timer</strong>
+					</div>
+					<div class="collapsible-body white"><%= render 'shared/timer' %></div>
+				</li>
+				<li>
+					<div class="collapsible-header">
+						<strong><i class="material-icons">watch</i>Stopwatch</strong>
+					</div>
+					<div class="collapsible-body white"><%= render 'shared/stopwatch' %></div>
+				</li>
+			</ul>
+		</div>	
 	</div>
 </div>

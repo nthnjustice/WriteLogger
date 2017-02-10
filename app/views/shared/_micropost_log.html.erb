@@ -12,19 +12,19 @@
 		</div>
 		<div class="section">
 			<div class="input-field">
-				<input id="log-title" type="text">
+				<input id="log-title" type="text" class="validate">
 				<label for="log-title">Title <span class="red-text">*</span></label>
 			</div>
 			<div class="row">
 				<div class="col l6">
 					<div class="input-field">
-						<input id="log-hours" type="number" value=0>
+						<input id="log-hours" type="number" value=0 class="validate">
 						<label for="log-hours">Hours <span class="red-text">*</span></label>
 					</div>
 				</div>
 				<div class="col l6">
 					<div class="input-field">
-						<input id="log-minutes" type="number" value=0>
+						<input id="log-minutes" type="number" value=0 class="validate">
 						<label for="log-minutes">Minutes <span class="red-text">*</span></label>
 					</div>
 				</div>
@@ -39,7 +39,6 @@
 </div>
 
 <script>
-
 	// function to validate form input
 	function deliverLogErrors() {
 		var errors = "";
@@ -76,7 +75,7 @@
 	
   $("#submit-log").click(function() {
   	// check that input is valid, break if not
-  	if(deliverLogErrors() === true) {
+  	if (deliverLogErrors() === true) {
   		return(0);
   	}
 
