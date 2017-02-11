@@ -97,6 +97,7 @@
     // prevent multiple intervals going on at the same time
     clearInterval(stopwatchInterval);
     $("#stopwatch-post").removeClass("disabled");
+    $(".stopwatch .clock").removeClass("invalid-clock");
 
     stopwatchLogTime = new Date();
     var startTimestamp = new Date().getTime()
@@ -175,12 +176,15 @@
 
     if ($("#stopwatch-title").val() === "") {
       errors = errors + "<li>* Title can't be blank</li>";
+      $("#stopwatch-title").addClass("invalid");
     }
     if (typeof stopwatchLogTime === 'undefined') {
       errors = errors + "<li>* Time is invalid</li>";
+      $(".stopwatch .clock").addClass("invalid-clock");
     }
     if ((minutes == 0) && (hours == 0)) {
       errors = errors + "<li>* Time must be at least 1 minute</li>";
+      $(".stopwatch .clock").addClass("invalid-clock");
     }
 
     if (errors != "") {

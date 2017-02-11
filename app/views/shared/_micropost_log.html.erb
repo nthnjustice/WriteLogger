@@ -45,21 +45,28 @@
 
 		if ($("#log-title").val() === "") {
 			errors = errors + "<li>* Title can't be blank</li>";
+			$("#log-title").addClass("invalid");
 		}
 		if ($("#log-hours").val() === "") {
 			errors = errors + "<li>* Hours can't be blank</li>";
+			$("#log-hours").addClass("invalid");
 		}
 		if ($("#log-minutes").val() === "") {
 			errors = errors + "<li>* Minutes can't be blank</li>";
+			$("#log-minutes").addClass("invalid");
 		}
 		if (Number($("#log-hours").val()) < 0) {
 			errors = errors + "<li>* Hours can't be negative</li>";
+			$("#log-hours").addClass("invalid");
 		}
 		if (Number($("#log-minutes").val()) < 0) {
 			errors = errors + "<li>* Minutes can't be negative</li>";
+			$("#log-minutes").addClass("invalid");
 		}
 		if (Number($("#log-hours").val()) == 0 && Number($("#log-minutes").val()) == 0) {
 			errors = errors + "<li>* Total time is invalid</li>";
+			$("#log-hours").addClass("invalid");
+			$("#log-minutes").addClass("invalid");
 		}
 
 		if (errors != "") {

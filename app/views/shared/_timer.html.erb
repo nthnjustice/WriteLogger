@@ -106,9 +106,17 @@
 	  timerInput.val(localStorage.lastTimerTime);
 	  if (timerInput.val() >= 1) {
 	  	timerClock.text(returnFormattedToSeconds(timerTime));
+	  	$("#timer-clock").removeClass("invalid-clock");
+	  }
+	  else if (timerInput.val() < 0) {
+	  	timerClock.text("invalid");
+	  	$("#timer-clock").addClass("invalid-clock");
+	  	$("#timer-input-min").addClass("invalid");
 	  }
 	  else {
 	  	timerClock.text("too low");
+	  	$("#timer-clock").addClass("invalid-clock");
+	  	$("#timer-input-min").addClass("invalid");
 	  }
 	}
 
@@ -119,13 +127,21 @@
 	// when entering new time, the app will trim it and turn it into seconds (*60)
 	timerInput.on('change', function() {
 	  var newTime = timerInput.val().trim();
-	  if (newTime && newTime >= 1) {
+	  if (newTime >= 1) {
 	    timerTime = newTime * 60;
 	    localStorage.lastTimerTime = newTime;
 	    timerClock.text(returnFormattedToSeconds(timerTime));
+	    $("#timer-clock").removeClass("invalid-clock");
+	  }
+	  else if (newTime < 0) {
+	  	timerClock.text("invalid");
+	  	$("#timer-clock").addClass("invalid-clock");
+	  	$("#timer-input-min").addClass("invalid");
 	  }
 	  else {
 	  	timerClock.text("too low");
+	  	$("#timer-clock").addClass("invalid-clock");
+	  	$("#timer-input-min").addClass("invalid");
 	  }
 	});
 
@@ -232,8 +248,9 @@
 	function deliverTimerErrors() {
 		var errors = "";
 
-		if($("#timer-title").val() === "") {
+		if ($("#timer-title").val() === "") {
 			errors = errors + "<li>* Title can't be blank</li>";
+			$("#timer-title").addClass("invalid");
 		}
 
 		if (errors != "") {
