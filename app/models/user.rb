@@ -2,6 +2,7 @@ class User < ActiveRecord::Base
   has_many :microposts, dependent: :destroy
   has_many :goals, dependent: :destroy
   attr_accessor :remember_token
+  default_scope -> { order(name: :asc) }
   # name restrictions
   validates :name, presence: true, length: { maximum: 25 }, uniqueness: { case_sensitive: false }
   # email restrictions
