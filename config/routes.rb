@@ -1,14 +1,14 @@
 Rails.application.routes.draw do
   root 'static_pages#home'
 
-  get  '/signup',  to: 'users#new'
-  post '/signup',  to: 'users#create'
+  get '/signup', to: 'users#new'
+  post '/signup', to: 'users#create'
   resources :users
 
-  get    '/login',   to: 'sessions#new'
-  post   '/login',   to: 'sessions#create'
-  get    '/logout',  to: 'sessions#destroy'
-  delete '/logout',  to: 'sessions#destroy'
+  get '/login', to: 'sessions#new'
+  post '/login', to: 'sessions#create'
+  get '/logout', to: 'sessions#destroy'
+  delete '/logout', to: 'sessions#destroy'
 
   get '/user_microposts_json', to: 'users#user_microposts_json'
   get '/user_weekly_microposts_json', to: 'users#user_weekly_microposts_json'

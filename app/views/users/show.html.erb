@@ -34,15 +34,120 @@
           <span class="card-title"><h5 id="weekly-log-time-header"></h5></span>
           <div class="divider"></div>
           <br>
-          <div id="weekly-log-time" style="width: 100%; height: 350px"></div>
+
+          <div id="weekly-preloader-slot">
+            <div class="row center">
+              <div class="preloader-wrapper big active hidden">
+                <div class="spinner-layer spinner-blue">
+                  <div class="circle-clipper left">
+                    <div class="circle"></div>
+                  </div>
+                  <div class="gap-patch">
+                    <div class="circle"></div>
+                  </div>
+                  <div class="circle-clipper right">
+                    <div class="circle"></div>
+                  </div>
+                </div>
+                <div class="spinner-layer spinner-red">
+                  <div class="circle-clipper left">
+                    <div class="circle"></div>
+                  </div>
+                  <div class="gap-patch">
+                    <div class="circle"></div>
+                  </div>
+                  <div class="circle-clipper right">
+                    <div class="circle"></div>
+                  </div>
+                </div>
+                <div class="spinner-layer spinner-yellow">
+                  <div class="circle-clipper left">
+                    <div class="circle"></div>
+                  </div>
+                  <div class="gap-patch">
+                    <div class="circle"></div>
+                  </div>
+                  <div class="circle-clipper right">
+                    <div class="circle"></div>
+                  </div>
+                </div>
+                <div class="spinner-layer spinner-green">
+                  <div class="circle-clipper left">
+                    <div class="circle"></div>
+                  </div>
+                  <div class="gap-patch">
+                    <div class="circle"></div>
+                  </div>
+                  <div class="circle-clipper right">
+                    <div class="circle"></div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div id="weekly-log-time"></div>
         </div>
       </div>
+
       <div class="card hoverable">
         <div class="card-content">
           <span class="card-title"><h5>Total Log Time</h5></span>
           <div class="divider"></div>
           <br>
-          <div id="total-log-time" style="width: 100%; height: 350px"></div>
+
+          <div id="total-preloader-slot">
+            <div class="row center">
+              <div class="preloader-wrapper big active hidden">
+                <div class="spinner-layer spinner-blue">
+                  <div class="circle-clipper left">
+                    <div class="circle"></div>
+                  </div>
+                  <div class="gap-patch">
+                    <div class="circle"></div>
+                  </div>
+                  <div class="circle-clipper right">
+                    <div class="circle"></div>
+                  </div>
+                </div>
+                <div class="spinner-layer spinner-red">
+                  <div class="circle-clipper left">
+                    <div class="circle"></div>
+                  </div>
+                  <div class="gap-patch">
+                    <div class="circle"></div>
+                  </div>
+                  <div class="circle-clipper right">
+                    <div class="circle"></div>
+                  </div>
+                </div>
+                <div class="spinner-layer spinner-yellow">
+                  <div class="circle-clipper left">
+                    <div class="circle"></div>
+                  </div>
+                  <div class="gap-patch">
+                    <div class="circle"></div>
+                  </div>
+                  <div class="circle-clipper right">
+                    <div class="circle"></div>
+                  </div>
+                </div>
+                <div class="spinner-layer spinner-green">
+                  <div class="circle-clipper left">
+                    <div class="circle"></div>
+                  </div>
+                  <div class="gap-patch">
+                    <div class="circle"></div>
+                  </div>
+                  <div class="circle-clipper right">
+                    <div class="circle"></div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div id="total-log-time"></div>
         </div>
       </div>
     </div>
@@ -54,6 +159,7 @@
 <% end %>
 
 <script>
+  // wait until Google Visualizations has loaded
   function checkAssets() {
     if (typeof google !== "undefined") {
       fetchWeeklyTimeData();
@@ -65,6 +171,7 @@
 
   checkAssets();
 
+  // get microposts data for past 7 days
   function fetchWeeklyTimeData() {
     $.ajax({
       type: "GET",
@@ -74,10 +181,11 @@
         id: <%= @user.id %>
       },
       success: function(response){
-        responseData2 = response;
-        if (responseData2.length < 1) {
+        weeklyData = response;
+        if (weeklyData.length < 1) {
           $("#weekly-log-time").html("<div class='section red-text'><i>Insufficient data for visualization</i></div>");
           $("#weekly-log-time-header").text("Weekly Log Time");
+          $("#weekly-preloader-slot").addClass("hidden");
           fetchTotalTimeChart();
           return(0);
         }
@@ -88,6 +196,7 @@
   }
 
   function drawWeeklyTimeChart() {
+    // format readable date range for card header
     var todayDate = new Date();
     var startDay = todayDate.getDate();
     startDay = startDay.toString();
@@ -97,6 +206,7 @@
     var startMonth = todayDate.getMonth() + 1;
     var startYear = todayDate.getFullYear();
     var startDate = startMonth + "/" + startDay + "/" + startYear;
+
     var sevenAgo = new Date(todayDate.getTime() - (6 * 24 * 60 * 60 * 1000));
     var endDay = sevenAgo.getDate();
     endDay = endDay.toString();
@@ -109,6 +219,7 @@
 
     $("#weekly-log-time-header").text("Weekly Log Time (" + endDate + " - " + startDate + ")");
 
+    // map days to digits
     var weekday = new Array(7);
     weekday[0] =  "Sunday";
     weekday[1] = "Monday";
@@ -121,6 +232,7 @@
     var today = new Date();
     var today = weekday[today.getDay()];
 
+    // sort the days so current day right-most, and left-most is 7 days ago
     var adjustedWeekday = [today];
     var index = weekday.indexOf(today);
     for (i = index; i > -1; i--) {
@@ -135,37 +247,43 @@
       }
     }
 
-    var visData2 = [];
-    $.each(responseData2.reverse(), function(key, value) {
+    // calculate total writing time for each day
+    var visData = [];
+    $.each(weeklyData.reverse(), function(key, value) {
       var fullDate = new Date(value.created_at);
       var date = weekday[fullDate.getDay()]
       var time = Math.round((value.hours * 60) + (value.minutes));
-      visData2.push([date, time]);
+      visData.push([date, time]);
     });
 
+    // get all unique days
     var uniqueDays = [];
-    $.each(visData2, function(key, value) {
+    $.each(visData, function(key, value) {
       if ($.inArray(value[0], uniqueDays) == -1) {
         uniqueDays.push(value[0]);
       }
     });
 
-    var visDataFinal2 = [['Day', 'Time', {role: 'style'}]]
+    // build final table for visualization
+    // aggregate logs posted on the same day
+    var visDataFinal = [['Day', 'Time', {role: 'style'}]]
     $.each(adjustedWeekday, function(key, value) {
       var tempTime = 0;
-      $.each(visData2, function(key2, value2) {
+      $.each(visData, function(key2, value2) {
         if (value == value2[0]) {
           tempTime = tempTime + value2[1];
         }
       });
-      visDataFinal2.push([value, Number(tempTime), '']);
+      visDataFinal.push([value, Number(tempTime), '']);
     });
 
-    visDataFinal2[7][2] = 'opacity: 0.5; stroke-color: blue; stroke-width: 4';
+    // special styling for current day (right-most)
+    visDataFinal[7][2] = 'opacity: 0.5; stroke-color: blue; stroke-width: 4';
 
-    var data2 = google.visualization.arrayToDataTable(visDataFinal2);
+    // prep visualization
+    var data = google.visualization.arrayToDataTable(visDataFinal);
 
-    var options2 = {
+    var options = {
       hAxis: {title: 'Day'},
       vAxis: {
         title: 'Minutes',
@@ -177,8 +295,12 @@
       legend: { position: 'right' },
     };
 
-    var chart2 = new google.visualization.ColumnChart(document.getElementById('weekly-log-time'));
-    chart2.draw(data2, options2);
+    // draw final visualization
+    var chart = new google.visualization.ColumnChart(document.getElementById('weekly-log-time'));
+    $("#weekly-preloader-slot").addClass("hidden");
+    $("#weekly-log-time").css("height", "350px");
+    $("#weekly-log-time").css("width", "100%");
+    chart.draw(data, options);
 
     fetchTotalTimeChart();
   }
@@ -192,10 +314,10 @@
         id: <%= @user.id %>
       },
       success: function(response){
-        responseData1 = response;
-        console.log(responseData1)
-        if (responseData1.length < 1) {
+        totalData = response;
+        if (totalData.length < 1) {
           $("#total-log-time").html("<div class='section red-text'><i>Insufficient data for visualization</i></div>");
+          $("#total-preloader-slot").addClass("hidden");
           return(0);
         }
         google.charts.load('current', {'packages':['corechart']});
@@ -205,8 +327,9 @@
   }
 
   function drawTotalTimeChart() {
-    var visData1 = [];
-    $.each(responseData1.reverse(), function(key, value) {
+    var visData = [];
+    // format readable dates for y-axis
+    $.each(totalData.reverse(), function(key, value) {
       var fullDate = new Date(value.created_at);
       var day = fullDate.getDate();
       day = day.toString();
@@ -217,30 +340,34 @@
       var year = fullDate.getFullYear();
       var date = month + "/" + day + "/" + year;
       var time = Math.round((value.hours * 60) + (value.minutes));
-      visData1.push([date, time]);
+      visData.push([date, time]);
     });
 
-    var uniqueDates1 = [];
-    $.each(visData1, function(key, value) {
-      if ($.inArray(value[0], uniqueDates1) == -1) {
-        uniqueDates1.push(value[0]);
+    // get all unique dates
+    var uniqueDates = [];
+    $.each(visData, function(key, value) {
+      if ($.inArray(value[0], uniqueDates) == -1) {
+        uniqueDates.push(value[0]);
       }
     });
 
-    var visDataFinal1 = [['Date', 'Time']]
-    $.each(uniqueDates1, function(key, value) {
+    // build final table for visualization
+    // aggregate logs posted on the same day
+    var visDataFinal = [['Date', 'Time']]
+    $.each(uniqueDates, function(key, value) {
       var tempTime = 0;
-      $.each(visData1, function(key2, value2) {
+      $.each(visData, function(key2, value2) {
         if (value == value2[0]) {
           tempTime = tempTime + value2[1];
         }
       });
-      visDataFinal1.push([value, tempTime]);
+      visDataFinal.push([value, tempTime]);
     });
 
-    var data1 = google.visualization.arrayToDataTable(visDataFinal1);
+    // prep visualization
+    var data = google.visualization.arrayToDataTable(visDataFinal);
 
-    var options1 = {
+    var options = {
       curveType: 'function',
       legend: { position: 'right' },
       vAxis: {
@@ -255,8 +382,11 @@
       pointSize: 10
     };
 
-    var chart1 = new google.visualization.LineChart(document.getElementById('total-log-time'));
-    chart1.draw(data1, options1);
+    // draw final visualization
+    var chart = new google.visualization.LineChart(document.getElementById('total-log-time'));
+    $("#total-preloader-slot").addClass("hidden");
+    $("#total-log-time").css("height", "350px");
+    $("#total-log-time").css("width", "100%");
+    chart.draw(data, options);
   }
-
 </script>

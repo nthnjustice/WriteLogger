@@ -1,4 +1,4 @@
-<% provide(:title, 'Edit User') %>
+<% provide(:title, 'Update Profile') %>
 <div class="container">
   <div class="section">
     <div class="row">
@@ -20,26 +20,26 @@
 								</div>
 								<div class="row">
 									<div class="input-field col l10 offset-l1">
-										<%= f.text_field :name, class: 'validate' %>
+										<%= f.text_field :name %>
 										<label for="name">Name <span class="red-text">*</span></label>
 									</div>
 								</div>
 								<div class="row">
 									<div class="input-field col l10 offset-l1">
-										<%= f.email_field :email, class: 'validate' %>
+										<%= f.email_field :email %>
 										<label for="email">Email <span class="red-text">*</span></label>
 									</div>
 								</div>
 								<div class="row">
 									<div class="input-field col l10 offset-l1">
-										<%= f.password_field :password, class: 'validate' %>
-										<label for="password">Password <span class="red-text">*</span></label>
+										<%= f.password_field :password %>
+										<label for="password">Password</label>
 									</div>
 								</div>
 								<div class="row">
 									<div class="input-field col l10 offset-l1">
-										<%= f.password_field :password_confirmation, class: 'validate' %>
-										<label for="password_confirmation">Password confirmation <span class="red-text">*</span></label>
+										<%= f.password_field :password_confirmation %>
+										<label for="password_confirmation">Password confirmation</label>
 									</div>
 								</div>
 								<div class="row center">
@@ -56,3 +56,7 @@
     </div>
   </div>
 </div>
+
+<script>
+  $('label').addClass('active');
+</script>
