@@ -3,8 +3,8 @@
   <% if user.microposts.any? %>
   	<p>
 	  	<strong>Latest log:</strong>
-	  	<i>"<%= user.microposts.first.title %>"</i>, posted <%= time_ago_in_words(user.microposts.first.created_at) %> ago.
-	  	<p>(time: <%= user.microposts.first.hours %> hours and <%= user.microposts.first.minutes %> minutes)</p>
+	  	<i>"<%= user.microposts.first.title %>"</i>, posted <%= time_ago_in_words(user.microposts.first.created_at) %> ago
+	  	<p id="duration-<%= user.id %>"></p>
 	 </p>
   <% else %>
   	<p><i>no writing logs have been submitted</i></p>
@@ -12,3 +12,42 @@
   <br>
   <div class="divider"></div>
 </li>
+
+<script>
+  <% if user.microposts.any? %>
+    // format duration (log time) text
+    var hours = <%= user.microposts.first.hours %>
+    var minutes = <%= user.microposts.first.minutes %>
+
+    if ((hours < 1) && (minutes >= 1)) {
+      if (minutes == 1) {
+        $("#duration-<%= user.id %>").text("(time: " + minutes + " minute)");
+      }
+      else {
+        $("#duration-<%= user.id %>").text("(time: " + minutes + " minutes)");
+      }
+    }
+    else if ((hours >= 1) && (minutes < 1)) {
+      if (hours == 1) {
+        $("#duration-<%= user.id %>").text("(time: " + hours + " hour)");
+      }
+      else {
+        $("#duration-<%= user.id %>").text("(time: " + hours + " hours)");
+      }
+    }
+    else if ((hours >= 1) && (minutes >= 1)) {
+      if ((hours == 1) && (minutes == 1)) {
+        $("#duration-<%= user.id %>").text("(time: " + hours + " hour and " + minutes + " minute)");
+      }
+      else if (hours == 1) {
+        $("#duration-<%= user.id %>").text("(time: " + hours + " hour and " + minutes + " minutes)");
+      }
+      else if (minutes == 1) {
+        $("#duration-<%= user.id %>").text("(time: " + hours + " hours and " + minutes + " minute)");
+      }
+      else {
+        $("#duration-<%= user.id %>").text("(time: " + hours + " hours and " + minutes + " minutes)");
+      }
+    }
+  <% end %>
+</script>

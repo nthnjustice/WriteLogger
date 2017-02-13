@@ -11,24 +11,55 @@
         <a class="dropdown-button red-text" href="#" data-activates='micropost-delete-dropdown-<%= micropost.id %>'>X</a>
         <ul id="micropost-delete-dropdown-<%= micropost.id %>" class="dropdown-content">
           <li>
-            <a id="delete-<%= micropost.id %>" href="#" class="red-text">
-              delete<i class="material-icons">remove_circle_outline</i>
-            </a>  
+            <a id="delete-<%= micropost.id %>" class="waves-effect waves-red btn-flat red-text">delete</a>  
           </li>
         </ul>
       </div>
     <% end %>
   </div>
-  <p class="truncate">"<%= micropost.title %>"</p>
-  <p>(time: <%= micropost.hours %> hours and <%= micropost.minutes %> minutes)</p>
+  <p class="truncate"><i>"<%= micropost.title %>"</i></p>
+  <p id="duration-<%= micropost.id %>" class="truncate"></p>
   <div class="divider"></div>
 </li>
 <br>
 
 <script>
-  
+  // format duration (log time) text
+  var hours = <%= micropost.hours %>
+  var minutes = <%= micropost.minutes %>
+
+  if ((hours < 1) && (minutes >= 1)) {
+    if (minutes == 1) {
+      $("#duration-<%= micropost.id %>").text("(time: " + minutes + " minute)");
+    }
+    else {
+      $("#duration-<%= micropost.id %>").text("(time: " + minutes + " minutes)");
+    }
+  }
+  else if ((hours >= 1) && (minutes < 1)) {
+    if (hours == 1) {
+      $("#duration-<%= micropost.id %>").text("(time: " + hours + " hour)");
+    }
+    else {
+      $("#duration-<%= micropost.id %>").text("(time: " + hours + " hours)");
+    }
+  }
+  else if ((hours >= 1) && (minutes >= 1)) {
+    if ((hours == 1) && (minutes == 1)) {
+      $("#duration-<%= micropost.id %>").text("(time: " + hours + " hour and " + minutes + " minute)");
+    }
+    else if (hours == 1) {
+      $("#duration-<%= micropost.id %>").text("(time: " + hours + " hour and " + minutes + " minutes)");
+    }
+    else if (minutes == 1) {
+      $("#duration-<%= micropost.id %>").text("(time: " + hours + " hours and " + minutes + " minute)");
+    }
+    else {
+      $("#duration-<%= micropost.id %>").text("(time: " + hours + " hours and " + minutes + " minutes)");
+    }
+  }
+
   $("#delete-<%= micropost.id %>").click(function() {
-    console.log("<%= micropost.user_id %>")
     $.ajax({
       url: "/microposts",
       type: "DELETE",

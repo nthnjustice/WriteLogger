@@ -8,15 +8,13 @@
 					<span id="date-<%= goal.id %>"></span>
 				</div>
 				<div class="col l3">
-					<a id="achieved-<%= goal.id %>" href="#" class="green-text text-darken-4"><u>Mark Achieved</u></a>
+					<a id="achieved-<%= goal.id %>" class="green-text text-darken-4"><u>Mark Achieved</u></a>
 				</div>
 				<div class="col l1">
-				  <a class="dropdown-button red-text" href="#" data-activates='goal-delete-dropdown-<%= goal.id %>'>X</a>
+					<a class="dropdown-button red-text" href="#" data-activates='goal-delete-dropdown-<%= goal.id %>'>X</a>
 				  <ul id="goal-delete-dropdown-<%= goal.id %>" class="dropdown-content">
 				  	<li>
-				  		<a id="delete-<%= goal.id %>" href="#" class="red-text">
-				  			delete<i class="material-icons">remove_circle_outline</i>
-				  		</a>
+				  		<a id="delete-<%= goal.id %>" class="waves-effect waves-red btn-flat red-text">delete</a>
 				  	</li>
 				  </ul>
 				</div>
@@ -31,12 +29,11 @@
 					<a class="dropdown-button red-text" href="#" data-activates='goal-delete-dropdown-<%= goal.id %>'>X</a>
 				  <ul id="goal-delete-dropdown-<%= goal.id %>" class="dropdown-content">
 				  	<li>
-				  		<a id="delete-<%= goal.id %>" href="#" class="red-text">
-				  			delete<i class="material-icons">remove_circle_outline</i>
-				  		</a>
+				  		<a id="delete-<%= goal.id %>" class="waves-effect waves-red btn-flat red-text">delete</a>
 				  	</li>
 				  </ul>
 				</div>
+			</div>
 		<% end %>
 	<% else %>
 		<div class="row">
@@ -50,6 +47,7 @@
 </li>
 
 <script>
+	// format deadline text
 	var goalDate = new Date("<%= goal.deadline %>");
 	var goalMonth = (goalDate.getMonth()+1).toString();
 	if (goalMonth.length == 1) {

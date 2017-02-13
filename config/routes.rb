@@ -1,9 +1,5 @@
 Rails.application.routes.draw do
-
   root 'static_pages#home'
-  get  '/help',    to: 'static_pages#help'
-  get  '/about',   to: 'static_pages#about'
-  get  '/contact', to: 'static_pages#contact'
 
   get  '/signup',  to: 'users#new'
   post '/signup',  to: 'users#create'
@@ -18,6 +14,7 @@ Rails.application.routes.draw do
   get '/user_weekly_microposts_json', to: 'users#user_weekly_microposts_json'
   get '/group_microposts_json', to: 'users#group_microposts_json'
   get '/get_all_users_json', to: 'users#get_all_users_json'
+  get '/writing_report_json', to: 'users#writing_report_json'
 
   delete '/microposts', to: 'microposts#destroy'
 

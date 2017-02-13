@@ -18,11 +18,10 @@
         <% if logged_in? %>
           <li><%= link_to "Home", root_path %></li>
           <li><%= link_to "Group", users_path %></li>
-          <li class="dropdown">
-            <a class='dropdown-button' href='#' data-activates='dropdown2'>Account <i class="fa fa-caret-down"></i></a>
-            <ul id="dropdown2" class="dropdown-content">
+          <li>
+            <a class='dropdown-button' href='#' data-activates='account-dropdown'>Account <i class="fa fa-caret-down"></i></a>
+            <ul id="account-dropdown" class="dropdown-content">
               <li><%= link_to "Profile", current_user %></li>
-              <li><%= link_to "Settings", edit_user_path(current_user) %></li>
               <li class="divider"></li>
               <li><%= link_to "Log out", logout_path, method: "delete" %></li>
             </ul>

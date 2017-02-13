@@ -10,7 +10,8 @@
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
     <link href='https://fonts.googleapis.com/css?family=Poller+One' rel='stylesheet' type='text/css'>
     <%= favicon_link_tag('log.png') %>
-    <%= yield(:header) %>
+    <!-- for proper loading of Google Visualizations -->
+    <%= yield(:header) %> 
   </head>
 
   <body>
@@ -19,15 +20,27 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.97.8/js/materialize.min.js"></script>
     <script>
       $(document).ready(function(){
+        //mobile sidenav
         $(".button-collapse").sideNav();
-        $('.dropdown-button').dropdown({});
+        $(".dropdown-button").dropdown();
+        $(".modal").modal();
+
         $('.datepicker').pickadate({
           selectMonths: true, 
           selectYears: 15 
         });
+        
+        // handle Rails flash method
         <% flash.each do |_key, msg| %>
           if ("<%= msg %>" != "Invalid email/password combination") {
             Materialize.toast("<%= msg %>", 3000, 'rounded');
+          }
+          else {
+            // special for login form
+            $("#email-input").addClass("invalid");
+            $("#email-icon").addClass("red-text");
+            $("#password-input").addClass("invalid");
+            $("#password-icon").addClass("red-text");
           }
         <% end %>
       });

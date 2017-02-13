@@ -18,12 +18,197 @@
 				<div class="card-content">
 					<span class="card-title"><h5>Group Activity</h5></span>
 					<div class="divider"></div>
-					<br>
-					<div id="total-group-log-time" style="width: 100%; height: 500px"></div>
-				</div>
-			</div>
-		</div>
-	</div>
+          <div class=section>
+            <a class="modal-trigger waves-effect waves-light btn" href="#report-request-modal">Generate Report</a>
+          </div>
+
+          <div id="group-preloader-slot">
+            <div class="row center">
+              <div class="preloader-wrapper big active hidden">
+                <div class="spinner-layer spinner-blue">
+                  <div class="circle-clipper left">
+                    <div class="circle"></div>
+                  </div>
+                  <div class="gap-patch">
+                    <div class="circle"></div>
+                  </div>
+                  <div class="circle-clipper right">
+                    <div class="circle"></div>
+                  </div>
+                </div>
+                <div class="spinner-layer spinner-red">
+                  <div class="circle-clipper left">
+                    <div class="circle"></div>
+                  </div>
+                  <div class="gap-patch">
+                    <div class="circle"></div>
+                  </div>
+                  <div class="circle-clipper right">
+                    <div class="circle"></div>
+                  </div>
+                </div>
+                <div class="spinner-layer spinner-yellow">
+                  <div class="circle-clipper left">
+                    <div class="circle"></div>
+                  </div>
+                  <div class="gap-patch">
+                    <div class="circle"></div>
+                  </div>
+                  <div class="circle-clipper right">
+                    <div class="circle"></div>
+                  </div>
+                </div>
+                <div class="spinner-layer spinner-green">
+                  <div class="circle-clipper left">
+                    <div class="circle"></div>
+                  </div>
+                  <div class="gap-patch">
+                    <div class="circle"></div>
+                  </div>
+                  <div class="circle-clipper right">
+                    <div class="circle"></div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div id="group-logtime-chart"></div>
+			  </div>
+		  </div>
+	  </div>
+  </div>
+</div>
+
+<div id="report-request-modal" class="modal modal-fixed-footer">
+  <div class="modal-content">
+    <div class="row center">
+      <h4>Generate a Writing Report</h4>
+    </div>
+    <div class="row">
+      <div class="col l8 offset-l2">
+        <div id="report-errors" class="row center hidden">
+          <div class="card-panel red lighten-5">
+            <span class="red-text text-darken-4">
+              The form contains errors:
+              <ul id="report-error-list"></ul>
+            </span>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col l8 offset-l2">
+        <div class="input-field">
+          <input id="report-start" type="date" class="datepicker">
+          <label for="report-start">Start Date <span class="red-text">*</span></label>
+        </div>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col l8 offset-l2">
+        <div class="input-field">
+          <input id="report-end" type="date" class="datepicker">
+          <label for="report-end">End Date <span class="red-text">*</span></label>
+        </div>
+      </div>
+    </div>
+    <div class="row center">
+      <a id="request-report" class="waves-effect waves-light btn green darken-1">
+        Request <i class="material-icons right">send</i>
+      </a>
+    </div>
+  </div>
+  <div class="modal-footer">
+    <a href="#!" class="modal-action modal-close waves-effect waves-red btn-flat red accent-2">Close</a>
+  </div>
+</div>
+
+<div id="report-results-modal" class="modal modal-fixed-footer">
+  <div class="modal-content">
+    <div class="row center">
+      <h4>Writing Report Results</h4>
+    </div>
+    <div class="row">
+      <h5 id="report-dates"></h5>
+    </div>
+
+    <div id="report-preloader-slot">
+      <div class="row center">
+        <div class="preloader-wrapper big active hidden">
+          <div class="spinner-layer spinner-blue">
+            <div class="circle-clipper left">
+              <div class="circle"></div>
+            </div>
+            <div class="gap-patch">
+              <div class="circle"></div>
+            </div>
+            <div class="circle-clipper right">
+              <div class="circle"></div>
+            </div>
+          </div>
+          <div class="spinner-layer spinner-red">
+            <div class="circle-clipper left">
+              <div class="circle"></div>
+            </div>
+            <div class="gap-patch">
+              <div class="circle"></div>
+            </div>
+            <div class="circle-clipper right">
+              <div class="circle"></div>
+            </div>
+          </div>
+          <div class="spinner-layer spinner-yellow">
+            <div class="circle-clipper left">
+              <div class="circle"></div>
+            </div>
+            <div class="gap-patch">
+              <div class="circle"></div>
+            </div>
+            <div class="circle-clipper right">
+              <div class="circle"></div>
+            </div>
+          </div>
+          <div class="spinner-layer spinner-green">
+            <div class="circle-clipper left">
+              <div class="circle"></div>
+            </div>
+            <div class="gap-patch">
+              <div class="circle"></div>
+            </div>
+            <div class="circle-clipper right">
+              <div class="circle"></div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="row center">
+      <div class="col l6">
+        <strong>Writing Consistency</strong>
+        <ul id="consistency-list"></ul>
+      </div>
+      <div class="col l6">
+        <strong>Total Log-Time</strong>
+        <ul id="total-list"></ul>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col l8 offset-l2">
+        <div id="report-results-errors" class="row center hidden">
+          <div class="card-panel red lighten-5">
+            <span class="red-text text-darken-4">
+              <p>No writing sessions were logged during this time.</p>
+            </span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="modal-footer">
+    <a href="#!" class="modal-action modal-close waves-effect waves-red btn-flat red accent-2">Close</a>
+  </div>
 </div>
 
 <% content_for(:header) do %>
@@ -31,6 +216,7 @@
 <% end %>
 
 <script>
+  // wait until Google Visualizations has loaded
   function checkAssets() {
     if (typeof google !== "undefined") {
       fetchData();
@@ -42,37 +228,40 @@
 
   checkAssets();
 
+  // get microposts data
   function fetchData() {
     $.ajax({
       type: "GET",
       url: "/group_microposts_json",
       dataType: "json",
-      success: function(response){
+      success: function(response) {
         responseData = response;
         if (responseData.length < 1) {
-          $("#total-group-log-time").html("<div class='section red-text'><i>Insufficient data for visualization</i></div>");
+          $("#group-logtime-chart").html("<div class='section red-text'><i>Insufficient data for visualization</i></div>");
           return(0);
         }
-        console.log(responseData);
         google.charts.load('current', {'packages':['corechart']});
         google.charts.setOnLoadCallback(loadUsers);
       }        
     });
   }
 
+  // get users data
   function loadUsers() {
     $.ajax({
       type: "GET",
       url: "/get_all_users_json",
       dataType: "json",
-      success: function(response){
+      success: function(response) {
         usersData = response;
         drawGroupChart();
       }        
     });
   }
 
+  // create multi-column bar chart
   function drawGroupChart() {
+    // get all user ID's
   	var uniqueIDs = [];
   	$.each(usersData, function(key, user) {
   		if ($.inArray(user.id, uniqueIDs) == -1) {
@@ -80,6 +269,7 @@
   		}
   	});
 
+    // create an object mapping all microposts to their respective user
   	var usersArray = [];
   	$.each(uniqueIDs, function(key, id) {
   		var personalArray = [];
@@ -91,10 +281,14 @@
   		usersArray.push({"user_id": id, "posts": personalArray});
   	});
 
+    // proto-data for visualization
   	var visData = [];
+    // loop through each user
   	$.each(usersArray, function(key1, user) {
   		var uniqueDates = [];
+      // loop through each micropost for each user
   		$.each(user.posts, function(key2, post) {
+        // format the date to be more readable
   			var fullDate = new Date(post.created_at);
      	  var day = fullDate.getDate();
         day = day.toString();
@@ -104,15 +298,20 @@
      		var month = fullDate.getMonth() + 1;
       	var year = fullDate.getFullYear();
       	var date = month + "/" + day + "/" + year;
+        // add a formatted date property to each micropost
         post.newDate = date;
+        // add a total time in minutes property to each micropost
       	post.totalTime = Math.round((post.hours * 60) + (post.minutes));
+        // track all new readable dates for each user
       	if ($.inArray(date, uniqueDates) == -1) {
       		uniqueDates.push(date);
       	}
   		});
 
+      // loop through each date for each user
   		$.each(uniqueDates, function(key2, date) {
   			var tempTime = 0;
+        // add up total time for each day each user has posted
   			$.each(user.posts, function(key3, post) {
   				if (post.newDate == date) {
   					tempTime = tempTime + post.totalTime;
@@ -122,11 +321,13 @@
   		});
   	});
 
+    // create object to map each id to the user's name
   	var usersMap = []
   	$.each(usersData, function(key, user) {
   		usersMap.push({"id": user.id, "name": user.name})
   	});
 
+    // create global object for all the unique dates across all users
   	var uniqueDates = []
   	$.each(visData, function(key, post) {
   		if ($.inArray(post.date, uniqueDates) == -1) {
@@ -135,20 +336,16 @@
   	});
   	uniqueDates.sort();
 
+    // curate first row of data table
   	var topRow = ['Date'];
   	$.each(usersMap, function(key, user) {
   		topRow.push(user.name);
   	});
   	topRow.push('Average');
 
-  	$.each(visData, function(key1, post) {
-  		$.each(usersMap, function(key2, user) {
-  			if(user.id == post.user_id) {
-  				post.author = user.name;
-  			}
-  		});
-  	});
-
+    // create final data table for visualization
+    // for each date, for each user, find all relevant posts and summate the times
+    // if user has no posts on a given day, give a value of '0'
   	var visDataFinal = [topRow];
   	$.each(uniqueDates, function(key1, date) {
   		var tableRow = [date];
@@ -164,6 +361,7 @@
   				tableRow.push(0);
   			}
   		});
+      // calculate the average time across all users for each day
   		var sum = 0;
   		var counter = 0;
   		for (i = 1; i < tableRow.length; i++) {
@@ -174,6 +372,7 @@
   		visDataFinal.push(tableRow);
   	});
 
+    // prep visualization via Google API
   	var data = google.visualization.arrayToDataTable(visDataFinal)
   	var options = {
   		legend: {position: 'right'},
@@ -190,12 +389,166 @@
       pointSize: 10
   	}
 
+    // special line for averages across users for each day
   	var averageIndex = uniqueIDs.length;
   	myObj = {}
   	myObj[averageIndex] = {type:'line'};
   	options.series = myObj;
 
-  	var chart = new google.visualization.ComboChart(document.getElementById('total-group-log-time'));
+    // draw final visualization
+  	var chart = new google.visualization.ComboChart(document.getElementById('group-logtime-chart'));
+    $("#group-preloader-slot").addClass("hidden");
+    $("#group-logtime-chart").css("height", "500px");
+    $("#group-logtime-chart").css("width", "100%");
   	chart.draw(data, options);
+  }
+
+  function deliverReportErrors() {
+    var errors = "";
+
+    if ($("#report-start").val() === "") {
+      errors = errors + "<li>* Start Date can't be blank</li>";
+    }
+    if ($("#report-end").val() === "") {
+      errors = errors + "<li>* End Date can't be blank</li>";
+    }
+
+    if (errors != "") {
+      $("#report-error-list").html(errors);
+      $("#report-errors").removeClass("hidden");
+      return(true);
+    }
+    else {
+      $("#report-errors").addClass("hidden");
+      return(false);
+    }
+  }
+
+  $("#request-report").click(function() {
+    // check that input is valid, break if not
+    if (deliverReportErrors() === true) {
+      return(0);
+    }
+
+    $.ajax({
+      url: "/writing_report_json",
+      type: "GET",
+      dataType: 'json',
+      data: {
+        start_date: $("#report-start").val(),
+        end_date: $("#report-end").val()
+      },
+      success: function(reportData) {
+        report = reportData;
+        $("#report-request-modal").modal('close');
+        $("#report-dates").text("From " + $("#report-start").val() + " To " + $("#report-end").val());
+        $("#report-results-modal").modal('open');
+        fillReport();
+      }
+    });
+  });
+
+  function fillReport() {
+    // case if no results are returned 
+    if (report.length < 1) {
+      $("#report-preloader-slot").addClass("hidden");
+      $("#report-results-errors").removeClass("hidden");
+      return(0);
+    }
+
+    // get all user ID's
+    var uniqueIDs = [];
+    $.each(usersData, function(key, user) {
+      if ($.inArray(user.id, uniqueIDs) == -1) {
+        uniqueIDs.push(user.id);
+      }
+    });
+
+    // create an object mapping all microposts to their respective user
+    var usersArray = [];
+    $.each(usersData, function(key, user) {
+      var personalArray = [];
+      var total = 0;
+      $.each(report, function(key, post) {
+        if (user.id == post.user_id) {
+          personalArray.push(post);
+          total = total + (post.hours * 60) + post.minutes;
+        }
+      });
+      usersArray.push({"user_id": user.id, "user_name": user.name, "posts": personalArray, "total": total});
+    });
+
+    // sort by consistency, reference by id
+    var consistencyOrder = [];
+    while (uniqueIDs.length > 0) {
+      // seed temporary leader
+      var leadingID = uniqueIDs[0];
+      var leader = "";
+      $.each(uniqueIDs, function(key, id) {
+        $.each(usersArray, function(key, user) {
+          if (user.user_id == leadingID) {
+            leader = user;
+          }
+        });
+      });
+      // find true running leader
+      $.each(uniqueIDs, function(key, id) {
+        $.each(usersArray, function(key, user) {
+          if (user.user_id == id) {
+            if (user.posts.length > leader.posts.length) {
+              leader = user;
+            }
+          }
+        });
+      });
+      // store the running leader and remove it from the list
+      consistencyOrder.push(leader.user_name + " - " + leader.posts.length + " posts");
+      uniqueIDs.splice($.inArray(leader.user_id, uniqueIDs), 1);
+    }
+
+    // get all user ID's
+    var uniqueIDs = [];
+    $.each(usersData, function(key, user) {
+      if ($.inArray(user.id, uniqueIDs) == -1) {
+        uniqueIDs.push(user.id);
+      }
+    });
+
+    // sort by total log time, reference by id
+    var totalTimeOrder = [];
+    while (uniqueIDs.length > 0) {
+      // seed temporary leader
+      var leadingID = uniqueIDs[0];
+      var leader = "";
+      $.each(uniqueIDs, function(key, id) {
+        $.each(usersArray, function(key, user) {
+          if (user.user_id == leadingID) {
+            leader = user;
+          }
+        });
+      });
+      // find true running leader
+      $.each(uniqueIDs, function(key, id) {
+        $.each(usersArray, function(key, user) {
+          if (user.user_id == id) {
+            if (user.total > leader.total) {
+              leader = user;
+            }
+          }
+        });
+      });
+      // store the running leader and remove it from the list
+      totalTimeOrder.push(leader.user_name + " - " + leader.total + " minutes");
+      uniqueIDs.splice($.inArray(leader.user_id, uniqueIDs), 1);
+    }
+
+    $("#report-preloader-slot").addClass("hidden");
+    
+    $.each(consistencyOrder, function(key, value) {
+      $("#consistency-list").append("<li>" + (key+1) + ". " + value + "<li>");
+    });
+    $.each(totalTimeOrder, function(key, value) {
+      $("#total-list").append("<li>" + (key+1) + ". " + value + "<li>");
+    });
   }
 </script>

@@ -17,9 +17,9 @@
 			  	<% else %>
 			  		<div class="container">
 			  			<div class="section">
-			        	<i>no new goals have been submitted</i>
+			        	<i>no new writing-goals have been submitted</i>
 			        </div>
-			       </div>
+			      </div>
 					<% end %>
 				</div>
 			</li>
@@ -28,40 +28,40 @@
 					<strong><i class="material-icons">add_circle_outline</i>Set New Goal</strong>
 				</div>
 				<div class="collapsible-body white">
-					<div id="goal-errors" class="row center hidden">
-						<div class="card-panel red lighten-5">
-							<span class="red-text text-darken-4">
-								The form contains errors, check that:
-								<ul>
-									<li>* Description is not blank</li>
-									<li>* Deadline is not blank</li>
-								</ul>
-							</span>
+					<div class="container">
+						<div id="goal-errors" class="row center hidden">
+							<div class="card-panel red lighten-5">
+								<span class="red-text text-darken-4">
+									The form contains errors:
+									<ul id="goal-error-list"></ul>
+								</span>
+							</div>
 						</div>
 						<br>
 					</div>
-					<br>
-					<div class="row">
-						<div class="col l10 offset-l1">
-							<div class="input-field">
-								<input id="goal-description" type="text">
-								<label for="goal-description">Description <span class="red-text">*</span></label>
+					<div class="section">
+						<div class="row">
+							<div class="col l10 offset-l1">
+								<div class="input-field">
+									<input id="goal-description" type="text" class="validate">
+									<label for="goal-description">Description <span class="red-text">*</span></label>
+								</div>
 							</div>
 						</div>
-					</div>
-					<div class="row">
-						<div class="col l10 offset-l1">
-							<div class="input-field">
-								<input id="goal-deadline" type="date" class="datepicker">
-								<label for="goal-deadline">Deadline <span class="red-text">*</span></label>
+						<div class="row">
+							<div class="col l10 offset-l1">
+								<div class="input-field">
+									<input id="goal-deadline" type="date" class="datepicker">
+									<label for="goal-deadline">Deadline <span class="red-text">*</span></label>
+								</div>
 							</div>
 						</div>
+						<div class="row center">
+							<a id="submit-goal" class="waves-effect waves-light btn green darken-1">
+								Save <i class="material-icons right">send</i>
+							</a>
+			    	</div>
 					</div>
-					<div class="row center">
-						<a id="submit-goal" class="waves-effect waves-light btn green darken-1">
-							Save <i class="material-icons right">send</i>
-						</a>
-		    	</div>
 				</div>
 			</li>
 			<li>
@@ -77,9 +77,9 @@
 			  	<% else %>
 			  		<div class="container">
 			  			<div class="section">
-			        	<i>no goals have been achieved</i>
+			        	<i>no writing-goals have been achieved</i>
 			        </div>
-			       </div>
+			      </div>
 					<% end %>
 				</div>
 			</li>
@@ -88,14 +88,32 @@
 </div>
 
 <script>
-	var goalErrors = false
+
+	function deliverGoalErrors() {
+		var errors = "";
+
+		if ($("#goal-description").val() === "") {
+			errors = errors + "<li>* Description can't be blank</li>";
+			$("#goal-description").addClass("invalid");
+		}
+		if ($("#goal-deadline").val() === "") {
+			errors = errors + "<li>* Deadline can't be blank</li>";
+		}
+
+		if (errors != "") {
+			$("#goal-error-list").html(errors);
+			$("#goal-errors").removeClass("hidden");
+			return(true);
+		}
+		else {
+			$("#goal-errors").addClass("hidden");
+			return(false);
+		}
+	}
 	
   $("#submit-goal").click(function() {
-  	if(($("#goal-description").val() === "") || ($("#goal-deadline").val() === "")) {
-  		if (goalErrors == false) {
-  			$("#goal-errors").toggleClass("hidden");
-  			goalErrors = true;
-  		}
+  	// check that input is valid, break if not
+  	if (deliverGoalErrors() === true) {
   		return(0);
   	}
 

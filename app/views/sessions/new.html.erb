@@ -21,15 +21,15 @@
                 <br>
                 <div class="row">
                   <div class="input-field col l10 offset-l1">
-                    <i class="material-icons prefix">email</i>
-                    <%= f.email_field :email %>
+                    <i id="email-icon" class="material-icons prefix">email</i>
+                    <%= f.email_field :email, id: "email-input" %>
                     <%= f.label :email %>
                   </div>
                 </div>
                 <div class="row">
                   <div class="input-field col l10 offset-l1 active">
-                    <i class="material-icons prefix">lock_outline</i>
-                    <%= f.password_field :password, :autocomplete => :off %>
+                    <i id="password-icon" class="material-icons prefix">lock_outline</i>
+                    <%= f.password_field :password, :autocomplete => :off, id: "password-input" %>
                     <%= f.label :password %>
                   </div>
                 </div>

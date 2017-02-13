@@ -10,13 +10,4 @@ class StaticPagesController < ApplicationController
       @feed_goals_inactive = @feed_goals_inactive.paginate(page: params[:page], :per_page => 5)
     end
   end
-
-  def help
-  end
-
-  def about
-  end
-
-  def contact
-  end
 end

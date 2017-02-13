@@ -76,6 +76,13 @@ class UsersController < ApplicationController
     render json: @users
   end
 
+  def writing_report_json
+    start_date = params[:start_date].to_date.beginning_of_day
+    end_date = params[:end_date].to_date.end_of_day
+    @microposts = Micropost.where(:created_at => start_date..end_date)
+    render json: @microposts
+  end
+
   private
 
     def user_params
