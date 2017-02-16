@@ -6,14 +6,8 @@
 	  	<i>"<%= user.microposts.first.title %>"</i>, posted <%= time_ago_in_words(user.microposts.first.created_at) %> ago
 	  	<p id="duration-<%= user.id %>"></p>
 	  </p>
-    <% if current_user.admin == true %>
-      <%= button_to "delete", user, :method=>:delete, :class=>:destroy %>
-    <% end %>
   <% else %>
   	<p><i>no writing logs have been submitted</i></p>
-    <% if current_user.admin == true %>
-      <%= button_to "delete", user, :method=>:delete, :class=>:destroy %>
-    <% end %>
   <% end %>
   <br>
   <div class="divider"></div>

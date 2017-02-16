@@ -15,7 +15,6 @@ class UsersController < ApplicationController
     @goals_active = @goals_active.paginate(:page => params[:page], :per_page => 5)
     @goals_inactive = @user.goals.where("active = ?", false)
     @goals_inactive = @goals_inactive.paginate(:page => params[:page], :per_page => 5)
-    flash[:success] = @user.password_digest
   end
 
   def new
