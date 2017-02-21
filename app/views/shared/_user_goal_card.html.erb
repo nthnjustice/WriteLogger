@@ -7,11 +7,13 @@
 			<li>
 				<div class="collapsible-header active">Active Goals</div>
 				<div class="collapsible-body white">
-					<% if @goals_active.any? %>
+					<% if @active_goals_feed.any? %>
 			  		<ul>
-			    		<%= render @goals_active %>
+			    		<%= render @active_goals_feed %>
 			  		</ul>
-			  		<%= will_paginate @goals_active %>
+			  		<div class="section">
+			  			<%= will_paginate @active_goals_feed, param_name: :active_goals_feed_page %>
+			  		</div>
 			  	<% else %>
 			  		<div class="container">
 			  			<div class="section">
@@ -24,11 +26,13 @@
 			<li>
 				<div class="collapsible-header">Achieved Goals</div>
 				<div class="collapsible-body white">
-					<% if @goals_inactive.any? %>
+					<% if @inactive_goals_feed.any? %>
 			  		<ul>
-			    		<%= render @goals_inactive %>
+			    		<%= render @inactive_goals_feed %>
 			  		</ul>
-			  		<%= will_paginate @goals_inactive %>
+			  		<div class="section">
+			  			<%= will_paginate @inactive_goals_feed, param_name: :inactive_goals_feed_page %>
+			  		</div>
 			  	<% else %>
 			  		<div class="container">
 			  			<div class="section">

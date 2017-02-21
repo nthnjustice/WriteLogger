@@ -1,6 +1,5 @@
 class MicropostsController < ApplicationController
   before_action :logged_in_user, only: [:create, :destroy]
-  require 'will_paginate/array' 
 
   def create
     @micropost = current_user.microposts.build(micropost_params)
@@ -9,13 +8,8 @@ class MicropostsController < ApplicationController
       flash[:success] = "Writing log saved"
       redirect_to root_url
     else
-      @feed_items = Micropost.all
-      @feed_items = @feed_items.paginate(:page => 1, :per_page => 5)
-      @feed_goals = current_user.goals.where("active = ?", true)
-      @feed_goals = @feed_goals.paginate(page: params[:page], :per_page => 5)
-      @feed_goals_inactive = current_user.goals.where("active = ?", false)
-      @feed_goals_inactive = @feed_goals_inactive.paginate(page: params[:page], :per_page => 5)
-      render 'static_pages/home'
+      flash[:success] = "Error saving log"
+      redirect_to root_url
     end
   end
 
@@ -31,10 +25,5 @@ class MicropostsController < ApplicationController
 
     def micropost_params
       params.require(:micropost).permit(:content, :title, :hours, :minutes, :author, :total)
-    end
-
-    def correct_user
-      @micropost = current_user.microposts.find_by(id: params[:id])
-      redirect_to root_url if @micropost.nil?
     end
 end

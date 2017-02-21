@@ -2,6 +2,7 @@ class UsersController < ApplicationController
   before_action :logged_in_user, only: [:index, :edit, :update, :destroy]
   before_action :correct_user, only: [:edit, :update]
   before_action :admin_user, only: :destroy
+  require 'will_paginate/array'
 
   def index
     @users = User.paginate(:page => params[:page], :per_page => 5)
@@ -10,11 +11,15 @@ class UsersController < ApplicationController
 
   def show
     @user = User.find(params[:id])
-    @microposts = @user.microposts.paginate(:page => params[:page], :per_page => 5)
-    @goals_active = @user.goals.where("active = ?", true)
-    @goals_active = @goals_active.paginate(:page => params[:page], :per_page => 5)
-    @goals_inactive = @user.goals.where("active = ?", false)
-    @goals_inactive = @goals_inactive.paginate(:page => params[:page], :per_page => 5)
+    @microposts = @user.microposts.paginate(:page => params[:log_feed_page], :per_page => 5)
+
+    @active_goals_feed = @user.goals.where("active = ?", true)
+    @active_goals_feed = @active_goals_feed.sort_by &:deadline
+    @active_goals_feed = @active_goals_feed.paginate(:page => params[:active_goals_feed_page], :per_page => 5)
+
+    @inactive_goals_feed = @user.goals.where("active = ?", false)
+    @inactive_goals_feed = @inactive_goals_feed.sort_by &:deadline
+    @inactive_goals_feed = @inactive_goals_feed.paginate(:page => params[:inactive_goals_feed_page], :per_page => 5)
   end
 
   def new

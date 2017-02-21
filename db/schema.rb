@@ -1,4 +1,3 @@
-# encoding: UTF-8
 # This file is auto-generated from the current state of the database. Instead
 # of editing this file, please use the migrations feature of Active Record to
 # incrementally modify your database, and then regenerate this schema definition.
@@ -23,10 +22,9 @@ ActiveRecord::Schema.define(version: 20170117221029) do
     t.datetime "updated_at",                 null: false
     t.boolean  "active",      default: true
     t.date     "deadline"
+    t.index ["user_id", "created_at"], name: "index_goals_on_user_id_and_created_at", using: :btree
+    t.index ["user_id"], name: "index_goals_on_user_id", using: :btree
   end
-
-  add_index "goals", ["user_id", "created_at"], name: "index_goals_on_user_id_and_created_at", using: :btree
-  add_index "goals", ["user_id"], name: "index_goals_on_user_id", using: :btree
 
   create_table "microposts", force: :cascade do |t|
     t.integer  "user_id"
@@ -37,10 +35,9 @@ ActiveRecord::Schema.define(version: 20170117221029) do
     t.integer  "minutes",    null: false
     t.string   "author"
     t.integer  "total"
+    t.index ["user_id", "created_at"], name: "index_microposts_on_user_id_and_created_at", using: :btree
+    t.index ["user_id"], name: "index_microposts_on_user_id", using: :btree
   end
-
-  add_index "microposts", ["user_id", "created_at"], name: "index_microposts_on_user_id_and_created_at", using: :btree
-  add_index "microposts", ["user_id"], name: "index_microposts_on_user_id", using: :btree
 
   create_table "users", force: :cascade do |t|
     t.string   "name"
@@ -50,9 +47,8 @@ ActiveRecord::Schema.define(version: 20170117221029) do
     t.string   "password_digest"
     t.string   "remember_digest"
     t.boolean  "admin",           default: false
+    t.index ["email"], name: "index_users_on_email", unique: true, using: :btree
   end
-
-  add_index "users", ["email"], name: "index_users_on_email", unique: true, using: :btree
 
   add_foreign_key "goals", "users"
   add_foreign_key "microposts", "users"

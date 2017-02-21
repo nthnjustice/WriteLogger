@@ -20,7 +20,7 @@
             <ul>
               <%= render @microposts %>
             </ul>
-            <%= will_paginate @microposts %>
+            <%= will_paginate @microposts, param_name: :log_feed_page %>
           <% else %>
             <i>no writing logs have been submitted</i>
           <% end %>

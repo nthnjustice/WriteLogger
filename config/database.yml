@@ -33,8 +33,8 @@ default: &default
 
 development:
   adapter: postgresql
-  database: plowrighthouse_development
-  username: plowrighthouse
+  database: writelogger_development
+  username: writelogger
   password: password
   host: localhost
   encoding: UTF8

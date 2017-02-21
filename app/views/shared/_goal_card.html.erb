@@ -9,11 +9,13 @@
 					<strong><i class="material-icons">access_time</i>Active Goals</strong>
 				</div>
 				<div class="collapsible-body white">
-					<% if @feed_goals.any? %>
+					<% if @active_goals_feed.any? %>
 			  		<ul>
-			    		<%= render @feed_goals %>
+			    		<%= render @active_goals_feed %>
 			  		</ul>
-			  		<%= will_paginate @feed_goals %>
+			  		<div class="section">
+			  			<%= will_paginate @active_goals_feed, param_name: :active_goal_feed_page  %>
+			  		</div>
 			  	<% else %>
 			  		<div class="container">
 			  			<div class="section">
@@ -69,11 +71,13 @@
 					<strong><i class="material-icons">done_all</i>Achieved Goals</strong>
 				</div>
 				<div class="collapsible-body white">
-					<% if @feed_goals_inactive.any? %>
+					<% if @inactive_goals_feed.any? %>
 			  		<ul>
-			    		<%= render @feed_goals_inactive %>
+			    		<%= render @inactive_goals_feed %>
 			  		</ul>
-			  		<%= will_paginate @feed_goals_inactive %>
+			  		<div class="section">
+			  			<%= will_paginate @inactive_goals_feed, param_name: :inactive_goal_feed_page %>
+			  		</div>
 			  	<% else %>
 			  		<div class="container">
 			  			<div class="section">

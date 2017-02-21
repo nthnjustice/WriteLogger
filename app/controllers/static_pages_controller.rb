@@ -1,13 +1,18 @@
 class StaticPagesController < ApplicationController
+  require 'will_paginate/array'
+
   def home
     if logged_in?
-      @micropost  = current_user.microposts.build
-      @feed_items = current_user.feed.paginate(page: params[:page])
-      @goal = current_user.goals.build
-      @feed_goals = current_user.goals.where("active = ?", true)
-      @feed_goals = @feed_goals.paginate(page: params[:page], :per_page => 5)
-      @feed_goals_inactive = current_user.goals.where("active = ?", false)
-      @feed_goals_inactive = @feed_goals_inactive.paginate(page: params[:page], :per_page => 5)
+      @group_feed = Micropost.all
+      @group_feed = @group_feed.paginate(page: params[:group_feed_page], :per_page => 5)
+
+      @active_goals_feed = current_user.goals.where("active = ?", true)
+      @active_goals_feed = @active_goals_feed.sort_by &:deadline
+      @active_goals_feed = @active_goals_feed.paginate(page: params[:active_goal_feed_page], :per_page => 5)
+
+      @inactive_goals_feed = current_user.goals.where("active = ?", false)
+      @inactive_goals_feed = @inactive_goals_feed.sort_by &:deadline
+      @inactive_goals_feed = @inactive_goals_feed.paginate(page: params[:inactive_goal_feed_page], :per_page => 5)
     end
   end
 end

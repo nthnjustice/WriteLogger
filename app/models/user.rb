@@ -40,10 +40,4 @@ class User < ActiveRecord::Base
   def forget
     update_attribute(:remember_digest, nil)
   end
-
-  # defines a proto-feed
-  def feed
-    @feed_items = Micropost.all
-    @feed_items = @feed_items.paginate(:page => 1, :per_page => 5)
-  end
 end

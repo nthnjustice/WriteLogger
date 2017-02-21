@@ -1,7 +1,6 @@
 class GoalsController < ApplicationController
   before_action :logged_in_user, only: [:create, :destroy, :update]
   before_action :correct_user, only: [:destroy, :update]
-  require 'will_paginate/array' 
 
   def create
     @goal = current_user.goals.build(goal_params)
@@ -9,14 +8,8 @@ class GoalsController < ApplicationController
       flash[:success] = "Goal saved"
       redirect_to root_url
     else
-    	@feed_items = Micropost.all
-      @feed_items = @feed_items.paginate(:page => 1, :per_page => 5)
-      @feed_goals = current_user.goals.where("active = ?", true)
-      @feed_goals = @feed_goals.paginate(page: params[:page], :per_page => 5)
-      @feed_goals_inactive = current_user.goals.where("active = ?", false)
-      @feed_goals_inactive = @feed_goals_inactive.paginate(page: params[:page], :per_page => 5)
       flash[:success] = "Error saving goal"
-      render 'static_pages/home'
+      redirect_to request.referrer || root_url
     end
   end
 
