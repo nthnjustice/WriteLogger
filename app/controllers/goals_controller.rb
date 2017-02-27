@@ -1,6 +1,5 @@
 class GoalsController < ApplicationController
-  before_action :logged_in_user, only: [:create, :destroy, :update]
-  before_action :correct_user, only: [:destroy, :update]
+  before_action :logged_in_user, only: [:create, :destroy]
 
   def create
     @goal = current_user.goals.build(goal_params)
@@ -9,7 +8,7 @@ class GoalsController < ApplicationController
       redirect_to root_url
     else
       flash[:success] = "Error saving goal"
-      redirect_to request.referrer || root_url
+      redirect_to root_url
     end
   end
 
@@ -17,7 +16,7 @@ class GoalsController < ApplicationController
   	@goal = current_user.goals.find_by_id(params[:id])
   	if @goal.update_attribute :active, false
   		flash[:success] = "Goal marked achieved"
-  		redirect_to root_url
+  		redirect_to request.referrer || root_url
   	end
   end
 
@@ -32,10 +31,5 @@ class GoalsController < ApplicationController
 
   	def goal_params
       params.require(:goal).permit(:description, :deadline)
-    end
-
-    def correct_user
-      @goal = current_user.goals.find_by(id: params[:id])
-      redirect_to root_url if @goal.nil?
     end
 end

@@ -10,6 +10,7 @@ Rails.application.routes.draw do
   get '/logout', to: 'sessions#destroy'
   delete '/logout', to: 'sessions#destroy'
 
+  delete '/users', to: 'users#destroy'
   get '/user_microposts_json', to: 'users#user_microposts_json'
   get '/user_weekly_microposts_json', to: 'users#user_weekly_microposts_json'
   get '/group_microposts_json', to: 'users#group_microposts_json'

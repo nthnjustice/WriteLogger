@@ -9,6 +9,14 @@
   <% else %>
   	<p><i>no writing logs have been submitted</i></p>
   <% end %>
+  <% if current_user.admin == true %>
+    <a class="dropdown-button red-text" href="#" data-activates='user-delete-dropdown-<%= user.id %>'>X</a>
+    <ul id="user-delete-dropdown-<%= user.id %>" class="dropdown-content">
+      <li>
+        <a id="delete-<%= user.id %>" class="waves-effect waves-red btn-flat red-text">delete</a>
+      </li>
+    </ul>
+  <% end %>
   <br>
   <div class="divider"></div>
 </li>
@@ -50,4 +58,14 @@
       }
     }
   <% end %>
+
+  $("#delete-<%= user.id %>").click(function() {
+    $.ajax({
+      url: "/users",
+      type: "DELETE",
+      data: {
+        id: <%= user.id %>
+      }
+    });
+  });
 </script>
